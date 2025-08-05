@@ -1,0 +1,66 @@
+@model BarnamenevisanCompany.Domain.ViewModels.Admin.OrderType.AdminCreateOrderTypeViewModel
+
+@{
+    ViewData["Title"] = "افزودن نوع سفارش";
+}
+
+@section Breadcrumb
+{
+    <admin-breadcrumb page-title="@ViewData["Title"]">
+        <admin-breadcrumb-item asp-area="Admin" asp-controller="OrderType" asp-action="List">لیست انواع سفارش</admin-breadcrumb-item>
+        <admin-breadcrumb-item last-active-item="true">@ViewData["Title"]</admin-breadcrumb-item>
+    </admin-breadcrumb>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <form asp-area="Admin"
+                          asp-controller="OrderType"
+                          asp-action="Create"
+                          enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-12 col-md-8">
+                                <div class="floating-labels col-12 mb-5">
+                                    <div class="form-group">
+                                        <input asp-for="Title" class="form-control">
+                                        <span class="bar"></span>
+                                        <label asp-for="Title"></label>
+                                        <span asp-validation-for="Title"></span>
+                                    </div>
+                                </div>
+                                <div class="floating-labels col-12 mt-3 py-4">
+                                    <div class="form-group">
+                                        <textarea asp-for="Description" ckeditor></textarea>
+                                        <span class="bar"></span>
+                                        <label asp-for="Description" class="mb-2 label-floating"></label>
+                                        <span asp-validation-for="Description"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="floating-labels col-12 col-md-4 mt-4 mt-md-2">
+                                <div class="position-relative">
+                                    <label asp-for="Image" class="mb-2 label-floating"></label>
+                                    <img ImageFile="1" class="w-100 rounded select-image-preview-box" src="/Common/images/default.jpg"/>
+                                    <label asp-for="Image" class="hover-icon rounded d-flex align-items-center justify-content-center">
+                                        <iconify-icon icon="solar:gallery-edit-broken" class="select-image-icon"></iconify-icon>
+                                    </label>
+                                    <input type="file" asp-for="Image" class="d-none" accept="image/png, image/jpeg, image/webp" ImageInput="1"/>
+                                </div>
+                            </div>
+                            <div class="col-12 mt-4">
+                                <button class="btn btn-rounded btn-success" type="submit">افزودن</button>
+                                <a asp-area="Admin" asp-controller="OrderType" asp-action="List" class="btn btn-rounded btn-danger">انصراف</a>
+                            </div>
+
+                        </div>
+
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

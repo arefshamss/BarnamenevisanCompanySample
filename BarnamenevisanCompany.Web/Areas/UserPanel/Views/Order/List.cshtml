@@ -1,0 +1,127 @@
+﻿@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Domain.Enums.Order
+@using BarnamenevisanCompany.Web.Helpers.TagHelpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BarnamenevisanCompany.Domain.ViewModels.Client.Order.ClientFilterOrderViewModel
+
+@{
+    ViewData["Title"] = "سفارشات من";
+}
+
+@section Breadcrumb
+{
+    <user-panel-breadcrumb>
+        <user-panel-breadcrumb-item last-active-item="true">لیست سفارشات من</user-panel-breadcrumb-item>
+    </user-panel-breadcrumb>
+}
+
+<form asp-area="UserPanel"
+      asp-controller="Order"
+      asp-action="List"
+      method="get"
+      class="floating-labels"
+      id="filter-search">
+    <input asp-for="@Model.Page" type="hidden"/>
+</form>
+
+<div class="col-span-full">
+    <div class="bg-white dark:bg-dark-200 rounded-md p-2.5 shadow-nav">
+        <div class="border border-dashed rounded-md border-gray-100 dark:border-borderColour-dark p-6 h-full">
+            <!--START Content-->
+            <div class="grid-cols-12">
+                <div class="col-span-full flex flex-col md:flex-row justify-between items-center mb-7">
+                    <h3>لیست سفارشات من</h3>
+                    <a asp-area="UserPanel"
+                       asp-controller="Order"
+                       asp-action="Create"
+                       class="btn-success px-5 py-2 tracking-tight mt-5 md:mt-0">
+                        ثبت سفارش جدید
+                    </a>
+                </div>
+                @if (Model.Entities is not null && Model.Entities.Any())
+                {
+                    <div class="col-span-full">
+                        <div class="relative overflow-x-auto shadow-md dark:shadow-none rounded-md">
+                            <table class="w-full text-right text-gray-500 dark:text-gray-400 text-nowrap">
+                                <thead class="bg-zinc-500/70 dark:bg-zinc-700/70">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-base font-medium dark:text-white">
+                                        شماره سفارش
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-base font-medium dark:text-white">
+                                        عنوان
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-base font-medium dark:text-white">
+                                        نوع
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-base font-medium dark:text-white">
+                                        وضعیت
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-base font-medium dark:text-white">
+                                        مشاهده
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var item in Model.Entities)
+                                {
+                                    <tr class="odd:bg-transparent even:bg-zinc-500/10 even:dark:bg-zinc-700/20 border-b dark:border-zinc-600 border-zinc-500/10">
+                                        <th scope="row"
+                                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            @item.OrderNumber
+                                        </th>
+                                        <td class="px-6 py-4">
+                                            @item.Title
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            @foreach (var orderTypes in item.OrderTypes)
+                                            {
+                                                <div class="whitespace-nowrap">
+                                                    @orderTypes.Title
+                                                </div>
+                                            }
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            @switch (item.OrderStatus)
+                                            {
+                                                case OrderStatus.Rejected:
+                                                    <userpanel-bage type="Danger">@item.OrderStatus.GetEnumName()</userpanel-bage>
+                                                    break;
+                                                case OrderStatus.InProgress:
+                                                    <userpanel-bage type="Warning">@item.OrderStatus.GetEnumName()</userpanel-bage>
+                                                    break;
+                                                case OrderStatus.Done:
+                                                    <userpanel-bage type="Success">@item.OrderStatus.GetEnumName()</userpanel-bage>
+                                                    break;
+                                            }
+                                        </td>
+                                        <td class="py-4 px-10">
+                                            <a asp-area="UserPanel"
+                                               asp-controller="Order"
+                                               asp-action="Details"
+                                               asp-route-id="@item.Id"
+                                               asp-route-page="@Model.Page"
+                                               title="مشاهده "
+                                               class="*:text-sky-400">
+                                                <iconify-icon icon="fluent:eye-28-regular" width="22" height="22"></iconify-icon>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="flex justify-center">
+                            <partial name="_PagingPartial" model="Model.GetCurrentPaging()"/>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <user-panel-alert mode="Info">سفارشی برای نمایش یافت نشد ...</user-panel-alert>
+                }
+            </div>
+            <!--END Content-->
+        </div>
+    </div>
+</div>

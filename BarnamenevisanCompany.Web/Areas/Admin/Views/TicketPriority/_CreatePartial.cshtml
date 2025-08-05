@@ -1,0 +1,30 @@
+﻿@using BarnamenevisanCompany.Web.Helpers.TagHelpers
+@model BarnamenevisanCompany.Domain.ViewModels.Admin.TicketPriority.AdminCreateTicketPriorityViewModel
+
+<div class="modal-form">
+    <form asp-area="Admin"
+          asp-controller="TicketPriority"
+          asp-action="Create"
+          asp-ajax="true"
+          asp-ajax-method="Post"
+          asp-ajax-success="onAjaxSuccess(data, status, xhr);"
+          asp-ajax-close-modal-onSuccess="Current"
+          asp-ajax-substitution="filter-search"
+          id="update-ticket-priority">
+        <div class="row">
+            
+            <div class="floating-labels col-12 mb-4">
+                <div class="form-group">
+                    <input asp-for="Title" class="form-control">
+                    <span class="bar"></span>
+                    <label asp-for="Title"></label>
+                    <span asp-validation-for="Title"></span>
+                </div>
+            </div>
+
+            <div class="mt-4 col-5">
+                <button class="btn btn-rounded btn-outline-primary w-100" type="submit">افزودن</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,89 @@
+﻿@model BarnamenevisanCompany.Domain.ViewModels.Admin.DynamicPage.AdminUpdateDynamicPageViewModel
+
+@{
+    ViewData["Title"] = "ویرایش صفحه داینامیک";
+}
+
+@section Breadcrumb
+{
+    <admin-breadcrumb page-title="@ViewData["Title"]">
+        <admin-breadcrumb-item asp-area="Admin" asp-controller="DynamicPage" asp-action="List">لیست صفحات داینامیک</admin-breadcrumb-item>
+        <admin-breadcrumb-item last-active-item="true">@ViewData["Title"]</admin-breadcrumb-item>
+    </admin-breadcrumb>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    
+                    <form asp-area="Admin"
+                          asp-controller="DynamicPage"
+                          asp-action="Update"
+                          enctype="multipart/form-data">
+                        <input type="hidden" asp-for="Id"/>
+                        <div class="row">
+
+                            <div class="floating-labels col-12 col-md-6 mb-5">
+                                <div class="form-group">
+                                    <input asp-for="Title" class="form-control" oninput="generateSlug('Title', 'Slug')">
+                                    <span class="bar"></span>
+                                    <label asp-for="Title"></label>
+                                    <span asp-validation-for="Title"></span>
+                                </div>
+                            </div>
+
+                            <div class="floating-labels col-12 col-md-6 mb-5">
+                                <div class="form-group">
+                                    <input asp-for="Slug" class="form-control">
+                                    <span class="bar"></span>
+                                    <label asp-for="Slug"></label>
+                                    <span asp-validation-for="Slug"></span>
+                                </div>
+                            </div>
+
+                            <div class="floating-labels col-12 col-md-12 mb-5 mt-3">
+                                <div class="form-group">
+                                    <textarea asp-for="ShortDescription" ckeditor></textarea>
+                                    <span class="bar"></span>
+                                    <label asp-for="ShortDescription" class="mb-2 label-floating"></label>
+                                    <span asp-validation-for="ShortDescription"></span>
+                                </div>
+                            </div>
+
+                            <div class="floating-labels col-12 col-md-12 mb-4 mt-3">
+                                <div class="form-group">
+                                    <textarea asp-for="Description" ckeditor></textarea>
+                                    <span class="bar"></span>
+                                    <label asp-for="Description" class="mb-2 label-floating"></label>
+                                    <span asp-validation-for="Description"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-2">
+                                <div class="form-check form-switch">
+                                    <input no-validation asp-for="IsActive" class="form-check-input success" type="checkbox"/>
+                                    <label asp-for="IsActive" class="form-check-label">
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mt-4">
+                                <button class="btn btn-rounded btn-success" type="submit">ویرایش</button>
+                                <a asp-area="Admin"
+                                   asp-controller="DynamicPage" 
+                                   asp-action="List"
+                                   asp-route-page="@ViewBag.Page"
+                                   class="btn btn-rounded btn-danger">بازگشت</a>
+                            </div>
+
+                        </div>
+
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

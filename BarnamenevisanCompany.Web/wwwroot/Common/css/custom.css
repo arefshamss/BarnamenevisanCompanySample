@@ -1,0 +1,30 @@
+﻿/*body ,  a, tr , td , th , span , div , dl , dt , dd ,h1, h2, h3, h4, h5, h6 , strong , small , header , footer , main , aside  {*/
+/*    font-family: "iran-sans" ,sans-serif;*/
+/*}*/
+
+.ck-editor *{
+    font-family: "iran-sans" ,sans-serif !important;
+}
+
+textarea{
+    resize: none;
+}
+
+.custom-word-break{
+    word-break: break-word;
+}
+
+.w-6rem{
+    width: 6rem;
+}
+
+.toast *,
+.toast > *{
+    color: #FFFFFF !important;
+}
+
+
+#toast-container *,
+#toast-container > *{
+    color: #FFFFFF !important;
+}

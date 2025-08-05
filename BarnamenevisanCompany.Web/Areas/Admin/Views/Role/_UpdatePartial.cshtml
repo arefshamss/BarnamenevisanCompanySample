@@ -1,0 +1,28 @@
+﻿@model BarnamenevisanCompany.Domain.ViewModels.Admin.Role.AdminUpdateRoleViewModel
+
+<div class="modal-form">
+    <form asp-area="Admin"
+          asp-controller="Role"
+          asp-action="Update"
+          asp-ajax="true"
+          asp-ajax-method="Post"
+          asp-ajax-success="onAjaxSuccess(data, status, xhr);"
+          asp-ajax-close-modal-onSuccess="Current"
+          asp-ajax-substitution="filter-search">
+        <div class="row">
+            
+            <div class="floating-labels col-12 mb-4">
+                <div class="form-group">
+                    <input asp-for="Name" class="form-control">
+                    <span class="bar"></span>
+                    <label asp-for="Name"></label>
+                    <span asp-validation-for="Name"></span>
+                </div>
+            </div>
+
+            <div class="mt-4 col-5">
+                <button class="btn btn-rounded btn-outline-warning w-100" type="submit">ویرایش</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,6 @@
+﻿@using BarnamenevisanCompany.Application.Statics
+@{
+   var imageName = ViewData["SiteFavIConName"] as string;
+}
+<!--website-favicon-->
+<link href="@(FilePaths.SiteSettings + imageName)" rel="icon"/>

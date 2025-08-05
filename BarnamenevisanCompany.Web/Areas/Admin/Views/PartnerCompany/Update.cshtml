@@ -1,0 +1,89 @@
+﻿@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Application.Statics
+@using BarnamenevisanCompany.Web.Helpers.TagHelpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BarnamenevisanCompany.Domain.ViewModels.Admin.PartnerCompany.AdminUpdatePartnerCompanyViewModel
+
+@{
+    ViewData["Title"] = "ویرایش سایت همکار";
+}
+
+@section Breadcrumb
+{
+    <admin-breadcrumb page-title="@ViewData["Title"]">
+        <admin-breadcrumb-item asp-area="Admin" asp-controller="PartnerCompany" asp-action="List">لیست سایت‌های همکار</admin-breadcrumb-item>
+        <admin-breadcrumb-item last-active-item="true">@ViewData["Title"]</admin-breadcrumb-item>
+    </admin-breadcrumb>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+
+                    <form asp-area="Admin"
+                          asp-controller="PartnerCompany"
+                          asp-action="Update"
+                          enctype="multipart/form-data">
+                        <input type="hidden" asp-for="Id"/>
+                        <input type="hidden" asp-for="ImageUrl"/>
+                        <div class="row">
+
+                            <div class="floating-labels col-12 col-md-6 mb-5">
+                                <div class="form-group">
+                                    <input asp-for="Title" class="form-control">
+                                    <span class="bar"></span>
+                                    <label asp-for="Title"></label>
+                                    <span asp-validation-for="Title"></span>
+                                </div>
+                            </div>
+
+                            <div class="floating-labels col-12 col-md-6 mb-5">
+                                <div class="form-group">
+                                    <input asp-for="SiteUrl" class="form-control">
+                                    <span class="bar"></span>
+                                    <label asp-for="SiteUrl"></label>
+                                    <span asp-validation-for="SiteUrl"></span>
+                                </div>
+                            </div>
+
+                            <div class="floating-labels col-12 col-md-9 mt-3 py-1 mb-4 mb-md-0">
+                                <div class="form-group">
+                                    <textarea asp-for="ShortDescription" ckeditor></textarea>
+                                    <span class="bar"></span>
+                                    <label asp-for="ShortDescription" class="mb-2 label-floating"></label>
+                                    <span asp-validation-for="ShortDescription"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-3 floating-labels mt-3 mb-4 mb-md-0">
+                                <div class="position-relative">
+                                    <label asp-for="Image" class="mb-2 label-floating"></label>
+                                    <img ImageFile="1" class="w-100 rounded select-image-preview-box"
+                                         src="@FilePaths.PartnerCompanyOriginalImage@(!Model.ImageUrl.IsNullOrEmptyOrWhiteSpace() ? Model.ImageUrl : SiteTools.DefaultImageName)"/>
+                                    <label asp-for="Image" class="hover-icon rounded d-flex align-items-center justify-content-center">
+                                        <iconify-icon icon="solar:gallery-edit-broken" class="select-image-icon"></iconify-icon>
+                                    </label>
+                                    <input type="file" asp-for="Image" class="d-none" accept="image/png, image/jpeg, image/webp" ImageInput="1"/>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mt-4">
+                                <button class="btn btn-rounded btn-success" type="submit">ویرایش</button>
+                                <a asp-area="Admin"
+                                   asp-controller="PartnerCompany"
+                                   asp-action="List"
+                                   asp-route-page="@ViewBag.Page"
+                                   class="btn btn-rounded btn-danger">بازگشت</a>
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

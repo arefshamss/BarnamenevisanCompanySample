@@ -1,0 +1,144 @@
+﻿@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Application.Statics
+@using BarnamenevisanCompany.Domain.ViewModels.Client.OrderType
+@using BarnamenevisanCompany.Web.Helpers.TagHelpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BarnamenevisanCompany.Domain.ViewModels.Client.Order.ClientCreateOrderViewModel
+
+@{
+  ViewData["Title"] = "ثبت سفارش";
+  List<ClientOrderTypeViewModel> types = ViewData["Types"] as List<ClientOrderTypeViewModel> ?? new();
+  Layout = "_Layout";
+}
+
+@section Script
+{
+  <partial name="_CaptchaScript"/>
+  <partial name="_ValidationScriptsPartial"/>
+}
+
+@section Breadcrumb{
+  <breadcrumb page-title="@ViewData["Title"]">
+  </breadcrumb>
+}
+
+
+<section class="mb-20 relative">
+  <div class="container relative aos-init aos-animate" data-aos="fade-up" data-aos-offset="200" data-aos-duration="1000"
+       data-aos-once="true">
+    <div class="relative z-10 max-w-[850px] mx-auto">
+      <div
+        class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex -z-10 max-lg:max-w-full max-md:hidden">
+        <div class="w-[442px] h-[442px] rounded-full bg-primary-200/20 blur-[145px]"></div>
+        <div class="w-[442px] h-[442px] rounded-full bg-primary-200/25 -ml-[170px] blur-[145px]"></div>
+        <div class="w-[442px] h-[442px] rounded-full bg-primary-200/20 -ml-[170px] blur-[145px]"></div>
+      </div>
+
+      <div dir="rtl" class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav">
+        <div
+          class="bg-white dark:bg-dark-200 border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-12 max-md:p-5">
+          <form asp-area="UserPanel" asp-controller="Order" asp-action="Create" method="post" id="order-form"
+                enctype="multipart/form-data">
+            <partial name="_CaptchaInput"/>
+            <div class="grid grid-cols-12 max-md:gap-y-10 md:gap-x-12 md:gap-8">
+              <div class="max-md:col-span-full col-span-12">
+                <label asp-for="Title" class="block text-sm font-medium text-paragraph dark:text-white mb-2"></label>
+                <input type="text" asp-for="Title" placeholder="عنوان سفارش"
+                       class="block w-full text-sm rounded-[48px] border border-borderColour dark:border-borderColour-dark py-2.5 px-5 text-paragraph-light placeholder:text-paragraph-light dark:placeholder:text-paragraph-light outline-none bg-white dark:bg-dark-200 focus:border-primary dark:focus:border-primary duration-300 transition-all">
+                <validation-span asp-validation-for="Title"/>
+              </div>
+
+
+              <div class="max-md:col-span-full col-span-12">
+                <label asp-for="OrderTypeIds" class="block text-sm font-medium text-paragraph dark:text-white mb-2">نوع
+                  سفارش (انتخاب کنید...)</label>
+                <div>
+                  <div
+                    class="flex flex-col gap-5 border border-dashed rounded border-gray-100 dark:border-borderColour-dark max-lg:p-5 p-4">
+                    @foreach (var type in types)
+                    {
+                      <div>
+                        @if (Model is not null && Model.OrderTypeIds is not null && Model.OrderTypeIds.Any(x => x == type.Id))
+                        {
+                          <input class="order-type hidden peer" id="orderType-@type.Id" name="OrderTypeIds"
+                                 value="@type.Id" type="checkbox" checked="checked">
+                        }
+                        else
+                        {
+                          <input class="order-type hidden peer" id="orderType-@type.Id" name="OrderTypeIds"
+                                 value="@type.Id" type="checkbox">
+                        }
+                        <label for="orderType-@type.Id"
+                               class="flex items-center border rounded-md border-gray-100 dark:border-borderColour-dark
+                        transition-all duration-300 cursor-pointer peer-checked:border-primary peer-checked:ring-primary
+                        hover:scale-105 hover:shadow-lg">
+                          <img
+                            src="@FilePaths.OrderTypeOriginalImage@(!type.ImageUrl.IsNullOrEmptyOrWhiteSpace() ? type.ImageUrl : SiteTools.DefaultImageName)"
+                            alt="@type.Title" class="inline-block h-20 w-20 rounded p-2">
+
+                          <div class="flex flex-1 flex-col sm:flex-row items-center justify-between px-4">
+                            <p class="font-semibold m-2">@type.Title</p>
+                            <div class="mt-2 mb-2 sm:mt-0 sm:mb-0">
+                              <a class="btn-outline btn-sm w-full text-center "
+                                 asp-area=""
+                                 asp-controller="OrderType"
+                                 asp-action="Details"
+                                 asp-route-typeId="@type.Id"
+                                 asp-ajax="true"
+                                 asp-ajax-validation="true"
+                                 asp-ajax-modal-type="Medium"
+                                 asp-ajax-modal-title="جزئیات نوع سفارش">
+                                مشاهده جزئیات
+                              </a>
+                            </div>
+                          </div>
+                        </label>
+                      </div>
+                    }
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="col-span-full">
+                <label asp-for="Description"
+                       class="block text-sm font-medium text-paragraph dark:text-white mb-2"></label>
+                <textarea asp-for="Description" rows="10" placeholder="توضیحات خود را وارد کنید ..."
+                          class="block w-full text-sm rounded border border-borderColour dark:border-borderColour-dark py-2.5 px-5 text-paragraph-light placeholder:text-paragraph-light outline-none resize-none bg-white dark:bg-dark-200 focus:border-primary dark:focus:border-primary duration-300 transition-all"></textarea>
+                <validation-span asp-validation-for="Description"/>
+              </div>
+              <div class="col-span-full">
+                <label asp-for="Attachment" class="block text-sm font-medium text-paragraph dark:text-white mb-2">
+                </label>
+                <div class="relative flex items-center justify-center w-full text-sm rounded border border-borderColour dark:border-borderColour-dark px-5 text-paragraph-light 
+                placeholder:text-paragraph-light outline-none 
+                resize-none
+                bg-white dark:bg-dark-200 focus:border-primary dark:focus:border-primary duration-300 transition-all py-5"
+                     ImageButton="1">
+                  <input asp-for="Attachment" accept=".zip,.rar" type="file"
+                         class="absolute w-full h-full opacity-0 cursor-pointer" ImageInput="1"/>
+                  <div class="flex flex-col items-center">
+                    <svg class="w-8 h-8 mb-1 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                    </svg>
+                    <p ImageName="1" class="mt-2 text-sm text-gray-500 dark:text-gray-400"> فایل مورد نظر را انتخاب
+                      کنید</p>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex justify-center col-span-full">
+                <button class="btn" type="submit">ثبت سفارش</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<partial name="_BacklightPartial"/>

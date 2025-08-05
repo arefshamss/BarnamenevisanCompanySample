@@ -1,0 +1,129 @@
+﻿@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Application.Statics
+@model BarnamenevisanCompany.Domain.ViewModels.Admin.AboutUs.AdminUpdateAboutUsViewModel
+
+@{
+    ViewData["Title"] = "مدیریت درباره ما";
+}
+
+@section Breadcrumb
+
+{
+    <admin-breadcrumb page-title="@ViewData["Title"]">
+        <admin-breadcrumb-item last-active-item="true">@ViewData["Title"]</admin-breadcrumb-item>
+    </admin-breadcrumb>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <form asp-area="Admin" asp-controller="AboutUs" asp-action="AboutUsInformation" method="post"
+                          class="mt-4 pt-2" enctype="multipart/form-data">
+
+                        <div class="row">
+
+                            <div class="col-12 col-md-12">
+                                <div class="row">
+                                    <div class="floating-labels col-md-6  my-lg-4 mb-5">
+                                        <div class="form-group">
+                                            <textarea rows="2" asp-for="TopTitle" class="form-control"></textarea>
+                                            <span class="bar"></span>
+                                            <label asp-for="TopTitle"></label>
+                                            <span asp-validation-for="TopTitle"></span>
+                                        </div>
+                                    </div>
+                                    <div class="floating-labels my-lg-4 mb-5  col-md-6 ">
+                                        <div class="form-group">
+                                            <textarea rows="2" asp-for="MainDescriptionLeft"
+                                                      class="form-control"></textarea>
+                                            <span class="bar"></span>
+                                            <label asp-for="MainDescriptionLeft"></label>
+                                            <span asp-validation-for="MainDescriptionLeft   "></span>
+                                        </div>
+                                    </div>
+                                    <div class="floating-labels col-md-6 my-lg-4 mb-5">
+                                        <div class="form-group">
+                                            <textarea rows="3" asp-for="TopDescription" class="form-control"></textarea>
+                                            <span class="bar"></span>
+                                            <label asp-for="TopDescription"></label>
+                                            <span asp-validation-for="TopDescription"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="floating-labels mt-4 col-md-6 my-lg-4 mb-5">
+                                        <div class="form-group">
+                                            <textarea rows="3" asp-for="MainDescriptionRight"
+                                                      class="form-control"></textarea>
+                                            <span class="bar"></span>
+                                            <label asp-for="MainDescriptionRight"></label>
+                                            <span asp-validation-for="MainDescriptionRight"></span>
+                                        </div>
+                                    </div>
+                                    <div class="floating-labels mt-4 col-md-3 my-lg-4 mb-5">
+                                        <div class="form-group">
+                                            <textarea rows="3" asp-for="OurValuesTitle"
+                                                      class="form-control"></textarea>
+                                            <span class="bar"></span>
+                                            <label asp-for="OurValuesTitle"></label>
+                                            <span asp-validation-for="OurValuesTitle"></span>
+                                        </div>
+                                    </div>
+                                    <div class="floating-labels mt-4 col-md-3 my-lg-4 mb-5">
+                                        <div class="form-group">
+                                            <textarea rows="3" asp-for="TransparencyDescription"
+                                                      class="form-control"></textarea>
+                                            <span class="bar"></span>
+                                            <label asp-for="TransparencyDescription"></label>
+                                            <span asp-validation-for="TransparencyDescription"></span>
+                                        </div>
+                                    </div>
+                                    <div class="floating-labels mt-4 col-md-3 my-lg-4 mb-5">
+                                        <div class="form-group">
+                                            <textarea rows="3" asp-for="OurMissionDescription"
+                                                      class="form-control"></textarea>
+                                            <span class="bar"></span>
+                                            <label asp-for="OurMissionDescription"></label>
+                                            <span asp-validation-for="OurMissionDescription"></span>
+                                        </div>
+                                    </div>
+                                    <div class="floating-labels mt-4 col-md-3 my-lg-4 mb-5">
+                                        <div class="form-group">
+                                            <textarea rows="3" asp-for="OurPassionDescription"
+                                                      class="form-control"></textarea>
+                                            <span class="bar"></span>
+                                            <label asp-for="OurPassionDescription"></label>
+                                            <span asp-validation-for="OurPassionDescription"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-12 col-md-12 mt-5 ">
+                                    <div class="row">
+                                        <div class="floating-labels col-md-12 mt-8 ">
+                                            <div class="form-group">
+                                                <textarea ckeditor asp-for="OurValuesDescription"
+                                                          class="form-control"></textarea>
+                                                <span class="bar"></span>
+                                                <label asp-for="OurValuesDescription"></label>
+                                                <span asp-validation-for="OurValuesDescription"></span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mt-5">
+                                <button class="btn btn-rounded btn-success" type="submit">ویرایش</button>
+                                <a asp-area="Admin" asp-controller="AboutUs" asp-action="AboutUsInformation"
+                                   class="btn btn-rounded btn-danger">انصراف</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,101 @@
+﻿@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Web.Extensions
+@using BarnamenevisanCompany.Web.Helpers.TagHelpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BarnamenevisanCompany.Domain.ViewModels.Admin.Ticket.AdminCreateTicketViewModel
+@{
+    ViewData["Title"] = "افزودن تیکت";
+    var priorities = ViewData["Priorities"] as SelectList;    
+    var referer = Context.Request.GetUrlReferer();
+}
+
+@section Breadcrumb
+{
+    <admin-breadcrumb page-title="@ViewData["Title"]">
+        <admin-breadcrumb-item asp-area="Admin" asp-controller="Ticket" asp-action="List">لیست تیکت ها
+        </admin-breadcrumb-item>
+        <admin-breadcrumb-item last-active-item="true">افزودن تکیت</admin-breadcrumb-item>
+    </admin-breadcrumb>
+}
+
+
+<div class="row">
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <form asp-area="Admin"
+                          asp-controller="Ticket"
+                          asp-action="Create"
+                          enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="floating-labels col-12 col-md-3 mb-4">
+                                <div class="form-group">
+                                    <input asp-for="Title" class="form-control">
+                                    <span class="bar"></span>
+                                    <label asp-for="Title"></label>
+                                    <span asp-validation-for="Title"></span>
+                                </div>
+                            </div>
+
+                            <div class="floating-labels col-12 col-md-3 mb-4">
+                                <div class="form-group">
+                                    <input asp-for="UserId" data-select-input="User" type="hidden"/>
+                                    <input asp-for="UserDisplay" class="form-control" data-select-display="User" readonly="readonly">
+                                    <a class="select-icon"
+                                       asp-area="Admin"
+                                       asp-controller="User"
+                                       asp-action="ListPartial"
+                                       asp-ajax="true"
+                                       asp-ajax-modal-type="Large"
+                                       asp-ajax-modal-title="لیست کاربران">
+                                        <iconify-icon icon="mingcute:user-add-line" width="17" height="17"></iconify-icon>
+                                    </a>
+                                    <span class="bar"></span>
+                                    <label asp-for="UserId"></label>
+                                    <span asp-validation-for="UserId"></span>
+                                </div>
+                            </div>
+
+                            <div class="floating-labels col-12 col-md-3 mb-4 align-self-end">
+                                <div class="form-group">
+                                    <select class="form-control form-select" asp-for="PriorityId" asp-items="priorities"></select>
+                                    <span class="bar"></span>
+                                    <label asp-for="PriorityId"></label>
+                                    <span asp-validation-for="PriorityId"></span>
+                                </div>
+                            </div>
+
+                            <div class="floating-labels col-12 col-md-3 mb-4">
+                                <div class="form-group">
+                                    <input asp-for="TicketMessage.Attachment" type="file" class="form-control"
+                                           accept=".rar, .zip, .pdf, .txt, .doc, .docx, .jpg, .jpeg, .png, .webp">
+                                    <span class="bar"></span>
+                                    <label asp-for="TicketMessage.Attachment" class="fs-2 label-floating"></label>
+                                    <span asp-validation-for="TicketMessage.Attachment"></span>
+                                </div>
+                            </div>
+
+                            <div class="floating-labels col-12 my-4">
+                                <div class="form-group">
+                                    <textarea asp-for="TicketMessage.Message" ckeditor></textarea>
+                                    <span class="bar"></span>
+                                    <label asp-for="TicketMessage.Message" class="label-floating"></label>
+                                    <span asp-validation-for="TicketMessage.Message"></span>
+                                </div>
+                            </div>
+                            
+
+                            <div class="col-12 mt-4">
+                                <button class="btn btn-rounded btn-success" type="submit">ثبت</button>
+                                <a href="@(!referer.IsNullOrEmptyOrWhiteSpace() ? referer : Url.Action("List", "Ticket", new { area = "Admin" }))"
+                                   class="btn btn-rounded btn-danger">انصراف</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

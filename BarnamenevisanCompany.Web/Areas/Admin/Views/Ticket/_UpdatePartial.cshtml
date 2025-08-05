@@ -1,0 +1,40 @@
+﻿@model BarnamenevisanCompany.Domain.ViewModels.Admin.Ticket.AdminUpdateTicketViewModel
+@{
+    var priorities = ViewData["Priorities"] as SelectList;
+}
+
+<div class="modal-form">
+    <form asp-area="Admin"
+          asp-controller="Ticket"
+          asp-action="Update"
+          asp-ajax="true"
+          asp-ajax-success="onAjaxSuccess(data, status, xhr);ajaxSubstitutionFormId('filter-search');"
+          asp-ajax-close-modal-onSuccess="Current"
+          asp-ajax-method="Post">
+        <div class="row filter-form">
+            <input asp-for="Id" type="hidden">
+            
+            <div class="floating-labels col-12 col-md-6 mb-4">
+                <div class="form-group">
+                    <input asp-for="Title" class="form-control">
+                    <span class="bar"></span>
+                    <label asp-for="Title"></label>
+                    <span asp-validation-for="Title"></span>
+                </div>
+            </div>
+            <div class="floating-labels col-12 col-md-6 mb-4">
+                <div class="form-group">
+                    <select asp-for="PriorityId" asp-items="@priorities" class="form-control form-select"></select>
+                    <span class="bar"></span>
+                    <label asp-for="PriorityId"></label>
+                    <span asp-validation-for="PriorityId"></span>
+                </div>
+            </div>
+            
+            
+            <div class="col-12">
+                <button type="submit" class="btn btn-success">ثبت</button>
+            </div>
+        </div>
+    </form>
+</div>

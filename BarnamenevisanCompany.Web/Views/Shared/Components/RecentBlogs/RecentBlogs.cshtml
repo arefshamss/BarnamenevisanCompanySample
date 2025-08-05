@@ -1,0 +1,29 @@
+﻿@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Application.Statics
+@model BarnamenevisanCompany.Domain.ViewModels.Client.Blog.ClientFilterBlogViewModel
+
+@if (Model is not null && Model.Entities.Any())
+{
+  @foreach (var item in Model.Entities)
+  {
+    <article class="grid grid-cols-12 gap-4">
+      <div class="col-span-4">
+        <a asp-area="" asp-controller="Blog" asp-action="ShortLink" asp-route-id="@item.Id" target="_blank">
+          <img src="@(FilePaths.BlogThumbImage + item.ImageUrl)" alt="@item.Title" class="rounded-lg h-20 w-150 object-cover">
+        </a>
+      </div>
+      <div class="col-span-8">
+          <a asp-area="" asp-controller="Blog" asp-action="ShortLink" asp-route-id="@item.Id" target="_blank" class="line-clamp-2 min-h-14 text-base leading-snug"><h5>@item.Title</h5></a>
+        <p class="text-gray-400">@item.CreatedDate.ToShamsi()</p>
+      </div>
+    </article>
+  }
+}
+else
+{
+  <div class="text-center">
+    <h5 class="text-center py-2 w-full border dark:bg-transparent border-borderColour dark:border-borderColour-dark rounded-[60px]">
+      محتوایی جهت نمایش وجود ندارد!
+    </h5>
+  </div>
+}

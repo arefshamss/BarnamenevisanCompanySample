@@ -1,0 +1,111 @@
+﻿@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Application.Statics
+@using BarnamenevisanCompany.Domain.Enums.Ticket
+@using BarnamenevisanCompany.Domain.ViewModels.Admin.TicketMessage
+@using BarnamenevisanCompany.Web.Helpers.TagHelpers
+@model BarnamenevisanCompany.Domain.ViewModels.Admin.Ticket.AdminTicketViewModel
+@{
+    ViewData["Title"] = "جزئیات تیکت";
+    var userId = User.GetUserId();
+}
+
+@section Breadcrumb{
+    <admin-breadcrumb page-title="@ViewData["Title"]">
+        <admin-breadcrumb-item asp-area="Admin" asp-controller="Ticket" asp-action="List">
+            لیست تیکت ها
+        </admin-breadcrumb-item>
+        <admin-breadcrumb-item last-active-item="true">@ViewData["Title"]</admin-breadcrumb-item>
+    </admin-breadcrumb>
+}
+
+<div class="row">
+    <div class="col-12 mb-3">
+        <div class="card mb-0">
+            <div>
+                <div class="w-100 h-100">
+                    <div class="d-block">
+                        <div
+                            class="p-9 border-bottom chat-meta-user flex-column d-flex align-items-center justify-content-between flex-lg-row">
+                            <div class="hstack gap-3">
+                                <div class="text-start">
+                                    <div class="d-flex align-items-center mb-1">
+                                        <h6 class="mb-1 fw-semibold">کاربر :</h6>
+                                        <p class="mb-0 ms-1 fw-semibold">@($"{Model.User.FirstName} {Model.User.LastName}")</p>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <h6 class="mb-1 fw-semibold">اولویت :</h6>
+                                        <p class="mb-0 ms-1 fw-semibold">@Model.Priority.Title</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-0 d-flex align-items-center">
+                                @switch (Model.TicketStatus)
+                                {
+                                    case TicketStatus.InProgress:
+                                        <span class="badge bg-warning-subtle text-warning">در حال بررسی</span>
+                                        break;
+                                    case TicketStatus.Closed:
+                                        <span class="badge bg-danger-subtle text-danger">بسته شده</span>
+                                        break;
+                                    case TicketStatus.PendingForUserAnswer:
+                                        <span class="badge bg-info-subtle text-info">در انتظار پاسخ کاربر</span>
+                                        break;
+                                    case TicketStatus.SupporterAnswered:
+                                        <span class="badge bg-success-subtle text-success">پاسخ داده شده</span>
+                                        break;
+                                }
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column py-4 px-3 overflow-y-scroll"
+                             style="max-height: 700px; scrollbar-width: thin;">
+                            @foreach (var message in Model.Messages)
+                            {
+                                <div
+                                    class="hstack gap-3 align-items-start mb-7 @(message.SenderId == userId ? "justify-content-start" : "flex-row-reverse")">
+                                    <img
+                                        src="@FilePaths.UserOriginalAvatar@(!message.Sender.AvatarImageName.IsNullOrEmptyOrWhiteSpace() ? message.Sender.AvatarImageName : SiteTools.DefaultImageName)"
+                                        alt="user8" width="40" height="40"
+                                        class="rounded-circle">
+                                    <div>
+                                        <h6 class="fs-2 text-muted @(message.SenderId == userId ? "" : "text-end")">
+                                            @message.Sender.FullName ، @message.CreatedDate.ToHumanize()
+                                        </h6>
+                                        <div
+                                            class="d-flex align-items-center @(message.SenderId == userId ? "" : "flex-row-reverse")">
+                                            <div
+                                                class="@(message.SenderId == userId ? "text-bg-light" : "bg-info-subtle") p-2 rounded-1 d-inline-block fs-3">
+                                                @Html.Raw(message.Message)
+                                            </div>
+                                            @if (!string.IsNullOrWhiteSpace(message.AttachmentUrl))
+                                            {
+                                                <div class="@(message.SenderId == userId ? "ms-2" : "me-2")">
+                                                    <a href="@(message.AttachmentUrl)"
+                                                       class="d-flex"
+                                                       download
+                                                       title="دانلود ضمیمه">
+                                                        <iconify-icon
+                                                            icon="tdesign:attach"
+                                                            width="20"
+                                                            height="20"></iconify-icon>
+                                                    </a>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <div class="row">
+                <partial name="_CreateMessagePartial"
+                         model="new AdminCreateTicketMessageViewModel { TicketId = Model.Id, SenderId = userId, TicketStatus = Model.TicketStatus }"/>
+            </div>
+        </div>
+    </div>
+</div>

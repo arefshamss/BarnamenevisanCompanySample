@@ -1,0 +1,113 @@
+﻿@model BarnamenevisanCompany.Domain.ViewModels.Admin.Blog.AdminCreateBlogViewModel
+
+@{
+    ViewData["Title"] = "افزودن مقاله";
+}
+
+@section Breadcrumb
+{
+    <admin-breadcrumb page-title="@ViewData["Title"]">
+        <admin-breadcrumb-item asp-area="Admin" asp-controller="Blog" asp-action="List">لیست مقالات</admin-breadcrumb-item>
+        <admin-breadcrumb-item last-active-item="true">@ViewData["Title"]</admin-breadcrumb-item>
+    </admin-breadcrumb>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    
+                    <form asp-area="Admin"
+                          asp-controller="Blog"
+                          asp-action="Create"
+                          enctype="multipart/form-data">
+                        <div class="row">
+
+                            <div class="row col-12">
+                                <div class="floating-labels col-md-4 mb-5">
+                                    <div class="form-group">
+                                        <input asp-for="Title" id="title"  class="form-control" oninput="generateSlug('title', 'slug')">
+                                        <span class="bar"></span>
+                                        <label asp-for="Title"></label>
+                                        <span asp-validation-for="Title"></span>
+                                    </div>
+                                </div>
+
+                                <div class="floating-labels col-md-4 mb-5">
+                                    <div class="form-group">
+                                        <input asp-for="Slug" id="slug" class="form-control">
+                                        <span class="bar"></span>
+                                        <label asp-for="Slug"></label>
+                                        <span asp-validation-for="Slug"></span>
+                                    </div>
+                                </div>
+
+                                <div class="floating-labels col-md-4 mb-5">
+                                    <div class="form-group">
+                                        <input asp-for="UserId" data-select-input="User" type="hidden"/>
+                                        <input class="form-control" data-select-display="User" asp-for="Author" onfocus="$('#users-modal-btn').click()" readonly>
+                                        <a class="select-icon"
+                                           id="users-modal-btn"
+                                           asp-area="Admin"
+                                           asp-controller="User"
+                                           asp-action="ListPartial"
+                                           asp-ajax="true"
+                                           asp-ajax-modal-type="Large"
+                                           asp-ajax-modal-title="لیست کاربران">
+                                            <iconify-icon icon="mingcute:user-add-line" width="17" height="17"></iconify-icon>
+                                        </a>
+                                        <span class="bar"></span>
+                                        <label asp-for="UserId"></label>
+                                        <span asp-validation-for="UserId"></span>
+                                    </div>
+                                </div>
+                                
+                            </div>
+
+                            <div class="row col-12 mt-4">
+                                <div class="floating-labels col-md-9 mb-5">
+                                    <div class="form-group">
+                                        <textarea asp-for="ShortDescription" ckeditor></textarea>
+                                        <span class="bar"></span>
+                                        <label asp-for="ShortDescription" class="mb-2 label-floating"></label>
+                                        <span asp-validation-for="ShortDescription"></span>
+                                    </div>
+                                </div>
+
+                                <div class="floating-labels col-md-3 mb-5 mt-3 mt-md-0">
+                                    <div class="position-relative">
+                                        <label asp-for="Image" class="mb-2 label-floating"></label>
+                                        <img ImageFile="1" class="w-100 rounded select-image-preview-box" src="/Common/images/default.jpg"/>
+                                        <label asp-for="Image" class="hover-icon rounded d-flex align-items-center justify-content-center">
+                                            <iconify-icon icon="solar:gallery-edit-broken" class="select-image-icon"></iconify-icon>
+                                        </label>
+                                        <input type="file" asp-for="Image" class="d-none" accept="image/png, image/jpeg, image/webp" ImageInput="1"/>
+                                        <span asp-validation-for="Image"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="floating-labels col-12 col-md-12 mb-3 mt-3">
+                                    <div class="form-group">
+                                        <textarea asp-for="Description" ckeditor></textarea>
+                                        <span class="bar"></span>
+                                        <label asp-for="Description" class="mb-2 label-floating"></label>
+                                        <span asp-validation-for="Description"></span>
+                                    </div>
+                                </div>
+                            
+                            <div class="col-12 mt-4">
+                                <button class="btn btn-rounded btn-success" type="submit">افزودن</button>
+                                <a asp-area="Admin" asp-controller="Blog" asp-action="List" class="btn btn-rounded btn-danger">انصراف</a>
+                            </div>
+
+                        </div>
+
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

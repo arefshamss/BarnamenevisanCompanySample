@@ -1,0 +1,19 @@
+﻿@using BarnamenevisanCompany.Application.Statics
+@model List<BarnamenevisanCompany.Domain.ViewModels.Client.SocialNetwork.ClientSocialNetworkViewModel>
+
+<ul class="flex items-center max-lg:justify-center social-link gap-4">
+    @if (Model != null && Model.Any())
+    {
+        foreach (var item in Model)
+        {
+            <li>
+                <a href="@item.Url" class="transiton-all" title="@item.SocialName">
+                    <img class="w-7 h-8" alt="@item.IconName"  src="@(FilePaths.SocialNetworkImage + item.IconName)"/>
+                </a>
+            </li>
+        }
+    
+    }
+</ul>
+
+

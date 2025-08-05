@@ -1,0 +1,168 @@
+﻿@using BarnamenevisanCompany.Domain.Enums.Job
+@using BarnamenevisanCompany.Web.Helpers.TagHelpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BarnamenevisanCompany.Domain.ViewModels.Admin.Job.AdminUpdateJobViewModel
+
+
+@{
+    ViewData["Title"] = "ویرایش موقعیت شغلی";
+}
+
+@section Scripts{
+    <script src="/Admin/js/skill-service.js"></script>
+}
+
+@section Breadcrumb{
+    <admin-breadcrumb page-title="@ViewData["Title"]">
+        <admin-breadcrumb-item asp-area="Admin" asp-controller="Job" asp-action="List">لیست موقعیت‌های شغلی
+        </admin-breadcrumb-item>
+        <admin-breadcrumb-item last-active-item="true">@ViewData["Title"]</admin-breadcrumb-item>
+    </admin-breadcrumb>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <form asp-area="Admin"
+                          asp-controller="job"
+                          asp-action="Update"
+                          method="post" enctype="multipart/form-data">
+                        <input type="hidden" asp-for="Id"/>
+                        <input type="hidden" asp-for="Latitude" id="latitude"/>
+                        <input type="hidden" asp-for="Longitude" id="longitude"/>
+                        <div class="row">
+
+                            <div class="col-12 col-md-12">
+                                <div class="row">
+                                    <div class="floating-labels col-md-6 mb-4">
+                                        <div class="form-group">
+                                            <input asp-for="Title" id="title" oninput="generateSlug('title', 'slug')"
+                                                   class="form-control">
+                                            <span class="bar"></span>
+                                            <label asp-for="Title"></label>
+                                            <span asp-validation-for="Title"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="floating-labels col-md-6 my-4 mt-md-0">
+                                        <div class="form-group">
+                                            <input asp-for="Slug" id="slug" class="form-control">
+                                            <span class="bar"></span>
+                                            <label asp-for="Slug"></label>
+                                            <span asp-validation-for="Slug"></span>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="floating-labels col-md-6 mt-4">
+                                        <div class="form-group">
+                                            <input asp-for="SalaryFrom" class="price form-control">
+                                            <span class="bar"></span>
+                                            <label asp-for="SalaryFrom"></label>
+                                            <span asp-validation-for="SalaryFrom"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="floating-labels mt-4 col-md-6">
+                                        <div class="form-group">
+                                            <input asp-for="SalaryTo" class="price form-control">
+                                            <span class="bar"></span>
+                                            <label asp-for="SalaryTo"></label>
+                                            <span asp-validation-for="SalaryTo"></span>
+                                        </div>
+                                    </div>
+                                        
+                                    <div class="col-12 mt-2 mb-4">
+                                        <span class="text-muted">وارد نکردن حداقل و حداکثر حقوق به معنای توافقی بودن میباشد</span>
+                                    </div>
+
+                                    <div class="floating-labels col-md-4 mb-4 mt-10 mt-md-4 py-6 py-md-2">
+                                        <div class="form-group">
+                                            <select class="form-control form-select" asp-for="JobConditions"
+                                                    asp-items="@Html.GetEnumSelectList<JobConditionsStatus>()"></select>
+                                            <span class="bar"></span>
+                                            <label asp-for="JobConditions"></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="floating-labels col-md-4 my-4">
+                                        <div class="form-group">
+                                            <input asp-for="WorkExperience" class="form-control">
+                                            <span class="bar"></span>
+                                            <label asp-for="WorkExperience"></label>
+                                            <span asp-validation-for="WorkExperience"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="floating-labels col-md-4 my-4">
+                                        <div class="form-group">
+                                            <input asp-for="ExpireDate" type="text" class="form-control" datepicker
+                                                   readonly>
+                                            <span class="bar"></span>
+                                            <label asp-for="ExpireDate"></label>
+                                            <span asp-validation-for="ExpireDate"></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="floating-labels col-md-12 my-4">
+                                <div class="form-group">
+                                    <input name="skills" tagify class="form-control" dir="rtl" value="@string.Join(",", Model.Skills)">
+                                    <span class="bar"></span>
+                                    <label asp-for="Skills"></label>
+                                    <span asp-validation-for="Skills"></span>
+                                </div>
+                            </div>
+
+
+                            <div class="floating-labels col-12 my-4">
+                                <div class="form-group">
+                                    <textarea asp-for="Address" rows="3" class="form-control"></textarea>
+                                    <span class="bar"></span>
+                                    <label asp-for="Address"></label>
+                                    <span asp-validation-for="Address"></span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-12 my-4">
+                                <div class="rounded" map lat="@Model.Latitude" lng="@Model.Longitude" style="height: 400px;"></div>
+                            </div>
+
+                            <div class="align-items-center col-12 col-md-12 mt-10">
+                                <div class="row">
+                                    <div class="floating-labels col-md-12 mt-4 mb-2">
+                                        <div class="form-group">
+                                            <textarea rows="2" asp-for="ShortDescription" class="form-control"></textarea>
+                                            <span class="bar"></span>
+                                            <label class="label-floating" asp-for="ShortDescription"></label>
+                                            <span asp-validation-for="ShortDescription"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="floating-labels col-md-12 mt-5">
+                                        <div class="form-group">
+                                            <textarea asp-for="Description" ckeditor class="form-control"></textarea>
+                                            <span class="bar"></span>
+                                            <label class="label-floating" asp-for="Description"></label>
+                                            <span asp-validation-for="Description"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-12 mt-5">
+                                <button class="btn btn-rounded btn-success" type="submit">ویرایش</button>
+                                <a asp-area="Admin" asp-controller="Job" asp-action="List"
+                                   class="btn btn-rounded btn-danger">انصراف</a>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

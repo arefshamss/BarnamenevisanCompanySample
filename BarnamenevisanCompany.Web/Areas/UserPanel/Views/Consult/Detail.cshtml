@@ -1,0 +1,85 @@
+﻿@using BarnamenevisanCompany.Application.Extensions
+@model BarnamenevisanCompany.Domain.ViewModels.Client.Consult.ClientConsultDetailViewModel
+
+@{
+    ViewData["Title"] = $"{Model.Title}";
+}
+
+@section Breadcrumb{
+    <user-panel-breadcrumb>
+        <user-panel-breadcrumb-item asp-area="UserPanel" asp-controller="Consult" asp-action="List">لیست مشاوره های من</user-panel-breadcrumb-item>
+        <user-panel-breadcrumb-item last-active-item="true">@ViewData["Title"]</user-panel-breadcrumb-item>
+    </user-panel-breadcrumb>
+}
+
+<div class="col-span-full">
+    <div class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav">
+        <div class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-6 h-full">
+            <div class="grid-cols-12">
+                <div class="col-span-full space-y-7">
+                    <div>
+                        <h3 class="text-xl">مشاوره</h3>
+                    </div>
+
+                    <div class="grid justify-start items-center">
+                        <div class="flex items-center space-x-1 space-x-reverse">
+                            <div>
+                                <h5 class="font-medium text-base text-nowrap">عنوان :</h5>
+                            </div>
+                            <div>
+                                <span class="font-light text-base">@Model.Title.ToShow()</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 justify-start items-center">
+                        <div class="flex items-center space-x-1 space-x-reverse">
+                            <div>
+                                <h5 class="font-medium text-base text-nowrap">تاریخ ثبت مشاوره :</h5>
+                            </div>
+                            <div>
+                                <span class="font-light text-base">@Model.CreateDate.ToShamsiDateTime()</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="grid md:grid-cols-2 justify-start items-center">
+                        <div class="flex items-center space-x-1 space-x-reverse">
+                            <div>
+                                <h5 class="font-medium text-base text-nowrap">نام و نام خانوادگی :</h5>
+                            </div>
+                            <div>
+                                <span class="font-light text-base">@Model.UserFullName.ToShow()</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="grid gap-y-2 justify-start items-center">
+                        <div>
+                            <h5 class="font-medium text-base text-nowrap">توضیحات درخواست :</h5>
+                        </div>
+                        <div class="flex items-center space-x-1 space-x-reverse">
+                            <div>
+                                <span class="font-light text-base">@Html.Raw(Model.Descriptrion)</span>
+                            </div>
+                        </div>
+                    </div>
+                    @if (Model.AdminAnswer is not null)
+                    {
+                        <div class="grid gap-y-2 justify-start items-center border border-dashed p-8 rounded">
+                            <div>
+                                <h5 class="font-medium text-base text-nowrap">پاسخ به مشاوره شما :</h5>
+                            </div>
+                            <div class="flex items-center space-x-1 space-x-reverse">
+                                <div>
+                                    <span class="font-light text-base">@Html.Raw(Model.AdminAnswer)</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

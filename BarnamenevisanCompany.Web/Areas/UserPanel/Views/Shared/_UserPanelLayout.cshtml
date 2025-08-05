@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="fa-IR">
+<head>
+    <meta charset="utf-8"/>
+    <title>برنامه نویسان پنل کاربری - @ViewData["Title"]</title>
+    <partial name="_MetaTags"/>
+    <partial name="_HeaderReferencesPartial"/>
+    @await RenderSectionAsync("Styles", false)
+</head>
+<body class="relative overflow-x-hidden text-base antialiased bg-white dark:bg-dark-300 font-Inter">
+@await Component.InvokeAsync("Header")
+
+<section dir="rtl" class="bg-white dark:bg-dark-300 mb-36 max-md:pb-20 relative max-sm:overflow-hidden pt-[200px]">
+    <div class="container">
+        <div class="relative z-10">
+            <div
+                class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex max-md:flex-col -z-10 max-sm:hidden">
+                <div
+                    class="max-md:h-[750px] max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px] rounded-full bg-primary-200/20 -ml-[170px] blur-[145px]"></div>
+                <div
+                    class="max-md:h-[750px] max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px] rounded-full bg-primary-200/20 -ml-[170px] max-md:ml-0 blur-[145px]"></div>
+                <div
+                    class="max-md:h-[750px] max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px] rounded-full bg-primary-200/20 max-md:ml-0 blur-[145px]"></div>
+            </div>
+            <section class="grid grid-cols-12 gap-5">
+
+                @await Component.InvokeAsync("UserPanelSidebar")
+
+                <!--START Content Container-->
+                <section class="col-span-12 lg:col-span-9">
+                    <div class="grid grid-cols-12 gap-3">
+                        @await RenderSectionAsync("Breadcrumb", true)
+                        <div class="col-span-full grid grid-cols-12" id="render-body">
+                            @RenderBody()
+                        </div>
+                    </div>
+                </section>
+                <!--END Content Container-->
+
+            </section>
+        </div>
+    </div>
+</section>
+
+@await Component.InvokeAsync("Footer")
+
+</body>
+</html>
+
+<partial name="~/Views/Shared/_FooterReferencesPartial.cshtml"/>
+<partial name="~/Views/Shared/_NotificationsPartial.cshtml"/>
+<partial name="~/Views/Shared/_ModalPartial.cshtml"/>
+<partial name="~/Views/Shared/_ValidationScriptsPartial.cshtml"/>
+@await RenderSectionAsync("Script", false)

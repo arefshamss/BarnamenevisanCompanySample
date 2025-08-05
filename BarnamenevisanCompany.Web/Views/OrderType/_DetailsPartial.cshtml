@@ -1,0 +1,18 @@
+﻿@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Application.Statics
+@model BarnamenevisanCompany.Domain.ViewModels.Client.OrderType.ClientOrderTypeDetailsViewModel
+
+<div class="border rounded-md border-gray-100 dark:border-borderColour-dark max-lg:p-5">
+    <div class="flex items-center gap-4 p-2">
+        <img src="@FilePaths.OrderTypeOriginalImage@(!Model.ImageUrl.IsNullOrEmptyOrWhiteSpace() ? Model.ImageUrl : SiteTools.DefaultImageName)"
+             alt="@Model.Title" class="inline-block h-20 w-20 rounded p-2">
+        
+        <p class="font-semibold">@Model.Title</p>
+    </div>
+@if (Model.Description is not null)
+    {
+        <div class="p-4">
+            @Html.Raw(@Model.Description)
+        </div>
+    }
+</div>

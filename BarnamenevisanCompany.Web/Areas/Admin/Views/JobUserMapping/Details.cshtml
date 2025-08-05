@@ -1,0 +1,136 @@
+﻿@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Application.Statics
+@using BarnamenevisanCompany.Web.Helpers.TagHelpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BarnamenevisanCompany.Domain.ViewModels.Admin.JobUserMapping.AdminJobUserMappingDetailsViewModel
+
+
+@{
+  ViewData["Title"] = "جزئیات درخواست";
+}
+
+@section Breadcrumb
+
+{
+  <admin-breadcrumb page-title="@ViewData["Title"]">
+    <admin-breadcrumb-item asp-area="Admin" asp-controller="JobUserMapping" asp-action="List">لیست درخواست‌ها
+    </admin-breadcrumb-item>
+    <admin-breadcrumb-item last-active-item="true">@ViewData["Title"]</admin-breadcrumb-item>
+  </admin-breadcrumb>
+}
+
+<div class="card">
+  <div class="form-body">
+    <div class="card-body">
+      <div class="row col-12">
+        <div class="col-md-6 mb-1">
+          <div class="form-group row">
+            <label class="form-label col-md-3" asp-for="JobTitle"></label>
+            <div class="col-md-9">
+              <p class="form-control-static">@Model.JobTitle</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row col-12">
+        <div class="col-md-6 mb-1">
+          <div class="form-group row">
+            <label class="form-label col-md-3" asp-for="CreatedDate"></label>
+            <div class="col-md-9">
+              <p class="form-control-static">@Model.CreatedDate.ToShamsi()</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-1">
+          <div class="form-group row">
+            <label class="form-label col-md-3" asp-for="ExpireDate"></label>
+            <div class="col-md-9">
+              @if (Model.ExpireDate >= DateTime.Now)
+              {
+                <span class="badge bg-success-subtle text-success">معتبر تا @Model.ExpireDate.ToShamsi()</span>
+              }
+              else
+              {
+                <span class="badge bg-danger-subtle text-danger">منقضی شده در @Model.ExpireDate.ToShamsi()</span>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--/row-->
+      <div class="col-12 row">
+        <div class="col-md-6 mb-1">
+          <div class="form-group row">
+            <label class="form-label col-md-3" asp-for="RequesterFullName"></label>
+            <div class="col-md-9">
+              <p class="form-control-static">@Model.RequesterFullName</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-1">
+          <div class="form-group row">
+            <label class="form-label col-md-3" asp-for="RequesterMobile"></label>
+            <div class="col-md-9">
+              <p class="form-control-static">@Model.RequesterMobile</p>
+            </div>
+          </div>
+        </div>
+        <!--/span-->
+      </div>
+      <!--/row-->
+    </div>
+    <hr class="m-0 border"/>
+    <div class="card-body">
+      @if (Model.Description is not null)
+      {
+        <div class="col-12 row">
+          <div class="col-md-12 mb-1">
+            <div class="form-group row">
+              <label class="form-label col-md-1" asp-for="Description"></label>
+              <div class="col-md-11">
+                <p class="form-control-static">
+                  @Model.Description
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+      <div class="col-12 row">
+        <!--/span-->
+        <div class="col-md-12 mb-1">
+          <div class="form-group row">
+            <label class="form-label col-md-1" asp-for="Attachment"></label>
+            <div class="col-md-1">
+              <a
+                class="btn form-control-static justify-content-center w-100 btn mb-1 btn-outline-info d-flex align-items-center"
+                download
+                href="@(FilePaths.ResumeAttachment + Model.Attachment)">
+                دانلود
+              </a>
+            </div>
+          </div>
+        </div>
+        <!--/span-->
+      </div>
+    </div>
+    <hr class="m-0 border"/>
+    <div class="form-actions">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-offset-3 col-md-9">
+                <a asp-area="Admin"
+                   asp-controller="JobUserMapping"
+                   asp-action="List"
+                   class="btn btn-danger ms-6">بازگشت</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

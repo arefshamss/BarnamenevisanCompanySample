@@ -1,0 +1,103 @@
+﻿@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Application.Statics
+@model BarnamenevisanCompany.Domain.ViewModels.Client.Blog.ClientBlogDetailsViewModel
+@{
+  ViewData["Title"] = $"{Model.Title}";
+}
+
+@section Breadcrumb{
+  <breadcrumb page-title="@ViewData["Title"]">
+    <breadcrumb-item asp-area="" asp-controller="Blog" asp-action="List">لیست مقالات</breadcrumb-item>
+    <breadcrumb-item last-active-item="true">@Model.Title</breadcrumb-item>
+  </breadcrumb>
+}
+
+@section Script{
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+}
+
+<article dir="rtl" class="mb-24 lg:mb-40 relative">
+  <div class="container relative flex justify-center items-center flex-col">
+    <div
+      class="absolute left-1/2 top-20 -translate-x-1/2 -translate-y-1/2 flex max-md:flex-col max-md:-translate-y-0 -z-10">
+      <div
+        class="max-1xl:w-[335px] max-1xl:h-[335px] 1xl:w-[442px] 1xl:h-[442px] bg-primary-200/20 blur-[145px] max-md:hidden"></div>
+      <div
+        class="max-1xl:w-[335px] max-1xl:h-[335px] 1xl:w-[442px] 1xl:h-[442px] bg-primary-200/20 max-md:ml-0 blur-[145px] max-md:hidden"></div>
+      <div
+        class="max-1xl:w-[335px] max-1xl:h-[335px] 1xl:w-[442px] 1xl:h-[442px] bg-primary-200/20 max-md:ml-0 blur-[145px] max-md:hidden"></div>
+    </div>
+    <div class="p-2.5 bg-white dark:bg-dark-200 rounded-medium overflow-hidden shadow-box mb-10 lg:w-[68rem] justify-self-center">
+      <img src="@(FilePaths.BlogOriginalImage + Model.ImageUrl)" alt="@Model.Title"
+           class="rounded w-full max-md:object-center object-cover">
+    </div>
+    <div class="blog-details w-full">
+      <div class="flex justify-between items-center flex-wrap gap-y-2 mb-5">
+        <div class="flex gap-x-2 items-center mb-5 md:mb-0">
+          <p>@Model.Author</p>
+          <span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="5" height="6" viewBox="0 0 5 6" fill="none">
+              <circle cx="2.5" cy="3" r="2.5" fill="" class="fill-[#D8DBD0] dark:fill-[#3B3C39]"></circle>
+            </svg>
+          </span>
+          <p>@Model.CreatedDate.ToShamsi()</p>
+          @if (Model.VisitCount > 0)
+          {
+            <span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="5" height="6" viewBox="0 0 5 6" fill="none">
+                <circle cx="2.5" cy="3" r="2.5" fill="" class="fill-[#D8DBD0] dark:fill-[#3B3C39]"></circle>
+              </svg>
+            </span>
+            <p>@Model.VisitCount بازدید</p>
+          }
+        </div>
+        <div class="flex items-center gap-2">
+          <p>لینک کوتاه : </p>
+          <div class="flex items-center gap-2 cursor-pointer" onclick="copyShortLink()" title="کپی لینک">
+            <p class="text-sm" id="shortLink">
+              @(Context.Request.Scheme + "://" + Context.Request.Host + Url.Action("ShortLink", "Blog", new { id = Model.Id }))
+            </p>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1
+                  .5">
+                <path d="M16 3H4v13"/>
+                <path d="M8 7h12v12a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2z"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="seperator mb-5">
+      <img src="/Site/assets/images/footer-seperator.svg" alt="footer-seperator"
+           class="dark:hidden w-full object-cover"/>
+      <img src="/Site/assets/images/footer-seperator-dark.svg" alt="footer-seperator"
+           class="hidden dark:block w-full object-cover"/>
+    </div>
+    <div class="container relative aos-init aos-animate" data-aos="fade-up" data-aos-offset="200"
+         data-aos-duration="1000" data-aos-once="true">
+
+      <div class="relative max-w-[850px] mx-auto">
+        <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex -z-10 max-lg:max-w-full">
+          <div class="w-[442px] h-[442px] bg-primary-200/20 blur-[145px] max-md:hidden"></div>
+          <div class="w-150 h-[442px] bg-primary-200/20 blur-[145px] max-md:hidden"></div>
+          <div class="w-[442px] h-[442px] bg-primary-200/20 blur-[145px] max-md:hidden"></div>
+        </div>
+
+        <div dir="rtl" class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav">
+          <div
+            class="bg-white dark:bg-dark-200 border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-12 max-md:p-5">
+            <div>
+              @Html.Raw(Model.Description)
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</article>
+
+@await Component.InvokeAsync("DetailsRecentBlogs")
+
+<partial name="_BacklightPartial"/>

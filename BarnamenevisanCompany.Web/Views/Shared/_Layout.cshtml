@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html lang="fa-IR">
+<head>
+    <meta charset="utf-8"/>
+    <title>@ViewData["Title"] - برنامه نویسان</title>
+    <partial name="_MetaTags"/>
+    <partial name="_HeaderReferencesPartial"/>
+    @await RenderSectionAsync("Styles", false)
+</head>
+<body class="relative overflow-x-hidden text-base antialiased bg-white dark:bg-dark-300 font-Inter">
+
+@await Component.InvokeAsync("Header")
+
+@await RenderSectionAsync("Breadcrumb", false)
+
+@RenderBody()
+
+@await Component.InvokeAsync("Footer")
+
+</body>
+</html>
+
+<partial name="~/Views/Shared/_FooterReferencesPartial.cshtml"/>
+<partial name="~/Views/Shared/_NotificationsPartial.cshtml"/>
+<partial name="~/Views/Shared/_ModalPartial.cshtml"/>
+<partial name="~/Views/Shared/_ValidationScriptsPartial.cshtml"/>
+@await RenderSectionAsync("Script", false)

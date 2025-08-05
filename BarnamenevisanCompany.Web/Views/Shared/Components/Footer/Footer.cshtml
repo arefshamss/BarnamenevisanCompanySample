@@ -1,0 +1,115 @@
+﻿@using BarnamenevisanCompany.Application.Statics
+@model BarnamenevisanCompany.Domain.ViewModels.Admin.SiteSetting.AdminSiteSettingUpdateViewModel
+
+<section dir="rtl" class="bg-white dark:bg-dark-300 overflow-hidden relative pt-20 z-30">
+    <div class="container">
+        <div class="grid grid-cols-12 mb-20 gap-y-10 max-lg:text-center">
+            <div class="col-span-12 lg:col-span-6">
+                <img src="@(FilePaths.SiteSettings + Model.SiteLogoImageName)" alt="logo" class="inline-block mb-10 w-28"/>
+                <div class="max-w-[500px] max-lg:mx-auto">
+                    @Html.Raw(Model.AboutUs)
+                </div>
+            </div>
+            <div class="col-span-6 lg:col-span-2 max-lg:text-center">
+                <h3 class="mb-8 font-semibold text-lg">دسترسی سریع</h3>
+                <ul class="[&>*:not(:last-child)]:mb-3">
+                    <li>
+                        <a asp-action="List" asp-controller="OurService" asp-area=""
+                           class="relative inline-block overflow-hidden text-base capitalize text-paragraph dark:text-white before:absolute before:bottom-0 before:left-0 before:h-[1px] before:w-full before:origin-right before:scale-x-0 before:bg-paragraph dark:before:bg-white before:transition-transform before:duration-500 before:content-[''] before:hover:origin-left before:hover:scale-x-100">
+                            خدمات ما
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-area="" asp-controller="Honor" asp-action="List"
+                           class="relative inline-block overflow-hidden text-base capitalize text-paragraph dark:text-white before:absolute before:bottom-0 before:left-0 before:h-[1px] before:w-full before:origin-right before:scale-x-0 before:bg-paragraph dark:before:bg-white before:transition-transform before:duration-500 before:content-[''] before:hover:origin-left before:hover:scale-x-100">
+                            افتخارات ما
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-area="" asp-controller="UsersPosition" asp-action="List"
+                           class="relative inline-block overflow-hidden text-base capitalize text-paragraph dark:text-white before:absolute before:bottom-0 before:left-0 before:h-[1px] before:w-full before:origin-right before:scale-x-0 before:bg-paragraph dark:before:bg-white before:transition-transform before:duration-500 before:content-[''] before:hover:origin-left before:hover:scale-x-100">
+                            تیم برنامه‌نویسان
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-area="" asp-controller="Project" asp-action="List"
+                           class="relative inline-block overflow-hidden text-base capitalize text-paragraph dark:text-white before:absolute before:bottom-0 before:left-0 before:h-[1px] before:w-full before:origin-right before:scale-x-0 before:bg-paragraph dark:before:bg-white before:transition-transform before:duration-500 before:content-[''] before:hover:origin-left before:hover:scale-x-100">
+                            پروژه ها
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-area="" asp-controller="Blog" asp-action="List"
+                           class="relative inline-block overflow-hidden text-base capitalize text-paragraph dark:text-white before:absolute before:bottom-0 before:left-0 before:h-[1px] before:w-full before:origin-right before:scale-x-0 before:bg-paragraph dark:before:bg-white before:transition-transform before:duration-500 before:content-[''] before:hover:origin-left before:hover:scale-x-100">
+                            مقالات
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-area="" asp-controller="Job" asp-action="List"
+                           class="relative inline-block overflow-hidden text-base capitalize text-paragraph dark:text-white before:absolute before:bottom-0 before:left-0 before:h-[1px] before:w-full before:origin-right before:scale-x-0 before:bg-paragraph dark:before:bg-white before:transition-transform before:duration-500 before:content-[''] before:hover:origin-left before:hover:scale-x-100">
+                            موقعیت‌های شغلی
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-span-6 lg:col-span-2 max-lg:text-center">
+                <h3 class="mb-8 font-semibold text-lg">لینک های مفید</h3>
+                <ul class="[&>*:not(:last-child)]:mb-3">
+                    <li>
+                        <a asp-area="UserPanel" asp-controller="Consult" asp-action="Create"
+                           class="relative inline-block overflow-hidden text-base capitalize text-paragraph dark:text-white before:absolute before:bottom-0 before:left-0 before:h-[1px] before:w-full before:origin-right before:scale-x-0 before:bg-paragraph dark:before:bg-white before:transition-transform before:duration-500 before:content-[''] before:hover:origin-left before:hover:scale-x-100">
+                            درخواست مشاوره
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-area="" asp-controller="Faq" asp-action="List"
+                           class="relative inline-block overflow-hidden text-base capitalize text-paragraph dark:text-white before:absolute before:bottom-0 before:left-0 before:h-[1px] before:w-full before:origin-right before:scale-x-0 before:bg-paragraph dark:before:bg-white before:transition-transform before:duration-500 before:content-[''] before:hover:origin-left before:hover:scale-x-100">
+                            سوالات متداول
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-area="UserPanel" asp-controller="Order" asp-action="Create"
+                           class="relative inline-block overflow-hidden text-base capitalize text-paragraph dark:text-white before:absolute before:bottom-0 before:left-0 before:h-[1px] before:w-full before:origin-right before:scale-x-0 before:bg-paragraph dark:before:bg-white before:transition-transform before:duration-500 before:content-[''] before:hover:origin-left before:hover:scale-x-100">
+                            ثبت سفارش
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-area="" asp-controller="ContactUs" asp-action="ContactUs"
+                           class="relative inline-block overflow-hidden text-base capitalize text-paragraph dark:text-white before:absolute before:bottom-0 before:left-0 before:h-[1px] before:w-full before:origin-right before:scale-x-0 before:bg-paragraph dark:before:bg-white before:transition-transform before:duration-500 before:content-[''] before:hover:origin-left before:hover:scale-x-100">
+                            تماس با ما
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-area="" asp-controller="AboutUs" asp-action="AboutUs"
+                           class="relative inline-block overflow-hidden text-base capitalize text-paragraph dark:text-white before:absolute before:bottom-0 before:left-0 before:h-[1px] before:w-full before:origin-right before:scale-x-0 before:bg-paragraph dark:before:bg-white before:transition-transform before:duration-500 before:content-[''] before:hover:origin-left before:hover:scale-x-100">
+                            درباره ما
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-span-12 lg:col-span-2 max-lg:text-center">
+                <h3 class="mb-8 font-semibold text-lg">تماس بگیرید</h3>
+                @Html.Raw(Model.ContactUs)
+                <div class="mt-4">
+                    @await Component.InvokeAsync("SocialNetwork")
+                </div>
+            </div>
+        </div>
+
+        <div class="seperator">
+            <img src="/Site/assets/images/footer-seperator.svg" alt="footer seperator"
+                 class="dark:hidden w-full object-cover"/>
+            <img src="/Site/assets/images/footer-seperator-dark.svg" alt="footer seperator"
+                 class="hidden dark:block w-full object-cover"/>
+        </div>
+
+        <div class="py-5 max-lg:text-center">
+            <div class="flex max-lg:flex-col lg:items-center">
+                <p class="max-lg:mb-10">
+                    ©
+                    <span id="date"></span>
+                    - تمامی حقوق برای مجموعه برنامه نویسان محفوظ میباشد
+                </p>
+            </div>
+        </div>
+    </div>
+</section>

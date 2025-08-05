@@ -1,0 +1,179 @@
+@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Application.Statics
+@using BarnamenevisanCompany.Domain.Enums.Common
+@using BarnamenevisanCompany.Infra.Data.Statics
+@using BarnamenevisanCompany.Web.Helpers.TagHelpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BarnamenevisanCompany.Domain.ViewModels.Admin.OrderType.AdminFilterOrderTypeViewModel
+
+@{
+    ViewData["Title"] = "لیست انواع سفارش";
+}
+
+@section Breadcrumb
+{
+    <admin-breadcrumb page-title="@ViewData["Title"]">
+        <admin-breadcrumb-item last-active-item="true">@ViewData["Title"]</admin-breadcrumb-item>
+    </admin-breadcrumb>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="mb-4">
+                    <h2 class="card-title">فیلتــر</h2>
+                </div>
+                <div>
+
+                    <form asp-area="Admin"
+                          asp-controller="OrderType"
+                          asp-action="List"
+                          method="get"
+                          class="floating-labels"
+                          id="filter-search"
+                          no-validation>
+                        <input asp-for="@Model.Page" type="hidden"/>
+                        <div class="row filter-form justify-content-center">
+
+                            <div class="col-12 col-md-6 mb-4">
+                                <div class="form-group">
+                                    <input asp-for="Title" class="form-control">
+                                    <span class="bar"></span>
+                                    <label asp-for="Title"></label>
+                                </div>
+                            </div>
+
+
+                            <div class="col-12 col-md-6 mb-4 mt-3 mt-md-0">
+                                <div class="form-group">
+                                    <select class="form-control form-select" asp-for="DeleteStatus"
+                                            asp-items="@Html.GetEnumSelectList<DeleteStatus>()"></select>
+                                    <span class="bar"></span>
+                                    <label asp-for="DeleteStatus"></label>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mt-3 d-md-flex">
+                                <div class="col-12 col-md-2 p-0 me-1">
+                                    <button class="btn btn-rounded btn-outline-primary w-100" type="submit">جستجو
+                                    </button>
+                                </div>
+                                @if (Model.HasFilters())
+                                {
+                                    <div class="col-12 col-md-2 p-0 mt-3 mt-md-0">
+                                        <a class="btn btn-rounded btn-danger w-100 text-nowrap"
+                                           asp-area="Admin"
+                                           asp-controller="OrderType"
+                                           asp-action="List">حذف فیلتر ها
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="mb-3 d-flex justify-content-between align-items-center">
+                    <div>
+                        <h2 class="card-title">@ViewData["Title"]</h2>
+                    </div>
+                    <div>
+                        <a invoke-permission="@PermissionsName.CreateOrderType"
+                            class="btn btn-rounded btn-success"
+                           asp-area="Admin"
+                           asp-controller="OrderType"
+                           asp-action="Create">افزودن</a>
+                    </div>
+                </div>
+
+                @if (Model.Entities is not null && Model.Entities.Any())
+                {
+                    <div class="table-responsive mb-4 border rounded-1">
+
+                        <table class="table text-nowrap mb-0 align-middle">
+                            
+                            <thead class="text-dark fs-4">
+                            <tr>
+                                <th>
+                                    <h6 class="fs-4 fw-semibold mb-0">عنوان</h6>
+                                </th>
+                                <th>
+                                    <h6 class="fs-4 fw-semibold mb-0">تاریخ ایجاد</h6>
+                                </th>
+                                <th>
+                                    <h6 class="fs-4 fw-semibold mb-0">عملیات</h6>
+                                </th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            @foreach (var item in Model.Entities)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img
+                                                src="@FilePaths.OrderTypeOriginalImage@(!item.ImageUrl.IsNullOrEmptyOrWhiteSpace() ? item.ImageUrl : SiteTools.DefaultImageName)"
+                                                class="rounded"
+                                                width="50"
+                                                height="50"
+                                                alt="@item.Title">
+                                            <div class="ms-3">
+                                                <h6 class="fs-4 fw-semibold mb-0">@(!item.Title.IsNullOrEmptyOrWhiteSpace() ? $"{item.Title}" : "ندارد")</h6>
+                                            </div>
+                                        </div>
+                                    </td>  
+                                    <td>
+                                        <p class="mb-0 fw-normal fs-4">@item.CreatedDate.ToShamsi()</p>
+                                    </td>
+                                    <td>
+                                        <a invoke-permission="@PermissionsName.UpdateOrderType"
+                                            asp-area="Admin"
+                                           asp-controller="OrderType"
+                                           asp-action="Update"
+                                           asp-route-id="@item.Id"
+                                           asp-route-page="@Model.Page"
+                                           class="text-warning removeAfterDelete @(item.IsDeleted ? "d-none" : "")"
+                                           title="ویرایش">
+                                            <iconify-icon icon="uil:edit" width="22" height="22"></iconify-icon>
+                                        </a>
+                                        @if (item.IsDeleted)
+                                        {
+                                            <a invoke-permission="@PermissionsName.DeleteOrRecoverOrderType" class="text-info" onclick="ConfirmRecover(this, '@Url.Action("DeleteOrRecover", "OrderType", new { area = "Admin", id = item.Id })')" 
+                                               title="بازگردانی">
+                                                <iconify-icon icon="solar:undo-left-round-outline" width="22" height="22"></iconify-icon>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a invoke-permission="@PermissionsName.DeleteOrRecoverOrderType" class="text-danger" onclick="ConfirmDelete(this, '@Url.Action("DeleteOrRecover", "OrderType", new { area = "Admin", id = item.Id })')" 
+                                               title="حذف">
+                                                <iconify-icon icon="solar:trash-bin-trash-outline" width="22" height="22"></iconify-icon>
+                                            </a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                            
+                        </table>
+                    </div>
+                    <partial name="~/Areas/Admin/Views/Shared/_PagingPartial.cshtml" model="@Model.GetCurrentPaging()"/>
+                }
+                else
+                {
+                    <partial name="_NotFoundPartial"/>
+                }
+            </div>
+        </div>
+    </div>
+</div>

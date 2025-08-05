@@ -1,0 +1,285 @@
+﻿@using BarnamenevisanCompany.Application.Statics
+@using BarnamenevisanCompany.Domain.ViewModels.Client.AboutUs
+@model BarnamenevisanCompany.Domain.ViewModels.Client.AboutUs.ClientAboutUsViewModel
+
+@{
+    ViewData["Title"] = "درباره ما";
+    var comments = ViewData["Comments"] as List<ClientAboutUsCommentViewModel>;
+}
+
+@* @section Breadcrumb{ *@
+@*     <breadcrumb> *@
+@*         <breadcrumb-item last-active-item="true">@ViewData["Title"]</breadcrumb-item> *@
+@*     </breadcrumb> *@
+@* } *@
+
+@section Script{
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+}
+
+<section dir="rtl" class="hero overflow-hidden relative max-lg:pt-150 pt-48 pb-[60px] z-40">
+    <div class="container">
+        <div class="max-w-[948px] mx-auto text-center aos-init aos-animate" data-aos="fade-up" data-aos-offset="200"
+             data-aos-duration="1000" data-aos-once="true">
+            <h1 class="max-lg:mb-10 mb-10">
+                @Model.TopTitle
+            </h1>
+            <p class="max-lg:mb-10 mb-12 max-w-[590px] mx-auto">
+                @Model.TopDescription
+            </p>
+        </div>
+    </div>
+</section>
+
+<section dir="rtl" class="relative pb-[60px]">
+    <div class="container relative">
+        <div
+            class="absolute left-1/2 top-20 -translate-x-1/2 -translate-y-1/2 flex max-md:flex-col -z-10 max-md:hidden">
+            <div
+                class="max-1xl:w-[335px] max-1xl:h-[335px] 1xl:w-[442px] 1xl:h-[442px] rounded-full bg-primary-200/20 -ml-[170px] max-md:ml-0 blur-[145px]"></div>
+            <div
+                class="max-1xl:w-[335px] max-1xl:h-[335px] 1xl:w-[442px] 1xl:h-[442px] rounded-full bg-primary-200/20 -ml-[170px] max-md:ml-0 blur-[145px]"></div>
+            <div
+                class="max-1xl:w-[335px] max-1xl:h-[335px] 1xl:w-[442px] 1xl:h-[442px] rounded-full bg-primary-200/20 blur-[145px]"></div>
+        </div>
+
+        <div class="grid grid-cols-3 max-md:grid-cols-1 gap-10 items-center max-md:mb-25 mb-[160px]">
+            <div class="p-2.5 bg-white dark:bg-dark-200 rounded-medium overflow-hidden shadow-box aos-init aos-animate"
+                 data-aos="fade-up" data-aos-offset="200" data-aos-duration="1000" data-aos-once="true">
+                <img src="/Site/assets/images/about/about1.png" alt="about images" class="rounded w-full">
+            </div>
+            <div class="p-2.5 bg-white dark:bg-dark-200 rounded-medium overflow-hidden shadow-box aos-init aos-animate"
+                 data-aos="fade-up" data-aos-offset="200" data-aos-duration="1000" data-aos-delay="150"
+                 data-aos-once="true">
+                <img src="/Site/assets/images/about/about2.png" alt="about images" class="rounded w-full">
+            </div>
+            <div class="p-2.5 bg-white dark:bg-dark-200 rounded-medium overflow-hidden shadow-box aos-init aos-animate"
+                 data-aos="fade-up" data-aos-offset="200" data-aos-duration="1000" data-aos-delay="300"
+                 data-aos-once="true">
+                <img src="/Site/assets/images/about/about3.png" alt="about images" class="rounded w-full">
+            </div>
+        </div>
+
+        <div class="grid grid-cols-12">
+            <div class="max-md:col-span-full md:col-span-6 py-10">
+                <div class="max-w-[550px]">
+
+                    <h2>@Model.MainDescriptionRight</h2>
+                </div>
+            </div>
+            <div class="max-md:col-span-full md:col-span-6 max-w-[590px] py-10">
+                <p>
+                    @Model.MainDescriptionLeft
+                    <br>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section dir="rtl" class="relative max-md:overflow-hidden mb-24 lg:mb-40">
+    <div class="container">
+        <div class="mb-12 text-center max-w-[475px] mx-auto">
+            <p class="section-tagline">ارزش ما</p>
+
+            <h2>@Model.OurValuesTitle</h2>
+        </div>
+
+        <div class="relative z-10">
+            <div
+                class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex max-md:flex-col -z-10 max-md:hidden">
+                <div
+                    class="max-1xl:w-[335px] max-1xl:h-[335px] 1xl:w-[442px] 1xl:h-[442px] rounded-full bg-primary-200/20 -ml-[170px] max-md:ml-0 blur-[145px]"></div>
+                <div
+                    class="max-1xl:w-[335px] max-1xl:h-[335px] 1xl:w-[442px] 1xl:h-[442px] rounded-full bg-primary-200/20 -ml-[170px] max-md:ml-0 blur-[145px]"></div>
+                <div
+                    class="max-1xl:w-[335px] max-1xl:h-[335px] 1xl:w-[442px] 1xl:h-[442px] rounded-full bg-primary-200/20 blur-[145px]"></div>
+            </div>
+            <div class="grid grid-cols-3 max-md:grid-cols-1 gap-8">
+                <div class="bg-white dark:bg-dark-200 shadow-box rounded-medium p-2.5">
+                    <div
+                        class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-10 max-lg:p-5 text-center h-full">
+                        <img src="/Site/assets/images/about/passion.svg" alt="value image"
+                             class="inline-block dark:hidden mb-6">
+                        <img src="/Site/assets/images/about/passion-dark.svg" alt="value image"
+                             class="hidden dark:inline-block mb-6">
+                        <h3 class="mb-2.5">اشتیاق ما</h3>
+                        <p>@Model.OurPassionDescription</p>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-dark-200 shadow-box rounded-medium p-2.5">
+                    <div
+                        class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-10 max-lg:p-5 text-center h-full">
+                        <img src="/Site/assets/images/about/transparency.svg" alt="value image"
+                             class="inline-block dark:hidden mb-6">
+                        <img src="/Site/assets/images/about/transparency-dark.svg" alt="value image"
+                             class="hidden dark:inline-block mb-6">
+                        <h3 class="mb-2.5">شفافیت</h3>
+                        <p>@Model.TransparencyDescription</p>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-dark-200 shadow-box rounded-medium p-2.5">
+                    <div
+                        class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-10 max-lg:p-5 text-center h-full">
+                        <img src="/Site/assets/images/about/mission.svg" alt="value image"
+                             class="inline-block dark:hidden mb-6">
+                        <img src="/Site/assets/images/about/mission-dark.svg" alt="value image"
+                             class="hidden dark:inline-block mb-6">
+                        <h3 class="mb-2.5">ماموریت ما</h3>
+                        <p>@Model.OurMissionDescription</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section dir="rtl" class="overflow-hidden relative mb-24 lg:mb-40">
+    <div class="container relative z-10">
+        <div class="grid grid-cols-2 max-md:grid-cols-1 gap-10 1xl:gap-x-24 items-center">
+            <div class="relative flex max-md:justify-center justify-end items-center">
+                <img src="/Site/assets/images/about/main-about.png" alt="banking image"
+                     class="max-w-[250px] lg:max-w-[320px] xl:max-w-[420px]">
+                <div
+                    class="absolute left-0 right-auto bottom-8 top-auto max-w-[180px] md:max-w-[250px] xl:max-w-[344px]"></div>
+            </div>
+
+            <div>
+                @Html.Raw(Model.OurValuesDescription)
+            </div>
+        </div>
+    </div>
+</section>
+
+@if (comments is not null && comments.Any())
+{
+    <section dir="rtl" class="mb-20 lg:mb-40 relative @@topSpacing max-md:overflow-hidden">
+        <div class="container relative">
+            <div class="text-center max-w-[550px] mx-auto mb-20">
+                <p class="section-tagline">نظرات</p>
+                <h2>آنچه مشتریان ما در مورد شرکت ما می گویند</h2>
+            </div>
+            <div class="relative z-10">
+                <div
+                    class="absolute left-1/2 top-[37%] -translate-x-1/2 -translate-y-1/2 flex max-md:flex-col -z-10 max-md:hidden">
+                    <div
+                        class="max-1xl:w-[335px] max-1xl:h-[335px] 1xl:w-[442px] 1xl:h-[442px] rounded-full bg-primary-200/20 -ml-[170px] max-md:ml-0 blur-[145px]"></div>
+                    <div
+                        class="max-1xl:w-[335px] max-1xl:h-[335px] 1xl:w-[442px] 1xl:h-[442px] rounded-full bg-primary-200/20 -ml-[170px] max-md:ml-0 blur-[145px]"></div>
+                    <div
+                        class="max-1xl:w-[335px] max-1xl:h-[335px] 1xl:w-[442px] 1xl:h-[442px] rounded-full bg-primary-200/20 blur-[145px]"></div>
+
+                </div>
+                <div class="!pb-20  swiper swiper-initialized swiper-horizontal swiper-rtl swiper-backface-hidden">
+                    <swiper-container space-between="30"
+                                      speed="3000"
+                                      loop="true"
+                                      autoplay-disable-on-interaction="false"
+                                      id="comments-swiper"
+                                      pagination='{"el": "#comments-pagination", "clickable": true}'>
+                        @foreach (var item in comments)
+                        {
+                            <swiper-slide class="w-28 cursor-pointer" data-swiper-autoplay="1000">
+                                <div class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav">
+                                    <div
+                                        class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-7 flex flex-col h-[360px] overflow-hidden">
+
+                                        <!-- متن نظر -->
+                                        <blockquote
+                                            class="text-paragraph dark:text-white italic leading-[1.75] break-words mb-4 line-clamp-5">
+                                            @item.Comment
+                                        </blockquote>
+
+                                        <!-- فضای خالی برای پر کردن ارتفاع -->
+                                        <div class="flex-grow"></div>
+
+                                        <!-- ستاره‌ها -->
+                                        <div class="mb-6">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                if (i <= item.Rating)
+                                                {
+                                                    <iconify-icon class="text-paragraph dark:text-rating"
+                                                                  icon="material-symbols:star-rounded" width="24"
+                                                                  height="24"></iconify-icon>
+                                                }
+                                                else
+                                                {
+                                                    <iconify-icon class="text-[#A7A7B4] dark:text-[#646463]"
+                                                                  icon="material-symbols:star-rounded" width="24"
+                                                                  height="24"></iconify-icon>
+                                                }
+                                            }
+                                        </div>
+
+                                        <!-- نام کاربر -->
+                                        <div
+                                            class="pt-4 border-t border-dashed border-gray-100 dark:border-borderColour-dark">
+                                            <h3 class="text-base font-semibold">@item.FullName</h3>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </swiper-slide>
+                        }
+                    </swiper-container>
+                    <div id="comments-pagination"
+                         class="swiper-pagination swiper-pagination-bullets swiper-pagination-horizontal">
+                            <span
+                                part="bullet" class="swiper-pagination-bullet"></span>
+                        <span part="bullet"
+                              class="swiper-pagination-bullet"></span>
+                        <span
+                            part="bullet" class="swiper-pagination-bullet"></span>
+                        <span part="bullet"
+                              class="swiper-pagination-bullet"></span>
+                        <span
+                            part="bullet" class="swiper-pagination-bullet swiper-pagination-bullet"></span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+@await Component.InvokeAsync("Information")
+
+
+<section dir="rtl" class="relative max-md:overflow-hidden mb-24 lg:mb-40 py-3">
+    <div class="container relative">
+        <div class="text-center mx-auto">
+            <div class="mb-5 max-lg:text-[32px] text-[48px] font-semibold">
+                @Html.Raw(Model.AboutUsOrderTitle)
+            </div>
+            <div class="max-lg:mt-6 mb-12 max-w-[400px] mx-auto">
+                @Html.Raw(Model.AboutUsOrderDescription)
+            </div>
+
+            <a asp-controller="Order" asp-action="Create" asp-area="UserPanel" class="btn"> شروع کنید </a>
+            @if (Model.ClientOrderSteps != null && Model.ClientOrderSteps.Any())
+            {
+                <ul class="flex max-lg:flex-col max-lg:gap-5 items-center justify-between max-lg:mt-5 mt-20 max-w-[815px] mx-auto">
+                    @foreach (var item in Model.ClientOrderSteps.OrderBy(s => s.PriorityId))
+                    {
+                        <li class="flex items-center">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 class="mr-3">
+                                <path
+                                    d="M14.125 7.75L8.62497 13L5.875 10.375M19 10C19 14.9706 14.9706 19 10 19C5.02944 19 1 14.9706 1 10C1 5.02944 5.02944 1 10 1C14.9706 1 19 5.02944 19 10Z"
+                                    stroke="" class="stroke-paragraph dark:stroke-primary" stroke-width="1.5"
+                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                            <p class="mr-2">@item.Title</p>
+                        </li>
+                    }
+
+                </ul>
+            }
+
+        </div>
+    </div>
+</section>
+
+<partial name="_BacklightPartial"/>

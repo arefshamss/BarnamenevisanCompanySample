@@ -1,0 +1,50 @@
+﻿@model BarnamenevisanCompany.Domain.ViewModels.Admin.AboutUsComment.AdminUpdateAboutUsCommentViewModel
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <form asp-area="Admin"
+                          asp-controller="AboutUsComment"
+                          asp-action="Update"
+                          asp-ajax="true"
+                          asp-ajax-method="Post"
+                          asp-ajax-close-modal-onSuccess="Current"
+                          asp-ajax-success="onAjaxSuccess(data, status, xhr);">
+                        <div class="row">
+                            <input asp-for="UserId" type="hidden"/>
+                            <input asp-for="Id" type="hidden"/>
+                   
+                            <div class="floating-labels col-12 col-md-4 mt-4 mt-md-0 my-lg-4 mb-5">
+                                <div class="form-group">
+                                    <input asp-for="Rating" type="number" inputmode="numeric"
+                                           pattern="[0-9]*"
+                                           oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="form-control" onchange="formatFloatingLabel()">
+                                    <span class="bar"></span>
+                                    <label asp-for="Rating"></label>
+                                    <span asp-validation-for="Rating"></span>
+                                </div>
+                            </div>
+                            <div class="floating-labels col-12 col-md-12 mt-4 mt-md-0 my-lg-4 mb-5">
+                                <div class="form-group">
+                                    <textarea  asp-for="Comment" class="form-control"></textarea>
+                                    <span class="bar"></span>
+                                    <label asp-for="Comment"></label>
+                                    <span asp-validation-for="Comment"></span>
+                                </div>
+                            </div>
+
+
+                            <div class="col-12 mt-4">
+                                <button class="btn btn-rounded btn-success" type="submit">افزودن</button>
+                                <button type="button" data-bs-dismiss="modal"
+                                        class="btn btn-rounded btn-danger">انصراف</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

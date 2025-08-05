@@ -1,0 +1,79 @@
+﻿@using BarnamenevisanCompany.Application.Statics
+@model BarnamenevisanCompany.Domain.ViewModels.Admin.SocialNetwork.AdminSocialNetworkUpdateViewModel
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <form asp-area="Admin"
+                          asp-controller="SocialNetwork"
+                          asp-action="Update"
+                          asp-ajax="true"
+                          asp-ajax-method="Post"
+                          asp-ajax-upload="true"
+                          asp-ajax-close-modal-onSuccess="Current"
+                          asp-ajax-substitution="filter-search"
+                          asp-ajax-success="onAjaxSuccess(data, status, xhr);">
+                        <input asp-for="Id" type="hidden"/>
+                        <input asp-for="IconName" type="hidden"/>
+                        
+
+
+                        <div class="row">
+
+                            <div class="row col-12 col-md-8">
+
+                                <div class="floating-labels col-12 mt-5 mt-md-0 mb-md-5">
+                                    <div class="form-group">
+                                        <input asp-for="Title" class="form-control">
+                                        <span class="bar"></span>
+                                        <label asp-for="Title"></label>
+                                        <span asp-validation-for="Title"></span>
+                                    </div>
+                                </div>
+                                <div class="floating-labels  col-12 mt-5 mt-md-0 mb-md-5">
+                                    <div class="form-group">
+                                        <input asp-for="Url" id="slug" class="form-control">
+                                        <span class="bar"></span>
+                                        <label asp-for="Url"></label>
+                                        <span asp-validation-for="Url"></span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row col-12 col-md-4 mt-5 mt-md-0 mb-md-5">
+                                <div class="col-12  mt-4 floating-labels">
+                                    <div class="position-relative">
+                                        <label asp-for="Icon" class="fs-2 mb-2 label-floating"></label>
+                                        <img ImageFile="1" class="w-100 rounded select-image-preview-box"
+                                             src="@(FilePaths.SocialNetworkImage + Model.IconName)?ts=@DateTime.Now.Ticks"/>
+                                        <label asp-for="Icon"
+                                               class="hover-icon rounded d-flex align-items-center justify-content-center">
+                                            <iconify-icon icon="solar:gallery-edit-broken"
+                                                          class="select-image-icon"></iconify-icon>
+                                        </label>
+                                        <input type="file" asp-for="Icon" class="d-none"
+                                               accept=".svg" ImageInput="1"/>
+                                        <span asp-validation-for="Icon"></span>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+
+                            <div class="col-12 mt-4">
+                                <button class="btn btn-rounded btn-success" type="submit">ویرایش</button>
+                                <button
+                                    class="btn btn-rounded btn-danger" type="button" data-bs-dismiss="modal">انصراف
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

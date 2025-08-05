@@ -1,0 +1,202 @@
+﻿@using BarnamenevisanCompany.Application.Extensions
+@model BarnamenevisanCompany.Domain.ViewModels.Client.Job.ClientJobDetailsViewModel
+
+@{
+  ViewData["Title"] = $"{Model.Title}";
+}
+
+@section Breadcrumb{
+  <breadcrumb page-title="@ViewData["Title"]">
+    <breadcrumb-item asp-area="" asp-controller="Job" asp-action="List">لیست فرصت‌های شغلی</breadcrumb-item>
+    <breadcrumb-item last-active-item="true">@Model.Title</breadcrumb-item>
+  </breadcrumb>
+}
+
+
+<section dir="rtl" class="mb-24 mb-42 relative">
+  <div
+    class="absolute left-0 right-0 -top-[1000px] bg-[url('../images/core-gradient.png')] bg-no-repeat bg-center opacity-70 w-full h-full bg-[length:600px_1600px] md:hidden"></div>
+  <div class="container relative">
+    <div class="absolute left-1/2 top-20 -translate-x-1/2 -translate-y-1/2 flex max-md:flex-col -z-10 max-md:hidden">
+      <div
+        class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px] bg-primary-200/20 -ml-[170px] blur-[145px]"></div>
+      <div
+        class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px] bg-primary-200/20 -ml-[170px] max-md:ml-0 blur-[145px]"></div>
+      <div
+        class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px] bg-primary-200/20 max-md:ml-0 blur-[145px]"></div>
+    </div>
+    <div class="grid grid-cols-12 max-lg:gap-y-25 lg:gap-16">
+      <div class="col-span-full max-lg:order-2 lg:col-span-8 singlePage relative">
+        <h2 class="mb-12"> شرح شغل </h2>
+        <div>
+          @Html.Raw(Model.Description)
+        </div>
+        @if (Model.Latitude is not null && Model.Longitude is not null)
+        {
+          <div class="col-12 col-lg-12 my-4">
+            <div class="rounded" map lat="@Model.Latitude" lng="@Model.Longitude" style="height: 400px;"></div>
+          </div>
+        }
+
+      </div>
+      <div class="col-span-full max-lg:order-1 lg:col-span-4 self-start relative">
+        <div class=" bg-white dark:bg-dark-200 rounded-medium p-2.5  shadow-nav relative z-10">
+          <div
+            class=" bg-white dark:bg-dark-200 border border-dashed rounded border-gray-100 dark:border-borderColour-dark max-md:p-5 py-10 px-8">
+            <h3 class="mb-1"> بررسی اجمالی شغل </h3>
+            <div
+              class=" [&amp;>*:not(:last-child)]:border-b [&amp;>*:not(:last-child)]:border-dashed [&amp;>*:not(:last-child)]:border-borderColour dark:[&amp;>*:not(:last-child)]:border-borderColour-dark ">
+
+              <div class="py-5 flex items-center justify-between">
+                <div>
+                  <h4 class="text-lg font-medium mb-2"> لینک کوتاه </h4>
+                  <p id="shortLink" onclick="copyShortLink()" class="text-sm cursor-pointer">
+                    @(Context.Request.Scheme + "://" + Context.Request.Host + Url.Action("ShortLink", "Job", new { id = Model.Id }))
+                  </p>
+                </div>
+                <button
+                  onclick="copyShortLink()"
+                  class="ml-4 text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white transition"
+                  title="کپی لینک">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1
+                  .5">
+                      <path d="M16 3H4v13"/>
+                      <path d="M8 7h12v12a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2z"/>
+                    </g>
+                  </svg>
+                </button>
+              </div>
+
+              <div class="py-5">
+                <h4 class="text-lg font-medium mb-2"> تاریخ ثبت </h4>
+                <p>
+                  @Model.CreatedDate.ToShamsi()
+                </p>
+              </div>
+              <div class="py-5">
+                <h4 class="text-lg font-medium mb-2"> مهلت ارسال درخواست </h4>
+                @if (!Model.Expired)
+                {
+                  <p>
+                    @Model.ExpireDate
+                  </p>
+                }
+                else
+                {
+                  <p>
+                    به پایان رسیده
+                  </p>
+                }
+
+              </div>
+              <div class="py-5">
+                <h4 class="text-lg font-medium mb-2">آدرس</h4>
+                <p>
+                  @Model.Address
+                </p>
+              </div>
+              @if (!Model.Expired)
+              {
+                <div class="py-5">
+                  <h4 class="text-lg font-medium mb-2"> حقوق پیشنهادی </h4>
+                  @if (Model.SalaryFrom.IsNullOrEmptyOrWhiteSpace() && Model.SalaryTo.IsNullOrEmptyOrWhiteSpace())
+                  {
+                    <p>توافقی</p>
+                  }
+                  else
+                  {
+                    <p>
+                      @Model.SalaryFrom.ToRial()
+
+                      @if (Model.SalaryTo != null)
+                      {
+                        <text>
+                          @if (Model.SalaryFrom != null)
+                          {
+                            <text>- </text>
+                          }
+                          @Model.SalaryTo.ToRial()
+                        </text>
+                      }
+                    </p>
+                  }
+                </div>
+              }
+              <div class="py-5">
+                <h4 class="text-lg font-medium mb-2">تجربه کاری</h4>
+                <p>
+                  @Model.WorkExperience
+                </p>
+              </div>
+              <div class="py-5">
+                <h4 class="text-lg font-medium mb-2">وضعیت شغل</h4>
+                <p>
+                  @Model.JobConditions.GetEnumName()
+                </p>
+              </div>
+            </div>
+            
+              @if (Model.SkillList.Any())
+              {
+                <div class="mb-12 mt-4">
+                  <h3 class="mb-8"> مهارت های شغلی </h3>
+
+                  <div class="flex flex-wrap w-full gap-3 ">
+
+                    @foreach (var skill in Model.SkillList)
+                    {
+                      <div>
+                        <span class="inline-block w-full items-center justify-between rounded-[60px] border border-borderColour px-5 py-2 font-medium text-paragraph-light dark:border-borderColour-dark">
+                          @skill
+                        </span>
+                      </div>
+                    }
+
+                  </div>
+                </div>
+              }
+            
+            <div>
+              @if (!Model.Expired)
+              {
+                @if (!User.Identity.IsAuthenticated)
+                {
+                  <a class="btn w-full text-center"
+                     asp-area=""
+                     asp-controller="Account"
+                     asp-action="Login"
+                     asp-route-returnUrl="@Url.Action("Details", "Job", new { id = Model.Id })">
+                    برای ثبت درخواست وارد شوید
+                  </a>
+                }
+                else
+                {
+                  <a class="btn w-full text-center"
+                     asp-area=""
+                     asp-controller="JobUserMapping"
+                     asp-action="Create"
+                     asp-route-jobId="@Model.Id"
+                     asp-ajax="true"
+                     asp-ajax-validation="true"
+                     asp-ajax-modal-type="Medium"
+                     asp-ajax-modal-title="ثبت درخواست شغل">
+                    ثبت درخواست
+                  </a>
+                }
+              }
+              else
+              {
+                <p class="w-full text-center text-red-600 border rounded-full py-2 border-red-600">
+                  این درخواست منقضی شده <br/>و امکان ثبت ندارد!
+                </p>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<partial name="_BacklightPartial"/>

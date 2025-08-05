@@ -1,0 +1,62 @@
+﻿@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Application.Statics
+@model List<BarnamenevisanCompany.Domain.ViewModels.Client.OurService.ClientGetAllServiceViewModel>
+@if (Model != null && Model.Any())
+{
+    <section class="bg-white dark:bg-dark-300 pt-20 relative sm:overflow-hidden dark:-mb-24 -mb-24 pb-[15rem]">
+        <div
+            class="absolute left-0 right-0 top-25 bg-[url('..//Site/assets/images/service-bg.png')] bg-no-repeat bg-cover bg-center opacity-70 w-full h-full sm:hidden">
+        </div>
+        <div class="container">
+            <div dir="rtl" class="mb-12">
+                <div class="block max-lg:text-center justify-center lg:flex">
+                    <h2 class="max-lg:mb-5">
+                        خدمات ما
+                    </h2>
+                </div>
+            </div>
+            <div dir="rtl" class="relative z-10">
+                <div class="absolute left-1/2 top-60 -translate-x-1/2 -translate-y-1/2 flex -z-10 max-sm:hidden pt-150 pb-12">
+                    <div
+                        class="w-[330px] h-[330px] xl:w-[442px] blur-[145px] bg-primary-200/20"></div>
+                    <div
+                        class="w-[330px] h-[330px] xl:w-[442px] blur-[145px] rounded-full bg-primary-200/20 lg:-ml-[170px]">
+                    </div>
+                </div>
+           
+                <div class="grid grid-cols-3 max-sm:grid-cols-1 max-lg:grid-cols-2 gap-8">
+                    @foreach (var item in Model)
+                    {
+                        <div
+                            class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav scale-100 hover:scale-105 transition-transform duration-500 hover:transition-transform hover:duration-500">
+                            <div
+                                class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-10 h-full max-lg:p-5 flex flex-col justify-between">
+                                <div>
+                                    <div class="mb-3">
+                                        @Html.Raw(item.ImageName.ConvertSvgFileToCode(FilePaths.OurServiceOriginalImage).Replace("<svg ", "<svg class='w-[50px] h-[50px]' "))
+                                    </div>
+                                    <a asp-action="Detail" asp-area="" asp-controller="OurService"
+                                       asp-route-Slug="@item.Slug" class="block">
+                                        <h3 class="mb-2.5"> @item.Title </h3>
+                                    </a>
+                                    <div class="mb-6 line-clamp-2">@Html.Raw(item.ShortDescription)</div>
+                                </div>
+                                <div>
+                                    <a asp-action="Detail" asp-area="" asp-controller="OurService"
+                                       asp-route-Slug="@item.Slug" class="btn-outline btn-sm">
+                                        بیشتر
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+                
+            </div>
+            <div class="mt-16 flex items-center justify-center">
+                <a asp-area="" asp-controller="OurService" asp-action="List" class="btn-outline">مشاهده همه</a>
+            </div>
+        </div>
+    </section>
+}

@@ -1,0 +1,216 @@
+﻿@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Domain.Enums.Common
+@using BarnamenevisanCompany.Domain.Enums.Job
+@using BarnamenevisanCompany.Domain.Shared
+@using BarnamenevisanCompany.Infra.Data.Statics
+@using BarnamenevisanCompany.Web.Helpers.TagHelpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BarnamenevisanCompany.Domain.ViewModels.Admin.JobUserMapping.AdminFilterJobUserMappingViewModel
+
+
+@{
+    ViewData["Title"] = "لیست متقاضیان مشاغل";
+}
+
+@section Breadcrumb
+{
+    <admin-breadcrumb page-title="@ViewData["Title"]">
+        <admin-breadcrumb-item last-active-item="true">@ViewData["Title"]</admin-breadcrumb-item>
+    </admin-breadcrumb>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="mb-4">
+                    <h2 class="card-title">فیلتــر</h2>
+                </div>
+                <div>
+
+                    <form asp-area="Admin"
+                          asp-controller="JobUserMapping"
+                          asp-action="List"
+                          method="get"
+                          class="floating-labels"
+                          id="filter-search"
+                          no-validation>
+                        <input asp-for="@Model.Page" type="hidden"/>
+                        <div class="row filter-form justify-content-center">
+
+                            <div class="col-12 col-md-6 mb-4">
+                                <div class="form-group">
+                                    <input asp-for="JobTitle" class="form-control">
+                                    <span class="bar"></span>
+                                    <label asp-for="JobTitle"></label>
+                                </div>
+                            </div>
+                            
+                            <div class="col-12 col-md-6 mb-4">
+                                <div class="form-group">
+                                    <input asp-for="UserId" data-select-input="User" type="hidden"/>
+                                    <input class="form-control" data-select-display="User" asp-for="FullName" onfocus="$('#users-modal-btn').click()" readonly>
+                                    <a class="select-icon"
+                                       id="users-modal-btn"
+                                       asp-area="Admin"
+                                       asp-controller="User"
+                                       asp-action="ListPartial"
+                                       asp-ajax="true"
+                                       asp-ajax-modal-type="Large"
+                                       asp-ajax-modal-title="لیست کاربران">
+                                        <iconify-icon icon="mingcute:user-add-line" width="17" height="17"></iconify-icon>
+                                    </a>
+                                    <span class="bar"></span>
+                                    <label asp-for="UserId"></label>
+                                    <span asp-validation-for="UserId"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-4 mb-4 mt-3">
+                                <div class="form-group">
+                                    <select class="form-control form-select" asp-for="FilterOrderBy"
+                                            asp-items="@Html.GetEnumSelectList<FilterOrderBy>()"></select>
+                                    <span class="bar"></span>
+                                    <label asp-for="FilterOrderBy"></label>
+                                </div>
+                            </div>
+                            
+                            <div class="col-12 col-md-4 mb-4 mt-3">
+                                <div class="form-group">
+                                    <select class="form-control form-select" asp-for="JobExpirationStatus" id="order-status"
+                                            asp-items="@Html.GetEnumSelectList<JobExpirationStatus>()"></select>
+                                    <span class="bar"></span>
+                                    <label asp-for="JobExpirationStatus"></label>
+                                </div>
+                            </div>
+                            
+                            <div class="col-12 col-md-4 mb-4 mt-3">
+                                <div class="form-group">
+                                    <select class="form-control form-select" asp-for="DeleteStatus"
+                                            asp-items="@Html.GetEnumSelectList<DeleteStatus>()"></select>
+                                    <span class="bar"></span>
+                                    <label asp-for="DeleteStatus"></label>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mt-3 d-md-flex">
+                                <div class="col-12 col-md-2 p-0 me-1">
+                                    <button class="btn btn-rounded btn-outline-primary w-100" type="submit">جستجو
+                                    </button>
+                                </div>
+                                @if (Model.HasFilters())
+                                {
+                                    <div class="col-12 col-md-2 p-0 mt-3 mt-md-0">
+                                        <a class="btn btn-rounded btn-danger w-100 text-nowrap"
+                                           asp-area="Admin"
+                                           asp-controller="JobUserMapping"
+                                           asp-action="List">حذف فیلتر ها
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="mb-3 d-flex justify-content-between align-items-center">
+                    <div>
+                        <h2 class="card-title">@ViewData["Title"]</h2>
+                    </div>
+                </div>
+
+                @if (Model.Entities is not null && Model.Entities.Any())
+                {
+                    <div class="table-responsive mb-4 border rounded-1">
+
+                        <table class="table text-nowrap mb-0 align-middle">
+
+                            <thead>
+                            <tr>
+                                <th>
+                                    <h6 class="fs-4 fw-semibold mb-0">عنوان شغل</h6>
+                                </th>
+                                <th>
+                                    <h6 class="fs-4 fw-semibold mb-0">درخواست‌کننده</h6>
+                                </th>
+                                <th>
+                                    <h6 class="fs-4 fw-semibold mb-0">تاریخ ثبت درخواست</h6>
+                                </th>
+                                <th>
+                                    <h6 class="fs-4 fw-semibold mb-0">وضعیت اعتبار آگهی</h6>
+                                </th>
+                                <th>
+                                    <h6 class="fs-4 fw-semibold mb-0">عملیات</h6>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var item in Model.Entities)
+                            {
+                                <tr>
+                                    <td>
+                                        <p class="mb-0 fw-normal fs-4">@item.JobTitle</p>
+                                    </td>
+                                    <td>
+                                        <p class="mb-0 fw-normal fs-4">@item.RequesterFullName</p>
+                                    </td>
+                                    <td>
+                                        <p class="mb-0 fw-normal fs-4">@item.CreatedDate.ToShamsiDateTime()</p>
+                                    </td>
+                                    <td>
+                                        @if(item.ExpireDate >= DateTime.Now)
+                                        {
+                                        <span class="badge bg-success-subtle text-success">معتبر تا @item.ExpireDate.ToShamsi()</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger-subtle text-danger">منقضی شده</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <a invoke-permission="@PermissionsName.JobUserMappingDetails"
+                                            asp-area="Admin"
+                                           asp-controller="JobUserMapping"
+                                           asp-action="Details"
+                                           asp-route-id="@item.Id"
+                                           asp-route-page="@Model.Page"
+                                           class="text-info removeAfterDelete @(item.IsDeleted ? "d-none" : "")"
+                                           title="مشاهده">
+                                            <iconify-icon icon="fluent:eye-28-regular" width="22" height="22"></iconify-icon>
+                                        </a>
+                                        @if (item.IsDeleted)
+                                        {
+                                            <a invoke-permission="@PermissionsName.DeleteOrRecoverJobUserMapping" class="text-info" onclick="ConfirmRecover(this, '@Url.Action("DeleteOrRecover", "JobUserMapping", new { area = "Admin", id = item.Id })')" title="بازگردانی">
+                                                <iconify-icon icon="solar:undo-left-round-outline" width="22" height="22"></iconify-icon>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a invoke-permission="@PermissionsName.DeleteOrRecoverJobUserMapping" class="text-danger" onclick="ConfirmDelete(this, '@Url.Action("DeleteOrRecover", "JobUserMapping", new { area = "Admin", id = item.Id })')" title="حذف">
+                                                <iconify-icon icon="solar:trash-bin-trash-outline" width="22" height="22"></iconify-icon>
+                                            </a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                    <partial name="~/Areas/Admin/Views/Shared/_PagingPartial.cshtml" model="@Model.GetCurrentPaging()"/>
+                }
+                else
+                {
+                    <partial name="_NotFoundPartial"/>
+                }
+            </div>
+        </div>
+    </div>
+</div>

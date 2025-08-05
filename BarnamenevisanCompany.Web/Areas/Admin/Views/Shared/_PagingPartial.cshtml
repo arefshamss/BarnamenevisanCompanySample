@@ -1,0 +1,69 @@
+﻿@model BarnamenevisanCompany.Domain.ViewModels.Common.PagingViewModel
+@if (Model.EndPage > 1)
+{
+    <nav class="mt-5 d-flex justify-content-center mx-auto">
+        <ul class="pagination">
+            <li class="page-item">
+            </li>
+            @if (Model.StartPage < Model.Page)
+            {
+                if (!string.IsNullOrWhiteSpace(Model.FormId))
+                {
+                    <li class="page-item cursor-pointer">
+                        <a class="page-link" onclick="FillPageIdByFromId(@(Model.Page - 1), '@Model.FormId')"><iconify-icon class="align-middle" icon="solar:arrow-right-bold"></iconify-icon></a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item cursor-pointer">
+                        <a class="page-link" onclick="FillPageId(@(Model.Page - 1))"><iconify-icon class="align-middle" icon="solar:arrow-right-bold"></iconify-icon></a>
+                    </li>
+                }
+
+            }
+            @for (int i = Model.StartPage; i <= Model.EndPage; i++)
+            {
+
+                if (Model.Page == i)
+                {
+                    <li class="page-item cursor-pointer">
+                        <a class="page-link active" href="javascript:void(0)">@i</a>
+                    </li>
+                }
+                else
+                {
+                    if (!string.IsNullOrWhiteSpace(Model.FormId))
+                    {
+                        <li class="page-item cursor-pointer">
+                            <a class="page-link" onclick="FillPageIdByFromId(@i, '@Model.FormId')">@i</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item cursor-pointer">
+                            <a class="page-link" onclick="FillPageId(@i)">@i</a>
+                        </li>
+                    }
+
+                }
+            }
+            @if (Model.EndPage > Model.Page)
+            {
+                if (!string.IsNullOrWhiteSpace(Model.FormId))
+                {
+                    <li class="page-item cursor-pointer">
+                        <a class="page-link" onclick="FillPageIdByFromId(@(Model.Page + 1), '@Model.FormId')"><iconify-icon class="align-middle" icon="solar:arrow-left-bold"></iconify-icon></a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item cursor-pointer">
+                        <a class="page-link" onclick="FillPageId(@(Model.Page + 1))"><iconify-icon class="align-middle" icon="solar:arrow-left-bold"></iconify-icon></a>
+                    </li>
+                }
+            }
+            <li class="page-item">
+            </li>
+        </ul>
+    </nav>
+}

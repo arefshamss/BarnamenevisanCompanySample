@@ -1,0 +1,80 @@
+﻿@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Application.Statics
+@using BarnamenevisanCompany.Web.Helpers.TagHelpers
+@model BarnamenevisanCompany.Domain.ViewModels.Client.JobUserMapping.ClientJobUserMappingDetailsViewModel
+@{
+    ViewData["Title"] = "جزئیات درخواست شغل";
+}
+
+@section Breadcrumb{
+    <user-panel-breadcrumb>
+        <user-panel-breadcrumb-item asp-area="UserPanel" asp-controller="JobUserMapping" asp-action="List">لیست درخواست‌های شغلی من</user-panel-breadcrumb-item>
+        <user-panel-breadcrumb-item last-active-item="true">@ViewData["Title"]</user-panel-breadcrumb-item>
+    </user-panel-breadcrumb>
+}
+
+
+<div class="col-span-full">
+    <div class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav">
+        <div class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-6 h-full">
+            <div class="grid-cols-12">
+                <div class="col-span-full space-y-7">
+                    <div>
+                        <h4 class="text-xl">عنوان موقعیت شغلی :
+                            <span class="font-semibold">@Model.JobTitle</span>
+                        </h4>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 justify-start items-center">
+                        <div class="flex items-center space-x-1 space-x-reverse">
+                            <div>
+                                <h5 class="font-medium text-base text-nowrap">تاریخ ثبت درخواست :</h5>
+                            </div>
+                            <div>
+                                <span class="font-light text-base">@Model.CreatedDate.ToShamsiDateTime()</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-1 space-x-reverse mt-5 md:mt-0">
+                            <div>
+                                <h5 class="font-medium text-base text-nowrap">وضعیت اعتبار آگهی :</h5>
+                            </div>
+                            <div>
+                                @if (Model.ExpireDate >= DateTime.Now)
+                                {
+                                    <userpanel-bage type="Success">معتبر تا @Model.ExpireDate.ToShamsi()</userpanel-bage>
+                                }
+                                else
+                                {
+                                    <userpanel-bage type="Danger">منقضی شده در @Model.ExpireDate.ToShamsi()</userpanel-bage>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (Model.Description is not null)
+                    {
+                        <div class="grid gap-y-2 justify-start items-center">
+                            <div>
+                                <h5 class="font-medium text-base text-nowrap">توضیحات :</h5>
+                            </div>
+                            <div class="flex items-center space-x-1 space-x-reverse">
+                                <div>
+                                    <span class="font-light text-base">@Model.Description</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="grid justify-start items-center">
+                        <div class="flex items-center space-x-1 space-x-reverse">
+                            <div><a download class="btn-info btn-sm form-control-static justify-content-center w-100 btn mb-1 btn-outline-success text-success d-flex align-items-center"
+                                    href="@(FilePaths.ResumeAttachment + Model.Attachment)"> دانلود فایل ضمیمه</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+

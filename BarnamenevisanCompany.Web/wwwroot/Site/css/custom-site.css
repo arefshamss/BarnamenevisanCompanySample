@@ -1,0 +1,33 @@
+﻿.plyr{
+    border-radius: 20px;
+}
+
+.toast-message, .toast-title{
+    color: #FFF !important;
+}
+
+.leaflet-control-container * {
+    color: black; !important;;
+}
+
+.bg-modal{
+    background-color: rgba(0, 0, 0, 0.70) !important;
+}
+
+video[poster] {
+    object-fit: cover;
+}
+
+.lightboxOverlay,
+.lightbox {
+    z-index: 99999999999 !important;
+}
+
+.grecaptcha-badge {
+    z-index: 9999 !important;
+}
+
+.ck-editor__editable{
+    height: 15rem;
+}
+

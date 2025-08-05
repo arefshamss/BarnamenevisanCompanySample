@@ -1,0 +1,55 @@
+﻿@using BarnamenevisanCompany.Domain.Enums.Ticket
+@model BarnamenevisanCompany.Domain.ViewModels.Client.TicketMessage.ClientCreateTicketMessageViewModel
+
+@if (Model.TicketStatus is not TicketStatus.Closed)
+{
+<form asp-area="UserPanel"
+      asp-controller="Ticket"
+      asp-action="CreateMessage"
+      asp-ajax="true"
+      asp-ajax-reinitialize="false"
+      asp-ajax-redirect="@Url.Action("Detail", "Ticket", new { area = "UserPanel", id = Model.TicketId })"
+      asp-ajax-method="Post"
+      asp-ajax-upload="true">
+    <input asp-for="TicketId" type="hidden"/>
+    <input asp-for="TicketStatus" type="hidden"/>
+    <input asp-for="Attachment" type="file" class="hidden" ImageInput="2" accept=".rar, .zip, .pdf, .txt, .doc, .docx, .jpg, .jpeg, .png, .webp"/>
+    <div class="grid grid-cols-12">
+
+        <div class="col-span-full">
+            <label asp-for="Message" class="block text-sm font-medium text-paragraph dark:text-white mb-2"></label>
+            <textarea asp-for="Message" ckeditor no-file-upload placeholder="پیام خود را وارد کنید ..."></textarea>
+            <validation-span asp-validation-for="Message"/>
+        </div>
+
+        <div class="col-span-full flex flex-col space-y-2 lg:flex-row lg:justify-between lg:space-y-0 items-center">
+            <div class="flex flex-col justify-center items-center space-y-2 lg:flex-row lg:space-y-0 lg:space-x-1 lg:space-x-reverse">
+                <button class="btn-success px-5 py-2 tracking-tight" type="submit">
+                    <div class="flex items-center space-x-1 space-x-reverse">
+                        <iconify-icon icon="tabler:send" width="20" height="20"></iconify-icon>
+                        <span>ارسال پیام</span>
+                    </div>
+                </button>
+                <div class="flex flex-col items-center space-y-1 lg:flex-row lg:space-y-0 lg:space-x-1 lg:space-x-reverse">
+                    <button class="btn-info px-5 py-2" type="button" ImageButton="2">
+                        <div class="flex items-center space-x-1 space-x-reverse">
+                            <iconify-icon class="flex" icon="akar-icons:file" width="20" height="20"></iconify-icon>
+                            <span>انتخاب فایل ضمیمه</span>
+                        </div>
+                    </button>
+                    <span class="text-sm" ImageName="2"></span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>   
+}
+else
+{
+    <div class="grid grid-cols-12">
+        <div class="col-span-full">
+            <user-panel-alert mode="Danger" title="امکان ارسال پیام وجود ندارد">این تیکت بسته شده است و امکان ارسال پیام وجود ندارد.</user-panel-alert>
+        </div>
+    </div>
+}

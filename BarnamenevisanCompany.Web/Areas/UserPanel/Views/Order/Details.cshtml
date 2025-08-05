@@ -1,0 +1,132 @@
+﻿@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Application.Statics
+@using BarnamenevisanCompany.Domain.Enums.Order
+@using BarnamenevisanCompany.Domain.ViewModels.Client.OrderType
+@using BarnamenevisanCompany.Web.Helpers.TagHelpers
+@model BarnamenevisanCompany.Domain.ViewModels.Client.Order.ClientOrderDetailsViewModel
+@{
+    ViewData["Title"] = "جزئیات سفارش";
+    var types = ViewData["Types"] as List<ClientOrderTypeViewModel> ?? new();   
+}
+
+@section Breadcrumb{
+    <user-panel-breadcrumb page-title="@ViewData["Title"]">
+        <user-panel-breadcrumb-item asp-area="UserPanel" asp-controller="Order" asp-action="List">لیست سفارشات من</user-panel-breadcrumb-item>
+        <user-panel-breadcrumb-item last-active-item="true">@ViewData["Title"]</user-panel-breadcrumb-item>
+    </user-panel-breadcrumb>
+}
+
+
+<div class="col-span-full">
+    <div class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav">
+        <div class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-6 h-full">
+            <div class="grid-cols-12">
+                <div class="col-span-full space-y-7">
+                    <div>
+                        <h4 class="text-xl">شماره سفارش :
+                            <span class="font-semibold">@Model.OrderNumber </span>
+                        </h4>
+                    </div>
+
+                    <div class="grid justify-start items-center">
+                        <div class="flex items-center space-x-1 space-x-reverse">
+                            <div>
+                                <h5 class="font-medium text-base text-nowrap">عنوان :</h5>
+                            </div>
+                            <div>
+                                <span class="font-light text-base">@Model.Title.ToShow()</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 justify-start items-center">
+                        <div class="flex items-center space-x-1 space-x-reverse">
+                            <div>
+                                <h5 class="font-medium text-base text-nowrap">تاریخ ثبت :</h5>
+                            </div>
+                            <div>
+                                <span class="font-light text-base">@Model.OrderDate.ToShamsiDateTime()</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-1 space-x-reverse mt-5 md:mt-0">
+                            <div>
+                                <h5 class="font-medium text-base text-nowrap">وضعیت سفارش :</h5>
+                            </div>
+                            <div>
+                                @switch (Model.OrderStatus)
+                                {
+                                    case OrderStatus.Rejected:
+                                        <userpanel-bage type="Danger">@Model.OrderStatus.GetEnumName()</userpanel-bage>
+                                        break;
+                                    case OrderStatus.InProgress:
+                                        <userpanel-bage type="Warning">@Model.OrderStatus.GetEnumName()</userpanel-bage>
+                                        break;
+                                    case OrderStatus.Done:
+                                        <userpanel-bage type="Success">@Model.OrderStatus.GetEnumName()</userpanel-bage>
+                                        break;
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gap-y-2 justify-start items-center">
+                        <div>
+                            <h5 class="font-medium text-base text-nowrap">نوع سفارش :</h5>
+                        </div>
+                        <div class="py-2">
+                            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                                @foreach (var type in Model.OrderTypes)
+                                {
+                                    <div class="border rounded-md border-gray-100 dark:border-borderColour-dark p-2">
+                                        <div class="flex flex-col items-center gap-2 text-center">
+                                            <div class="flex-shrink-0">
+                                                <img src="@FilePaths.OrderTypeOriginalImage@(!type.ImageUrl.IsNullOrEmptyOrWhiteSpace() ? type.ImageUrl : SiteTools.DefaultImageName)"
+                                                     alt="@type.Title" class="h-16 w-16 rounded p-1">
+                                            </div>
+                                            <p class="font-semibold text-sm">@type.Title</p>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="grid gap-y-2 justify-start items-center">
+                        <div>
+                            <h5 class="font-medium text-base text-nowrap">توضیحات :</h5>
+                        </div>
+                        <div class="flex items-center space-x-1 space-x-reverse">
+                            <div>
+                                <span class="font-light text-base">@Model.Description</span>
+                            </div>
+                        </div>
+                    </div>
+                    @if (Model.Attachment is not null)
+                    {
+                        <div class="grid justify-start items-center">
+                            <div class="flex items-center space-x-1 space-x-reverse">
+                                <div><a download class="btn-info btn-sm form-control-static justify-content-center w-100 btn mb-1 btn-outline-success text-success d-flex align-items-center"
+                                        href="@(FilePaths.OrderAttachment + Model.Attachment)"> دانلود فایل ضمیمه</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @if (Model.Answer is not null)
+                    {
+                        <div class="grid gap-y-2 justify-start items-center border border-dashed p-8 rounded">
+                            <div>
+                                <h5 class="font-medium text-base text-nowrap">پاسخ به سفارش شما :</h5>
+                            </div>
+                            <div class="flex items-center space-x-1 space-x-reverse">
+                                <div>
+                                    <span class="font-light text-base">@Html.Raw(@Model.Answer)</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+

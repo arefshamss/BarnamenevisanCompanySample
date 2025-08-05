@@ -1,0 +1,76 @@
+﻿@model BarnamenevisanCompany.Domain.ViewModels.Client.Ticket.ClientCreateTicketViewModel
+@{
+    ViewData["Title"] = "افزودن تیکت";
+    var priorities = ViewData["Priorities"] as SelectList;
+}
+
+@section Breadcrumb
+{
+    <user-panel-breadcrumb>
+        <user-panel-breadcrumb-item asp-area="UserPanel" asp-controller="Ticket" asp-action="List">لیست تیکت های من</user-panel-breadcrumb-item>
+        <user-panel-breadcrumb-item last-active-item="true">افزودن تیکت</user-panel-breadcrumb-item>
+    </user-panel-breadcrumb>
+}
+
+@section Styles
+{
+    <style>
+        .ck-editor__editable{
+            height: 15rem;
+        }
+    </style>
+}
+
+<div class="col-span-full">
+    <div class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav">
+        <div class="border border-dashed rounded-medium border-gray-100 dark:border-borderColour-dark p-6 h-full">
+            <form asp-area="UserPanel"
+                  asp-controller="Ticket"
+                  asp-action="Create"
+                  method="post"
+                  enctype="multipart/form-data">
+                <!--START Content-->
+                <div class="grid-cols-12">
+                    <div class="col-span-full grid grid-cols-12 gap-3">
+
+                        <div class="col-span-full md:col-span-4">
+                            <label asp-for="Title" class="block text-sm font-medium text-paragraph dark:text-white mb-2"></label>
+                            <input asp-for="Title"
+                                   placeholder="موضوع تیکت را وارد کنید ..."
+                                   class="block w-full text-sm rounded-lg border border-borderColour dark:border-borderColour-dark py-2.5 px-5 placeholder:text-paragraph-light dark:placeholder:text-paragraph-light outline-none bg-white dark:bg-dark-200 focus:border-primary dark:focus:border-primary duration-300 transition-all">
+                            <validation-span asp-validation-for="Title"/>
+                        </div>
+
+                        <div class="col-span-full md:col-span-4">
+                            <label asp-for="PriorityId" class="block text-sm font-medium text-paragraph dark:text-white mb-2"></label>
+                            <select asp-for="PriorityId" asp-items="priorities" class="appearance-none block w-full text-sm rounded-lg border border-borderColour dark:border-borderColour-dark py-2.5 px-5 placeholder:text-paragraph-light dark:placeholder:text-paragraph-light outline-none bg-white dark:bg-dark-200 focus:border-primary dark:focus:border-primary duration-300 transition-all"></select>
+                            <validation-span asp-validation-for="PriorityId"/>
+                        </div>
+
+                        <div class="col-span-full md:col-span-4">
+                            <label asp-for="Message.Attachment" class="block text-sm font-medium text-paragraph dark:text-white mb-2"></label>
+                            <div class="flex">
+                                <button type="button" ImageButton="2" class="py-2.5 px-2 w-auto text-nowrap bg-sky-600 text-white rounded-s-lg text-sm">انتخاب فایل</button>
+                                <input ImageName="2" placeholder="فایل را انتخاب کنید ..." readonly="readonly" class="block w-full text-sm rounded-e-lg border border-borderColour dark:border-borderColour-dark py-2.5 px-5 placeholder:text-paragraph-light dark:placeholder:text-paragraph-light outline-none bg-white dark:bg-dark-200 focus:border-primary dark:focus:border-primary duration-300 transition-all"/>
+                                <input asp-for="Message.Attachment" type="file" ImageInput="2" class="hidden" accept=".rar, .zip, .pdf, .txt, .doc, .docx, .jpg, .jpeg, .png, .webp"/>
+                            </div>
+                            <validation-span asp-validation-for="Message.Attachment"/>
+                        </div>
+
+                        <div class="col-span-full">
+                            <label asp-for="Message.Message" class="block text-sm font-medium text-paragraph dark:text-white mb-2"></label>
+                            <textarea asp-for="Message.Message" ckeditor placeholder="پیام خود را وارد کنید ..."></textarea>
+                            <validation-span asp-validation-for="Message.Message"/>
+                        </div>
+
+                        <div class="col-span-full">
+                            <button class="btn-success px-5 py-2 tracking-tight">ثبت تیکت</button>
+                        </div>
+
+                    </div>
+                </div>
+                <!--END Content-->
+            </form>
+        </div>
+    </div>
+</div>

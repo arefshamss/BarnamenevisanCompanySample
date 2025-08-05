@@ -1,0 +1,53 @@
+﻿@model BarnamenevisanCompany.Domain.ViewModels.Admin.OrderStep.AdminCreateOrderStepViewModel
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <form asp-area="Admin"
+                          asp-controller="OrderStep"
+                          asp-action="Create"
+                          asp-ajax="true"
+                          asp-ajax-method="Post"
+                          asp-ajax-upload="true"
+                          asp-ajax-close-modal-onSuccess="Current"
+                          asp-ajax-substitution="filter-search"
+                          asp-ajax-success="onAjaxSuccess(data, status, xhr);">
+                        <div class="row">
+
+                            <div class="row col-12 ">
+
+                                <div class="floating-labels col-md-6 col-12 mt-5 mt-md-0 mb-md-5">
+                                    <div class="form-group">
+                                        <input asp-for="Title" class="form-control">
+                                        <span class="bar"></span>
+                                        <label asp-for="Title"></label>
+                                        <span asp-validation-for="Title"></span>
+                                    </div>
+                                </div>
+                                <div class="floating-labels col-md-6 col-12 mt-5 mt-md-0 mb-md-5 ">
+                                    <div class="form-group">
+                                        <input asp-for="PriorityId" inputmode="numeric"
+                                               pattern="[0-9]*"
+                                               oninput="this.value = this.value.replace(/[^0-9]/g, '')" onchange="formatFloatingLabel()"
+                                               class="form-control">
+                                        <span class="bar"></span>
+                                        <label asp-for="PriorityId"></label>
+                                        <span asp-validation-for="PriorityId"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mt-4">
+                                <button class="btn btn-rounded btn-success" type="submit">افزودن</button>
+                                <button
+                                    class="btn btn-rounded btn-danger" type="button" data-bs-dismiss="modal">انصراف
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

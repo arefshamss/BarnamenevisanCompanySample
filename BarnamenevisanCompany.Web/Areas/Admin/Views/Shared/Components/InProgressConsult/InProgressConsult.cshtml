@@ -1,0 +1,130 @@
+﻿@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Infra.Data.Statics
+@using BarnamenevisanCompany.Web.Helpers.TagHelpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BarnamenevisanCompany.Domain.ViewModels.Admin.Consult.AdminFilterConsultViewModel
+
+<div invoke-permission="@PermissionsName.ConsultList" 
+    class="row mb-3">
+    <div class="col-12">
+        <div class="accordion border-0" id="inProgress-consults-parent">
+            <div class="accordion-item border-0">
+                <h2 class="accordion-header border-0" id="inProgress-consults-header">
+                    <button class="accordion-button fs-5 fw-semibold @(!Model.Entities.Any() ? "collapsed" : "")"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#inProgress-consults"
+                            aria-controls="inProgress-consults"
+                            aria-expanded="true">
+                        لیست مشاوره های در حال بررسی
+                    </button>
+                </h2>
+                <div id="inProgress-consults" class="accordion-collapse collapse @(Model.Entities.Any() ? "show" : "")"
+                     data-bs-parent="#inProgress-consults-parent">
+                    <div class="accordion-body">
+                        @if (Model.Entities is not null && Model.Entities.Any())
+                        {
+                            <div class="table-responsive border rounded-1">
+                                <table class="table text-nowrap mb-0 align-middle">
+                                    <thead class="text-dark fs-4">
+                                    <tr>
+                                        <th>
+                                            <h6 class="fs-4 fw-semibold mb-0">عنوان</h6>
+                                        </th>
+                                        <th>
+                                            <h6 class="fs-4 fw-semibold mb-0">درخواست دهنده</h6>
+                                        </th>
+                                        <th>
+                                            <h6 class="fs-4 fw-semibold mb-0">شماره همراه</h6>
+                                        </th>
+                                        <th>
+                                            <h6 class="fs-4 fw-semibold mb-0">تاریخ ایجاد</h6>
+                                        </th>
+                                        <th>
+                                            <h6 class="fs-4 fw-semibold mb-0">وضعیت</h6>
+                                        </th>
+                                        <th>
+                                            <h6 class="fs-4 fw-semibold mb-0">عملیات</h6>
+                                        </th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach (var consult in Model.Entities)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <p class="mb-0 fw-normal fs-4">@consult.Title</p>
+                                            </td>
+                                            <td>
+                                                <p class="mb-0 fw-normal fs-4">@consult.UserFullName</p>
+                                            </td>
+                                            <td>
+                                                <p class="mb-0 fw-normal fs-4">@consult.PhoneNumber</p>
+                                            </td>
+                                            <td>
+                                                <p class="mb-0 fw-normal fs-4">@consult.CreateDate.ToShamsiDateTime()</p>
+                                            </td>
+                                            @if (consult.AdminMessage == null)
+                                            {
+                                                <td>
+                                                    <span class="badge bg-danger-subtle text-danger">بدون پاسخ</span>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    <span class="badge bg-success-subtle text-success">پاسخ داده شده</span>
+                                                </td>
+                                            }
+                                            <td>
+                                                <a invoke-permission="@PermissionsName.AnswerConsult"
+                                                   asp-area="Admin"
+                                                   asp-controller="Consult"
+                                                   asp-action="Details" 
+                                                   asp-route-id="@consult.Id"
+                                                   class="text-info removeAfterDelete @(consult.IsDeleted ? "d-none" : "")"
+                                                   title="مشاهده و پاسخ">
+                                                    <iconify-icon icon="fluent:eye-28-regular" width="22"
+                                                                  height="22"></iconify-icon>
+                                                </a>
+
+                                                @if (consult.IsDeleted)
+                                                {
+                                                    <a invoke-permission="@PermissionsName.DeleteOrRecoverConsult"
+                                                       class="text-info"
+                                                       onclick="ConfirmRecover(this, '@Url.Action("DeleteOrRecover", "Consult", new { area = "Admin", id = consult.Id })')"
+                                                       title="بازگردانی">
+                                                        <iconify-icon icon="solar:undo-left-round-outline" width="22"
+                                                                      height="22"></iconify-icon>
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a invoke-permission="@PermissionsName.DeleteOrRecoverConsult"
+                                                       class="text-danger"
+                                                       onclick="ConfirmDelete(this, '@Url.Action("DeleteOrRecover", "Consult", new { area = "Admin", id = consult.Id })')"
+                                                       title="حذف">
+                                                        <iconify-icon icon="solar:trash-bin-trash-outline" width="22"
+                                                                      height="22"></iconify-icon>
+                                                    </a>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                    </tbody>
+
+
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <partial name="_NotFoundPartial"/>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

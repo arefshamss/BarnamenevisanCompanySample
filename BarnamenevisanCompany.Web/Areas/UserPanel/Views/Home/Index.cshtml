@@ -1,0 +1,12 @@
+﻿@{
+    ViewData["Title"] = "داشبورد";
+}
+
+
+@section Breadcrumb
+{
+    <user-panel-breadcrumb page-title="@ViewData["Title"]"></user-panel-breadcrumb>
+}
+
+
+@await Component.InvokeAsync("UserInformation")

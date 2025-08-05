@@ -1,0 +1,314 @@
+﻿@model BarnamenevisanCompany.Domain.ViewModels.Client.User.ClientUserViewModel
+@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Application.Statics
+@using BarnamenevisanCompany.Infra.Data.Statics
+@{
+    var siteLogoImageNme = ViewData["SiteLogo"] as string;
+    var isActivejobExists = ViewData["IsActivejobExists"] as bool? ?? false;
+}
+
+<div class="toggle-button fixed right-5 max-lg:bottom-2.5 lg:top-1/3 z-[10000000000]">
+    <button id="theme-toggle" type="button"
+            class="text-paragraph dark:text-white focus:outline-none focus:ring-0 focus:ring-gray-200 w-10 h-10 border rounded-md border-paragraph/25 dark:border-borderColour-dark flex justify-center items-center">
+        <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 ml-1 -mt-[1px]" fill="currentColor" viewBox="0 0 20 20"
+             xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+        </svg>
+        <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+             xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                fill-rule="evenodd" clip-rule="evenodd"></path>
+        </svg>
+    </button>
+</div>
+
+<header dir="rtl" class="fixed left-0 pt-8 z-[1000000000] duration-500 transition-all w-full bg-transparent"
+        id="mainnavigationBar">
+    <nav class="container flex items-center relative">
+        <div class="nav-logo">
+            <a asp-area=""
+               asp-controller="Home"
+               asp-action="Index">
+                <img src="@(FilePaths.SiteSettings + siteLogoImageNme)" alt="logo" class="w-16"/>
+            </a>
+        </div>
+        <ul
+            class="nav-list hidden lg:flex mx-auto bg-white dark:bg-dark-200 p-2.5 shadow-nav rounded-large [&>*:not(:last-child)]:me-1"
+            id="site-header">
+            <li class="group">
+                <a asp-area=""
+                   asp-controller="OurService"
+                   asp-action="List"
+                   class="font-Inter flex items-center text-base font-medium leading-8 text-paragraph dark:text-white py-[5px] px-5 lg:px-4 xl:px-5 border rounded-large border-transparent hover:bg-white hover:border-borderColour dark:hover:bg-dark-200 dark:hover:border-borderColour/10 duration-500 hover:duration-500 transition-colors">
+                    خدمات ما
+                </a>
+            </li>
+            <li class="group">
+                <a asp-area=""
+                   asp-controller="Honor"
+                   asp-action="List"
+                   class="font-Inter flex items-center text-base font-medium leading-8 text-paragraph dark:text-white py-[5px] px-5 lg:px-4 xl:px-5 border rounded-large border-transparent hover:bg-white hover:border-borderColour dark:hover:bg-dark-200 dark:hover:border-borderColour/10 duration-500 hover:duration-500 transition-colors">
+                    افتخارات ما
+                </a>
+            </li>
+            <li class="group">
+                <a asp-area=""
+                   asp-controller="UsersPosition"
+                   asp-action="List"
+                   class="font-Inter flex items-center text-base font-medium leading-8 text-paragraph dark:text-white py-[5px] px-5 lg:px-4 xl:px-5 border rounded-large border-transparent hover:bg-white hover:border-borderColour dark:hover:bg-dark-200 dark:hover:border-borderColour/10 duration-500 hover:duration-500 transition-colors">
+                    تیم برنامه نویسان
+                </a>
+            </li>
+            <li class="group">
+                <a asp-area=""
+                   asp-controller="Project"
+                   asp-action="List"
+                   class="font-Inter flex items-center text-base font-medium leading-8 text-paragraph dark:text-white py-[5px] px-5 lg:px-4 xl:px-5 border rounded-large border-transparent hover:bg-white hover:border-borderColour dark:hover:bg-dark-200 dark:hover:border-borderColour/10 duration-500 hover:duration-500 transition-colors">
+                    پروژه ها
+                </a>
+            </li>
+            <li class="group">
+                <a asp-area=""
+                   asp-controller="Consult"
+                   asp-action="Create"
+                   class="font-Inter flex items-center text-base font-medium leading-8 text-paragraph dark:text-white py-[5px] px-5 lg:px-4 xl:px-5 border rounded-large border-transparent hover:bg-white hover:border-borderColour dark:hover:bg-dark-200 dark:hover:border-borderColour/10 duration-500 hover:duration-500 transition-colors">
+                    مشاوره
+                </a>
+            </li>
+            @if (isActivejobExists)
+            {
+                <li class="group">
+                    <a asp-area=""
+                       asp-controller="Job"
+                       asp-action="List"
+                       class="font-Inter flex items-center text-base font-medium leading-8 text-paragraph dark:text-white py-[5px] px-5 lg:px-4 xl:px-5 border rounded-large border-transparent hover:bg-white hover:border-borderColour dark:hover:bg-dark-200 dark:hover:border-borderColour/10 duration-500 hover:duration-500 transition-colors">
+                        موقعیت های شغلی
+                    </a>
+                </li>
+            }
+            <li class="group">
+                <a asp-area=""
+                   asp-controller="ContactUs"
+                   asp-action="ContactUs"
+                   class="font-Inter flex items-center text-base font-medium leading-8 text-paragraph dark:text-white py-[5px] px-5 lg:px-4 xl:px-5 border rounded-large border-transparent hover:bg-white hover:border-borderColour dark:hover:bg-dark-200 dark:hover:border-borderColour/10 duration-500 hover:duration-500 transition-colors">
+                    تماس با ما
+                </a>
+            </li>
+            <li class="group">
+                <a asp-area=""
+                   asp-controller="AboutUs"
+                   asp-action="AboutUs"
+                   class="font-Inter flex items-center text-base font-medium leading-8 text-paragraph dark:text-white py-[5px] px-5 lg:px-4 xl:px-5 border rounded-large border-transparent hover:bg-white hover:border-borderColour dark:hover:bg-dark-200 dark:hover:border-borderColour/10 duration-500 hover:duration-500 transition-colors">
+                    درباره ما
+                </a>
+            </li>
+        </ul>
+
+        <ul class="flex items-center max-lg:mr-auto [&>*:not(:last-child)]:me-2.5">
+            <li class="flex max-lg:hidden">
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <a class="btn btn-navbar btn-sm"
+                       asp-area=""
+                       asp-controller="Account"
+                       asp-action="LoginOrRegister">
+                        ورود / ثبت نام
+                    </a>
+                }
+                else
+                {
+                    <div class="relative">
+                        <div class="flex items-center space-x-2 space-x-reverse cursor-pointer"
+                             id="profile-dropdown-button">
+                            <div
+                                class="size-14 rounded-full border border-dashed border-gray-100 dark:border-borderColour-dark p-1">
+                                <div class="relative w-full h-full rounded-full">
+                                    <img class="object-cover w-full h-full rounded-full" id="AvatarImage"
+                                         src="@FilePaths.UserOriginalAvatar@(!Model.AvatarImageName.IsNullOrEmptyOrWhiteSpace() ? Model.AvatarImageName : SiteTools.DefaultImageName)"
+                                         alt="profile-piture">
+                                </div>
+                            </div>
+                            <div class="max-w-[14rem]">
+                                <h5 class="font-semibold text-base">@(string.IsNullOrWhiteSpace(Model.FullName) ? Model.Mobile : Model.FullName)</h5>
+                            </div>
+                            <div class="flex">
+                                <iconify-icon icon="uis:angle-down" width="24" height="24"></iconify-icon>
+                            </div>
+                        </div>
+                        <div class="absolute hidden top-20 left-1/2 -translate-x-1/2" id="profile-dropdown-body">
+                            <div dir="rtl" class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav w-60">
+                                <div
+                                    class="bg-white dark:bg-dark-200 border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-5">
+                                    <ul class="w-full *:transition-all *:duration-150 *:cursor-pointer text-right">
+                                        <li class="mb-5 *:hover:*:text-[#B1E346]">
+                                            <a class="flex items-center space-x-1 space-x-reverse"
+                                               asp-area="UserPanel"
+                                               asp-controller="Home"
+                                               asp-action="Index">
+                                                <iconify-icon icon="material-symbols:dashboard-outline-rounded"
+                                                              width="20" height="20"></iconify-icon>
+                                                <span class="text-base">پنل کاربری</span>
+                                            </a>
+                                        </li>
+                                        <li class="*:hover:*:text-[#B1E346]" invoke-permission="@PermissionsName.Admin">
+                                            <a class="flex items-center space-x-1 space-x-reverse"
+                                               asp-area="Admin"
+                                               asp-controller="Home"
+                                               asp-action="Index">
+                                                <iconify-icon icon="material-symbols:manage-accounts-outline" width="20"
+                                                              height="20"></iconify-icon>
+                                                <span class="text-base">پنل مدیریت</span>
+                                            </a>
+                                        </li>
+                                        <li class="my-4">
+                                            <hr class="border-1 rounded-full border-borderColour dark:border-borderColour-dark">
+                                        </li>
+                                        <li>
+                                            <a class="flex items-center space-x-1 space-x-reverse *:text-red-600"
+                                               asp-area=""
+                                               asp-controller="Account"
+                                               asp-action="Logout">
+                                                <iconify-icon icon="material-symbols:logout-rounded" width="20"
+                                                              height="20"></iconify-icon>
+                                                <span class="text-base">خروج</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </li>
+            <li class="max-lg:flex lg:hidden">
+                <button
+                    class="outline-none mobile-menu-button w-10 h-10 rounded-full bg-white dark:bg-dark-200 relative">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="14" viewBox="0 0 22 14" fill="none"
+                         class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                        <path
+                            d="M0 1C0 0.447715 0.447715 0 1 0H21C21.5523 0 22 0.447715 22 1C22 1.55228 21.5523 2 21 2H1C0.447716 2 0 1.55228 0 1Z"
+                            fill="" class="fill-paragraph dark:fill-white"/>
+                        <path
+                            d="M8 7C8 6.44772 8.44772 6 9 6H21C21.5523 6 22 6.44772 22 7C22 7.55228 21.5523 8 21 8H9C8.44772 8 8 7.55228 8 7Z"
+                            fill="" class="fill-paragraph dark:fill-white"/>
+                        <path
+                            d="M4 13C4 12.4477 4.44772 12 5 12H21C21.5523 12 22 12.4477 22 13C22 13.5523 21.5523 14 21 14H5C4.44772 14 4 13.5523 4 13Z"
+                            fill="" class="fill-paragraph dark:fill-white"/>
+                    </svg>
+                </button>
+            </li>
+        </ul>
+        <div class="mobile-menu max-lg:overflow-y-auto">
+            <button
+                class="outline-none navbar-toggle-close w-10 h-10 rounded-full bg-white dark:bg-dark-200 absolute right-6 top-5 flex justify-center items-center">
+                <iconify-icon icon="meteor-icons:xmark" width="22" height="22"></iconify-icon>
+            </button>
+            <div class="w-full">
+                <div class="flex justify-center items-center mb-12">
+                    <a asp-area=""
+                       asp-controller="Home"
+                       asp-action="Index">
+                        <img src="@(FilePaths.SiteSettings + siteLogoImageNme)" alt="logo" class="w-24"/>
+                    </a>
+                </div>
+                <ul class="nav-list flex flex-col gap-5 w-full max-w-[500px] landscape:h-full relative">
+                    <li class="">
+                        <a asp-area=""
+                           asp-controller="OurService"
+                           asp-action="List"
+                           class="font-Inter flex items-center text-base font-medium leading-8 text-paragraph dark:text-white py-[5px] px-5 lg:px-4 xl:px-5 border rounded-large border-transparent hover:bg-white hover:border-borderColour dark:hover:bg-dark-200 dark:hover:border-borderColour/10 duration-500 hover:duration-500 transition-colors">
+                            خدمات ما
+                        </a>
+                    </li>
+                    <li class="">
+                        <a asp-area=""
+                           asp-controller="Honor"
+                           asp-action="List"
+                           class="font-Inter flex items-center text-base font-medium leading-8 text-paragraph dark:text-white py-[5px] px-5 lg:px-4 xl:px-5 border rounded-large border-transparent hover:bg-white hover:border-borderColour dark:hover:bg-dark-200 dark:hover:border-borderColour/10 duration-500 hover:duration-500 transition-colors">
+                            افتخارات ما
+                        </a>
+                    </li>
+                    <li class="">
+                        <a asp-area=""
+                           asp-controller="UsersPosition"
+                           asp-action="List"
+                           class="font-Inter flex items-center text-base font-medium leading-8 text-paragraph dark:text-white py-[5px] px-5 lg:px-4 xl:px-5 border rounded-large border-transparent hover:bg-white hover:border-borderColour dark:hover:bg-dark-200 dark:hover:border-borderColour/10 duration-500 hover:duration-500 transition-colors">
+                            تیم برنامه نویسان
+                        </a>
+
+                    <li class="">
+                        <a asp-area=""
+                           asp-controller="Project"
+                           asp-action="List"
+                           class="font-Inter flex items-center text-base font-medium leading-8 text-paragraph dark:text-white py-[5px] px-5 lg:px-4 xl:px-5 border rounded-large border-transparent hover:bg-white hover:border-borderColour dark:hover:bg-dark-200 dark:hover:border-borderColour/10 duration-500 hover:duration-500 transition-colors">
+                            پروژه ها
+                        </a>
+                    </li>
+                    <li class="">
+                        <a asp-area="UserPanel"
+                           asp-controller="Consult"
+                           asp-action="Create"
+                           class="font-Inter flex items-center text-base font-medium leading-8 text-paragraph dark:text-white py-[5px] px-5 lg:px-4 xl:px-5 border rounded-large border-transparent hover:bg-white hover:border-borderColour dark:hover:bg-dark-200 dark:hover:border-borderColour/10 duration-500 hover:duration-500 transition-colors">
+                            مشاوره
+                        </a>
+                    </li>
+                    @if (isActivejobExists)
+                    {
+                        <li class="">
+                            <a asp-area=""
+                               asp-controller="Job"
+                               asp-action="List"
+                               class="font-Inter flex items-center text-base font-medium leading-8 text-paragraph dark:text-white py-[5px] px-5 lg:px-4 xl:px-5 border rounded-large border-transparent hover:bg-white hover:border-borderColour dark:hover:bg-dark-200 dark:hover:border-borderColour/10 duration-500 hover:duration-500 transition-colors">
+                                موقعیت های شغلی
+                            </a>
+                        </li>
+                    }
+                    <li class="">
+                        <a asp-area=""
+                           asp-controller="ContactUs"
+                           asp-action="ContactUs"
+                           class="font-Inter flex items-center text-base font-medium leading-8 text-paragraph dark:text-white py-[5px] px-5 lg:px-4 xl:px-5 border rounded-large border-transparent hover:bg-white hover:border-borderColour dark:hover:bg-dark-200 dark:hover:border-borderColour/10 duration-500 hover:duration-500 transition-colors">
+                            تماس با ما
+                        </a>
+                    </li>
+                    <li class="">
+                        <a asp-area=""
+                           asp-controller="AboutUs"
+                           asp-action="AboutUs"
+                           class="font-Inter flex items-center text-base font-medium leading-8 text-paragraph dark:text-white py-[5px] px-5 lg:px-4 xl:px-5 border rounded-large border-transparent hover:bg-white hover:border-borderColour dark:hover:bg-dark-200 dark:hover:border-borderColour/10 duration-500 hover:duration-500 transition-colors">
+                            درباره ما
+                        </a>
+                    </li>
+                    <li>
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <a class="btn btn-navbar btn-sm"
+                               asp-area=""
+                               asp-controller="Account"
+                               asp-action="LoginOrRegister">
+                                ورود / ثبت نام
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-navbar btn-sm"
+                               asp-area="UserPanel"
+                               asp-controller="Home"
+                               asp-action="Index">
+                                پنل کاربری
+                            </a>
+                            <a class="btn btn-navbar btn-sm"
+                               invoke-permission="@PermissionsName.Admin"
+                               asp-area="Admin"
+                               asp-controller="Home"
+                               asp-action="Index">
+                                پنل مدیریت
+                            </a>
+                        }
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>

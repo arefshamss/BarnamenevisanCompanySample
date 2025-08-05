@@ -1,0 +1,27 @@
+﻿@model BarnamenevisanCompany.Domain.ViewModels.Admin.Order.AdminAnswerToOrderViewModel
+
+<form asp-area="Admin" asp-controller="Order" asp-action="AnswerToOrder" method="post" class="form-horizontal">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group row">
+                    <input type="hidden" asp-for="OrderId"/>
+                    <label class="form-label col-md-1" asp-for="Answer"></label>
+                    <div class="col-md-11">
+                        <textarea asp-for="Answer" class="form-control-static" ckeditor></textarea>
+                        <button class="btn btn-success mt-3" type="submit">
+                        @if (Model.Answer != null && Model.Answer.Any())
+                        {
+                            <span>ویرایش</span>
+                        }
+                        else
+                        {
+                            <span>ثبت</span>
+                        }
+                      </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

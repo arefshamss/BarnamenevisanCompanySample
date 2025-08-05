@@ -1,0 +1,81 @@
+﻿@using BarnamenevisanCompany.Application.Statics
+@model BarnamenevisanCompany.Domain.ViewModels.Client.Project.ClientFilterProjectViewModel
+
+@{
+    ViewData["Title"] = "پروژه ها";
+}
+
+@section Breadcrumb{
+    <breadcrumb page-title="@ViewData["Title"]">
+    </breadcrumb>
+}
+
+@if (Model != null && Model.Entities.Any())
+{
+    <section dir="rtl" class="mb-24 relative">
+        <div class="container relative mb-24">
+            <div class="absolute left-1/2 top-20 -translate-x-1/2 -translate-y-1/2 flex max-md:flex-col -z-10 max-md:hidden">
+                <div class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/20 -ml-[170px] max-md:ml-0 blur-[145px]"></div>
+                <div class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/20 -ml-[170px] max-md:ml-0 blur-[145px]"></div>
+                <div class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/20 blur-[145px]"></div>
+            </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+                    @foreach (var item in Model.Entities)
+                    {
+                        <form asp-area="" asp-controller="Project" asp-action="List" method="get" id="filter-search">
+                            <input asp-for="@Model.Page" type="hidden"/>
+                            <article
+                                class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav scale-100 hover:scale-105 transition-transform duration-500 hover:transition-transform hover:duration-500">
+                                <div
+                                    class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-5 max-md:p-4">
+                                    <a asp-area="" asp-controller="Project" asp-action="Detail"
+                                       asp-route-id="@item.Id" asp-route-slug="@item.Slug" class="w-full">
+                                        <img src="@(FilePaths.ProjectImageThumb + item.ImageName)" alt="@item.Title"
+                                             class="mb-6 w-full rounded-md">
+                                    </a>
+                                    <div>
+                                        <div class="flex justify-between items-center mb-2">
+                                            <a asp-area="" asp-controller="Project" asp-action="Detail"
+                                               asp-route-id="@item.Id" asp-route-slug="@item.Slug">
+                                                <h3 class="mb-3 font-semibold leading-[1.33]">@item.Title </h3>
+                                            </a>
+                                            <div class="relative size-16">
+                                                <svg class="size-full -rotate-90" viewBox="0 0 36 36"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="18" cy="18" r="16" fill="none"
+                                                            class="stroke-current text-gray-200 dark:text-neutral-700"
+                                                            stroke-width="2"></circle>
+                                                    <circle cx="18" cy="18" r="16" fill="none"
+                                                            class="stroke-current text-[#B1E345] dark:text-[#B1E345]"
+                                                            stroke-width="2" stroke-dasharray="100"
+                                                            stroke-dashoffset="@(100 - item.ProgressRate)"
+                                                            stroke-linecap="round"></circle>
+                                                </svg>
+                                                <div
+                                                    class="absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2">
+                                                    <span
+                                                        class="text-center text-lg font-bold text-[#B1E345] dark:text-[#B1E345]">@item.ProgressRate%</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="line-clamp-1">
+                                            @Html.Raw(item.Description)
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </form>
+                    }
+                </div>
+        </div>
+        <div class="flex justify-center">
+            <partial name="_PagingPartial" model="Model.GetCurrentPaging()"/>
+        </div>
+    </section>
+    <partial name="_BacklightPartial"/>
+}
+else
+{
+    <partial name="_EmptyContentPartial"/>
+}
+

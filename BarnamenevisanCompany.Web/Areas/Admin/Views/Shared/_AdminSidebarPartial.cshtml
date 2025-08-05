@@ -1,0 +1,601 @@
+﻿@using BarnamenevisanCompany.Infra.Data.Statics
+<aside class="side-mini-panel with-vertical">
+    <div class="iconbar">
+        <div>
+            <div class="mini-nav">
+                <div class="brand-logo d-flex align-items-center justify-content-center">
+                    <a class="nav-link sidebartoggler" id="headerCollapse" href="javascript:void(0)">
+                        <iconify-icon icon="solar:hamburger-menu-line-duotone" class="fs-7"></iconify-icon>
+                    </a>
+                </div>
+                <ul class="mini-nav-ul" data-simplebar>
+                    <li class="mini-nav-item" id="mini-1"
+                        data-area-name="Admin">
+                        <a href="javascript:void(0)"
+                           data-bs-toggle="tooltip"
+                           data-bs-custom-class="custom-tooltip"
+                           data-bs-placement="right"
+                           data-bs-title="داشبورد"
+                           data-bs-trigger="hover">
+                            <iconify-icon icon="solar:layers-line-duotone" class="fs-7"></iconify-icon>
+                        </a>
+                    </li>
+                    <li class="mini-nav-item" id="mini-2" data-area-name="Users"
+                        invoke-permission="@PermissionsName.UserManagement 
+                        | @PermissionsName.RoleManagement 
+                        | @PermissionsName.UserPositionManagement 
+                        | @PermissionsName.SocialNetworkManagement
+                        | @PermissionsName.JobManagement">
+                        <a href="javascript:void(0)"
+                           data-bs-toggle="tooltip"
+                           data-bs-custom-class="custom-tooltip"
+                           data-bs-placement="right"
+                           data-bs-title="کاربران"
+                           data-bs-trigger="hover">
+                            <iconify-icon icon="lucide:users-round" class="fs-7"></iconify-icon>
+                        </a>
+                    </li>
+                    <li class="mini-nav-item" id="mini-3" data-area-name="Companies"
+                        invoke-permission="@PermissionsName.PartnerCompanyManagement 
+                        | @PermissionsName.CompanyManagement 
+                        | @PermissionsName.HonorManagement 
+                        | @PermissionsName.ProjectManagement 
+                        | @PermissionsName.TechnologyManagement">
+                        <a href="javascript:void(0)"
+                           data-bs-toggle="tooltip"
+                           data-bs-toggle="tooltip"
+                           data-bs-custom-class="custom-tooltip"
+                           data-bs-placement="right"
+                           data-bs-title="شرکت‌ها"
+                           data-bs-trigger="hover">
+                            <iconify-icon icon="mdi:company" class="fs-7"></iconify-icon>
+                        </a>
+                    </li>
+                    <li class="mini-nav-item" id="mini-4" data-area-name="Services"
+                        invoke-permission="@PermissionsName.OrderManagement 
+                        | @PermissionsName.OrderTypeManagement 
+                        | @PermissionsName.ConsultManagement 
+                        | @PermissionsName.TicketManagement 
+                        | @PermissionsName.TicketPriorityManagement 
+                        | @PermissionsName.ContactUsManagement 
+                        | @PermissionsName.OurServiceManagement">
+                        <a href="javascript:void(0)"
+                           data-bs-toggle="tooltip"
+                           data-bs-custom-class="custom-tooltip"
+                           data-bs-placement="right"
+                           data-bs-title="خدمات"
+                           data-bs-trigger="hover">
+                            <iconify-icon icon="hugeicons:customer-service-01" class="fs-7"></iconify-icon>
+                        </a>
+                    </li>
+
+                    <li>
+                        <span class="sidebar-divider lg"></span>
+                    </li>
+
+                </ul>
+
+            </div>
+            <div class="sidebarmenu">
+                <div class="brand-logo d-flex align-items-center justify-content-center nav-logo">
+                    <a class="text-nowrap logo-img"
+                       asp-area=""
+                       asp-controller="Home"
+                       asp-action="Index">
+                        @await Component.InvokeAsync("AdminSiteLogo")
+                    </a>
+                </div>
+
+                <nav class="sidebar-nav" id="menu-right-mini-1" data-target-area="Admin" data-simplebar>
+                    <ul class="sidebar-menu">
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" aria-expanded="false"
+                               asp-area="Admin"
+                               asp-controller="Home"
+                               asp-action="Index">
+                                <iconify-icon icon="material-symbols:dashboard-outline-rounded" width="22"
+                                              height="22"></iconify-icon>
+                                <span class="hide-menu">داشبورد</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item" invoke-permission="@PermissionsName.BlogManagement">
+                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                <iconify-icon icon="ooui:articles-ltr" width="22" height="22"></iconify-icon>
+                                <span class="hide-menu">مدیریت مقالات</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item" invoke-permission="@PermissionsName.BlogList">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="Blog"
+                                       asp-action="List">
+                                        <span class="icon-small"></span> لیست مقالات
+                                    </a>
+                                </li>
+                                <li class="sidebar-item" invoke-permission="@PermissionsName.CreateBlog">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="Blog"
+                                       asp-action="Create">
+                                        <span class="icon-small"></span> افزودن مقاله
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="sidebar-item" invoke-permission="@PermissionsName.DynamicPageManagement">
+                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                <iconify-icon icon="fluent:window-apps-20-filled" width="22" height="22"></iconify-icon>
+                                <span class="hide-menu">مدیریت صفحات داینامیک</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item" invoke-permission="@PermissionsName.DynamicPageList">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="DynamicPage"
+                                       asp-action="List">
+                                        <span class="icon-small"></span>لیست صفحات داینامیک
+                                    </a>
+                                </li>
+                                <li class="sidebar-item" invoke-permission="@PermissionsName.CreateDynamicPage">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="DynamicPage"
+                                       asp-action="Create">
+                                        <span class="icon-small"></span>افزودن صفحه داینامیک
+                                    </a>
+                                </li>
+                            </ul> 
+                        </li>
+                        <li class="sidebar-item" invoke-permission="@PermissionsName.FaqManagement">
+                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                <iconify-icon icon="mdi:faq" width="22" height="22"></iconify-icon>
+                                <span class="hide-menu">مدیریت سوالات متداول</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item" invoke-permission="@PermissionsName.FaqList">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="Faq"
+                                       asp-action="List">
+                                        <span class="icon-small"></span>لیست سوالات متداول
+                                    </a>
+                                </li>
+                                <li class="sidebar-item" invoke-permission="@PermissionsName.CreateFaq">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="Faq"
+                                       asp-action="Create">
+                                        <span class="icon-small"></span>افزودن پرسش و پاسخ
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+
+                        <li class="sidebar-item" invoke-permission="@PermissionsName.UpdateAboutUs">
+                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                <iconify-icon icon="mynaui:chat-dots" width="22" height="22"></iconify-icon>
+                                <span class="hide-menu">مدیریت درباره ما</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="AboutUs"
+                                       asp-action="AboutUsInformation">
+                                        <span class="icon-small"></span>ویرایش درباره ما
+                                    </a>
+                                </li>
+                                <li class="sidebar-item" invoke-permission="@PermissionsName.AboutUsCommentList">
+                                    <a class="sidebar-link" 
+                                       asp-area="Admin"
+                                       asp-controller="AboutUsComment"
+                                       asp-action="List">
+                                        <span class="icon-small"></span>لیست کامنت ها
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </li>
+                        <li class="sidebar-item" invoke-permission="@PermissionsName.UpdateSiteSettings">
+                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                <iconify-icon icon="lets-icons:setting-line" width="22" height="22"></iconify-icon>
+                                <span class="hide-menu">تنظیمات سایت</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="SiteSetting"
+                                       asp-action="UpdateSetting">
+                                        <span class="icon-small"></span>ویرایش تنظیمات سایت
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+
+                <nav class="sidebar-nav" id="menu-right-mini-2" data-target-area="Users" data-simplebar>
+                    <ul class="sidebar-menu">
+
+                        <li class="sidebar-item" invoke-permission="@PermissionsName.UserManagement">
+                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                <iconify-icon icon="solar:users-group-rounded-broken" width="22"
+                                              height="22"></iconify-icon>
+                                <span class="hide-menu">مدیریت کاربران</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item" invoke-permission="@PermissionsName.UserList">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="User"
+                                       asp-action="List">
+                                        <span class="icon-small"></span> لیست کاربران
+                                    </a>
+                                </li>
+                                <li class="sidebar-item" invoke-permission="@PermissionsName.CreateUser">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="User"
+                                       asp-action="Create">
+                                        <span class="icon-small"></span> افزودن کاربر
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-item" invoke-permission="@PermissionsName.RoleManagement">
+                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                <iconify-icon icon="icon-park-outline:permissions" width="22"
+                                              height="22"></iconify-icon>
+                                <span class="hide-menu">مدیریت نقش و دسترسی ها</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item" invoke-permission="@PermissionsName.RoleList">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="Role"
+                                       asp-action="List">
+                                        <span class="icon-small"></span> لیست نقش ها
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="sidebar-item" invoke-permission="@PermissionsName.UserPositionManagement">
+                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                <iconify-icon icon="ri:team-line" width="22" height="22"></iconify-icon>
+                                <span class="hide-menu">مدیریت تیم برنامه نویسان</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item" invoke-permission="@PermissionsName.UserPositionList">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="UserPosition"
+                                       asp-action="List">
+                                        <span class="icon-small"></span>لیست تیم برنامه نویسان
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-item" invoke-permission="@PermissionsName.SocialNetworkManagement">
+                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                <iconify-icon icon="typcn:social-google-plus" width="22" height="22"></iconify-icon>
+                                <span class="hide-menu">مدیریت شبکه های اجتماعی</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item" invoke-permission="@PermissionsName.SocialNetworkList">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="SocialNetwork"
+                                       asp-action="List">
+                                        <span class="icon-small"></span>لیست شبکه های اجتماعی
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-item" invoke-permission="@PermissionsName.JobManagement">
+                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                <iconify-icon icon="ix:work-case" width="22" height="22"></iconify-icon>
+                                <span class="hide-menu">موقعیت‌‌های شغلی</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item" invoke-permission="@PermissionsName.JobList">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="Job"
+                                       asp-action="List">
+                                        <span class="icon-small"></span>لیست موقعیت‌‌های شغلی
+                                    </a>
+                                </li>
+                                <li class="sidebar-item" invoke-permission="@PermissionsName.CreateJob">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="Job"
+                                       asp-action="Create">
+                                        <span class="icon-small"></span>افزودن موقعیت شغلی
+                                    </a>
+                                </li>
+                                <li class="sidebar-item"
+                                    invoke-permission="@PermissionsName.JobUserMappingManagement | @PermissionsName.JobUserMappingList">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="JobUserMapping"
+                                       asp-action="List">
+                                        <span class="icon-small"></span>لیست متقاضیان مشاغل
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+
+                <nav class="sidebar-nav" id="menu-right-mini-3" data-target-area="Companies" data-simplebar>
+                    <ul class="sidebar-menu">
+                        <li class="sidebar-item" invoke-permission="@PermissionsName.PartnerCompanyManagement">
+                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                <iconify-icon icon="tabler:building" width="22" height="22"></iconify-icon>
+                                <span class="hide-menu">مدیریت سایت‌های همکار</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item" invoke-permission="@PermissionsName.PartnerCompanyList">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="PartnerCompany"
+                                       asp-action="List">
+                                        <span class="icon-small"></span> لیست سایت ‌های همکار
+                                    </a>
+                                </li>
+                                <li class="sidebar-item" invoke-permission="@PermissionsName.CreatePartnerCompany">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="PartnerCompany"
+                                       asp-action="Create">
+                                        <span class="icon-small"></span> افزودن سایت‌ همکار
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-item" invoke-permission="@PermissionsName.CompanyManagement">
+                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                <iconify-icon icon="tabler:building" width="22" height="22"></iconify-icon>
+                                <span class="hide-menu">مدیریت شرکت‌ ها</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item" invoke-permission="@PermissionsName.CompanyList">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="Company"
+                                       asp-action="List">
+                                        <span class="icon-small"></span> لیست شرکت‌ ها
+                                    </a>
+                                </li>
+                                <li class="sidebar-item" invoke-permission="@PermissionsName.CreateCompany">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="Company"
+                                       asp-action="Create">
+                                        <span class="icon-small"></span> افزودن شرکت‌
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-item" invoke-permission="@PermissionsName.HonorManagement">
+                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                <iconify-icon icon="lucide:medal" width="22" height="22"></iconify-icon>
+                                <span class="hide-menu">مدیریت افتخارات</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item" invoke-permission="@PermissionsName.HonorList">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="Honor"
+                                       asp-action="List">
+                                        <span class="icon-small"></span>لیست افتخارات
+                                    </a>
+                                </li>
+                                <li class="sidebar-item" invoke-permission="@PermissionsName.CreateHonor">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="Honor"
+                                       asp-action="Create">
+                                        <span class="icon-small"></span>افزودن افتخار
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-item" invoke-permission="@PermissionsName.ProjectManagement">
+                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                <iconify-icon icon="octicon:project-16" width="22" height="22"></iconify-icon>
+                                <span class="hide-menu">مدیریت پروژه ها</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item" invoke-permission="@PermissionsName.ProjectList">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="Project"
+                                       asp-action="List">
+                                        <span class="icon-small"></span>لیست پروژه ها
+                                    </a>
+                                </li>
+                                <li class="sidebar-item" invoke-permission="@PermissionsName.CreateProject">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="Project"
+                                       asp-action="Create">
+                                        <span class="icon-small"></span>افزودن پروژه
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-item" invoke-permission="@PermissionsName.TechnologyManagement">
+                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                <iconify-icon icon="simple-icons:dotnet" width="22" height="22"></iconify-icon>
+                                <span class="hide-menu">مدیریت تکنولوژی ها</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item" invoke-permission="@PermissionsName.TechnologyList">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="Technology"
+                                       asp-action="List">
+                                        <span class="icon-small"></span>لیست تکنولوژی ها
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+
+                <nav class="sidebar-nav" id="menu-right-mini-4" data-target-area="Services" data-simplebar>
+                    <ul class="sidebar-menu">
+                        <li class="sidebar-item"
+                            invoke-permission="@PermissionsName.OrderManagement | @PermissionsName.OrderTypeManagement">
+                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                <iconify-icon icon="lsicon:order-outline" width="22" height="22"></iconify-icon>
+                                <span class="hide-menu">مدیریت سفارشات</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item" invoke-permission="@PermissionsName.OrderList">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="Order"
+                                       asp-action="List">
+                                        <span class="icon-small"></span> لیست سفارشات
+                                    </a>
+                                </li>
+                                <li class="sidebar-item"
+                                    invoke-permission="@PermissionsName.OrderStepManagement | @PermissionsName.OrderStepList">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="OrderStep"
+                                       asp-action="List">
+                                        <span class="icon-small"></span> لیست مراحل سفارش
+                                    </a>
+                                </li>
+                                <li class="sidebar-item"
+                                    invoke-permission="@PermissionsName.OrderTypeManagement | @PermissionsName.OrderTypeList">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="OrderType"
+                                       asp-action="List">
+                                        <span class="icon-small"></span> لیست انواع سفارشات
+                                    </a>
+                                </li>
+                                <li class="sidebar-item"
+                                    invoke-permission="@PermissionsName.OrderTypeManagement | @PermissionsName.CreateOrderType">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="OrderType"
+                                       asp-action="Create">
+                                        <span class="icon-small"></span> افزودن نوع سفارش
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-item" invoke-permission="@PermissionsName.ConsultManagement">
+                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                <iconify-icon icon="akar-icons:chat-bubble" width="22" height="22"></iconify-icon>
+                                <span class="hide-menu">مدیریت مشاوره ها</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item" invoke-permission="@PermissionsName.ConsultList">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="Consult"
+                                       asp-action="List">
+                                        <span class="icon-small"></span> لیست مشاوره ها
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-item" invoke-permission="@PermissionsName.TicketManagement">
+                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                <iconify-icon icon="tdesign:service-filled" width="22" height="22"></iconify-icon>
+                                <span class="hide-menu">مدیریت تیکت ها</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item" invoke-permission="@PermissionsName.TicketList">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="Ticket"
+                                       asp-action="List">
+                                        <span class="icon-small"></span> لیست تیکت ها
+                                    </a>
+                                </li>
+                                <li class="sidebar-item" invoke-permission="@PermissionsName.CreateTicket">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="Ticket"
+                                       asp-action="Create">
+                                        <span class="icon-small"></span> افزودن تیکت
+                                    </a>
+                                </li>
+                                <li class="sidebar-item"
+                                    invoke-permission="@PermissionsName.TicketPriorityManagement | @PermissionsName.TicketPriorityList">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="TicketPriority"
+                                       asp-action="List">
+                                        <span class="icon-small"></span> لیست اولویت ها
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-item" invoke-permission="@PermissionsName.ContactUsManagement">
+                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                <iconify-icon icon="la:phone-volume" width="22" height="22"></iconify-icon>
+                                <span class="hide-menu">مدیریت تماس با ما</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item" invoke-permission="@PermissionsName.ContactUsList">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="ContactUs"
+                                       asp-action="List">
+                                        <span class="icon-small"></span> فرم های ثبت شده کاربران
+                                    </a>
+                                </li>
+                                <li class="sidebar-item"
+                                    invoke-permission="@PermissionsName.UpdateContactUsInformation">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="ContactUsInformation"
+                                       asp-action="Update">
+                                        <span class="icon-small"></span> ویرایش اطلاعات تماس
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-item" invoke-permission="@PermissionsName.OurServiceManagement">
+                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                <iconify-icon icon="lucide:wrench" width="22" height="22"></iconify-icon>
+                                <span class="hide-menu">مدیریت خدمات</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item" invoke-permission="@PermissionsName.OurServiceList">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="OurService"
+                                       asp-action="List">
+                                        <span class="icon-small"></span> لیست خدمات
+                                    </a>
+                                </li>
+                                <li class="sidebar-item" invoke-permission="@PermissionsName.CreateOurService">
+                                    <a class="sidebar-link"
+                                       asp-area="Admin"
+                                       asp-controller="OurService"
+                                       asp-action="Create">
+                                        <span class="icon-small"></span> افزودن خدمت
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</aside>

@@ -1,0 +1,169 @@
+﻿@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Application.Statics
+@using BarnamenevisanCompany.Domain.Enums.Ticket
+@using BarnamenevisanCompany.Domain.ViewModels.Client.TicketMessage
+@using BarnamenevisanCompany.Web.Helpers.TagHelpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BarnamenevisanCompany.Domain.ViewModels.Client.Ticket.ClientTicketViewModel
+@{
+    ViewData["Title"] = "جزئیات تیکت";
+    var userId = User.GetUserId();
+}
+
+@section Breadcrumb
+{
+    <user-panel-breadcrumb>
+        <user-panel-breadcrumb-item asp-area="UserPanel" asp-controller="Ticket" asp-action="List">لیست تیکت های من
+        </user-panel-breadcrumb-item>
+        <user-panel-breadcrumb-item last-active-item="true">جزئیات تیکت</user-panel-breadcrumb-item>
+    </user-panel-breadcrumb>
+}
+
+@section Styles
+{
+    <style>
+        .ck-editor__editable {
+            height: 10rem;
+        }
+    </style>
+}
+
+
+<div class="col-span-full grid gap-3">
+    <div class="col-span-full">
+        <div class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav">
+            <div class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark h-full">
+                <div class="grid-cols-12">
+                    <div class="col-span-full">
+                        <div
+                            class="grid grid-cols-12 justify-start items-start gap-5 lg:justify-between lg:items-center border-b border-dashed border-gray-100 dark:border-borderColour-dark p-6">
+
+                            <div class="col-span-full md:col-span-6">
+                                <div class="flex items-center space-x-1 space-x-reverse">
+                                    <div>
+                                        <span class="text-lg font-medium text-nowrap">موضوع :</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-base">@Model.Title</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-span-full md:col-span-6">
+                                <div class="flex space-x-2 space-x-reverse items-center">
+                                    <div>
+                                        <span class="text-lg font-medium text-nowrap">اولویت :</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-base">@Model.Priority.Title</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-span-full md:col-span-6">
+                                <div class="flex space-x-2 space-x-reverse items-center">
+                                    <div>
+                                        <span class="text-lg font-medium text-nowrap">تاریخ ایجاد :</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-base">@Model.CreatedDate.ToShamsiDateTime()</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-span-full md:col-span-6">
+                                <div class="flex space-x-2 space-x-reverse items-center">
+                                    <div>
+                                        <span class="text-lg font-medium text-nowrap">وضعیت :</span>
+                                    </div>
+                                    <div>
+                                        @switch (Model.TicketStatus)
+                                        {
+                                            case TicketStatus.Closed:
+                                                <userpanel-bage
+                                                    type="Danger">@Model.TicketStatus.GetEnumName()</userpanel-bage>
+                                                break;
+                                            case TicketStatus.InProgress:
+                                                <userpanel-bage
+                                                    type="Warning">@Model.TicketStatus.GetEnumName()</userpanel-bage>
+                                                break;
+                                            case TicketStatus.SupporterAnswered:
+                                                <userpanel-bage
+                                                    type="Success">@Model.TicketStatus.GetEnumName()</userpanel-bage>
+                                                break;
+                                            case TicketStatus.PendingForUserAnswer:
+                                                <userpanel-bage
+                                                    type="Info">@Model.TicketStatus.GetEnumName()</userpanel-bage>
+                                                break;
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="py-6 px-3 space-y-5 overflow-y-auto scrollbar-hide max-h-[35rem]">
+
+                            @foreach (var message in Model.Messages)
+                            {
+                                <div>
+                                    <div
+                                        class="flex @(message.SenderId == userId ? "justify-start items-start space-x-reverse" : "flex-row-reverse justify-end items-start") space-x-2">
+                                        <div>
+                                            <div
+                                                class="size-11 rounded-full border border-dashed border-gray-100 dark:border-borderColour-dark">
+                                                <img class="object-cover w-full h-full rounded-full"
+                                                     src="@FilePaths.UserOriginalAvatar@(message.SenderId == userId ? (!message.Sender.AvatarImageName.IsNullOrEmptyOrWhiteSpace() ? message.Sender.AvatarImageName : SiteTools.DefaultImageName) : SiteTools.DefaultImageName)"
+                                                     alt="profile-picture">
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="flex @(message.SenderId == userId ? "items-start" : "items-end") flex-col w-full">
+                                            <div
+                                                class="max-w-[90%] lg:max-w-[65%] flex @(message.SenderId == userId ? "items-start" : "items-end") flex-col space-y-1">
+                                                <div class="relative">
+                                                    <div class="bg-gray-200 dark:bg-zinc-700 px-3 py-2 rounded-lg">
+                                                        @Html.Raw(message.Message)
+                                                    </div>
+                                                    @if (!message.AttachmentUrl.IsNullOrEmptyOrWhiteSpace())
+                                                    {
+                                                        <div
+                                                            class="absolute bottom-0 @(message.SenderId == userId ? "-left-[1.5rem]" : "-right-[1.5rem]")">
+                                                            <a href="@message.AttachmentUrl"
+                                                               class="flex *:text-yellow-400 hover:*:text-yellow-700 *:transition-all"
+                                                               download>
+                                                                <iconify-icon icon="mingcute:attachment-line" width="20"
+                                                                              height="20"></iconify-icon>
+                                                            </a>
+                                                        </div>
+                                                    }
+                                                </div>
+                                                <div
+                                                    class="text-sm tracking-tighter space-x-1 space-x-reverse @(message.SenderId == userId ? "" : "self-start")">
+                                                    <span>@message.CreatedDate.ToHumanize()</span>
+                                                    <span>-</span>
+                                                    <span>@(message.SenderId == userId ? message.Sender.FullName ?? message.Sender.Mobile : "پشتیبانی")</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-span-full">
+        <div class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav">
+            <div class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark h-full p-6">
+                <div class="grid-cols-12">
+                    <div class="col-span-full">
+                        <partial name="_CreateTicketMessage"
+                                 model="new ClientCreateTicketMessageViewModel{ TicketId = Model.Id , TicketStatus = Model.TicketStatus}"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

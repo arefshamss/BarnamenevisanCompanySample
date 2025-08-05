@@ -1,0 +1,116 @@
+﻿@using BarnamenevisanCompany.Application.Statics
+@using BarnamenevisanCompany.Web.Helpers.TagHelpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model List<BarnamenevisanCompany.Domain.ViewModels.Admin.ProjectGallery.AdminProjectGalleryViewModel>
+@{
+    ViewData["Title"] = "گالری پروژه";
+    var projectId = ViewBag.ProjectId;
+}
+
+@section BreadCrumb
+{
+    <admin-breadcrumb page-title="@ViewData["Title"]">
+        <admin-breadcrumb-item asp-area="Admin" asp-controller="Project" asp-action="List">
+            لیست پروژه ها
+        </admin-breadcrumb-item>
+        <admin-breadcrumb-item last-active-item="true">@ViewData["Title"]</admin-breadcrumb-item>
+    </admin-breadcrumb>
+}
+
+@section Scripts
+{
+    <script src="/Admin/assets/libs/dropzone/dist/min/dropzone.js"></script>
+    <script src="/Admin/js/project-gallery.js"></script>
+}
+
+
+<div class="row">
+    <div class="card">
+        <div class="card-body">
+            <div class="row" id="gallery-images">
+                @if (Model.Count <= 0)
+                {
+                    <div class="alert alert-warning d-flex" id="no-images-alert" role="alert">
+                        <span class="badge badge-center rounded-pill bg-warning border-label-warning p-3 me-2">
+                            <iconify-icon icon="material-symbols:warning-outline-rounded" width="28" height="28"></iconify-icon>
+                        </span>
+                        <div class="d-flex flex-column ps-1">
+                            <h6 class="alert-heading d-flex align-items-center fw-bold mb-1">هشدار !</h6>
+                            <span>تصویری برای نمایش در گالری این پروژه موجود نمی باشد</span>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    foreach (var item in Model ?? [])
+                    {
+                        <div
+                            class="col-12 col-md-6 col-lg-3 mb-4 rounded-3 gallery-image-container">
+                            <div class="position-relative h-100 w-100">
+                                <img class="w-100 h-100 rounded-3" src="@FilePaths.ProjectGallery@item.ImageName"
+                                     alt="project-image">
+                                <a href="javascript:void(0)" type="button"
+                                   onclick="DeleteImage(this , @projectId , '@item.ImageName')"
+                                   class="dropzone-item-hover rounded-3">
+                                    <iconify-icon class="text-danger" icon="mdi:remove-bold" width="75"
+                                                  height="75"></iconify-icon>
+                                </a>
+                                <a type="button"
+                                   asp-area="Admin"
+                                   asp-controller="Project"
+                                   asp-action="DeleteFromGalleryImage"
+                                   asp-route-projectId="@projectId"
+                                   asp-route-imageName="@item.ImageName"
+                                   asp-ajax="true"
+                                   asp-ajax-success="onAjaxSuccess(data, status, xhr);DeleteImage(element);"
+                                   asp-ajax-confirmable="true"
+                                   asp-ajax-confirmable-title="حذف تصویر"
+                                   asp-ajax-confirmable-message="آیا از حذف تصویر مطمئن هستید ؟"
+                                   class="dropzone-item-hover rounded-3">
+                                    <iconify-icon class="text-danger" icon="mdi:remove-bold" width="75"
+                                                  height="75"></iconify-icon>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="mb-4">
+                    <h2 class="fs-6">انتخاب عکس</h2>
+                </div>
+                <form asp-controller="Project" asp-action="AddToGallery" asp-area="Admin" method="post" enctype="multipart/form-data" class="dropzone" accept="image/png"
+                      id="projectGalleryDropzone">
+                    <input type="hidden" name="projectId" value="@projectId"/>
+                    <div class="dz-message">
+                        <div class="mb-4">
+                            <img src="/Admin/assets/images/upload.svg" alt="میتوانید یک عکس انتخاب کنید"/>
+                        </div>
+                        <h3 class="fs-6">فایل های خود را در اینجا رها کنید تا آپلود شوند</h3>
+                        <span class="note">
+                            روی این بخش می توانید کلیک نیز نموده تا در پنجره باز شده فایل های خود را انتخاب نمایید
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-12">
+        <div class="d-flex justify-content-end">
+            <a asp-area="Admin" asp-controller="Project" asp-action="List"
+               class="btn btn-primary text-nowrap wow bounceIn">بازگشت</a>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,140 @@
+﻿@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Domain.Enums.Common
+@using BarnamenevisanCompany.Web.Helpers.TagHelpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BarnamenevisanCompany.Domain.ViewModels.Admin.Role.AdminFilterRolesViewModel
+
+
+<div class="row">
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="mb-4">فیلتــر</h4>
+
+                <form asp-area="Admin"
+                      asp-controller="Role"
+                      asp-action="SetRoleToUser"
+                      asp-ajax="true"
+                      asp-ajax-method="Get"
+                      asp-ajax-modal-type="Large"
+                      asp-ajax-modal-title="RoleList"
+                      asp-ajax-complete="Role.UpdateTable();"
+                      id="filter-search"
+                      class="d-flex floating-labels"
+                      no-validation>
+                    <input type="hidden" asp-for="Page">
+                    <input type="hidden" name="UserId" value="@ViewBag.UserId"/>
+                    <div class="row w-100 align-items-end">
+
+                        <div class="form-group col-12 col-md-4 mb-4">
+                            <input asp-for="Name" class="form-control">
+                            <span class="bar"></span>
+                            <label asp-for="Name"></label>
+                        </div>
+                        <div class="form-group col-12 col-md-4 mb-4">
+                            <select class="form-control form-select" asp-for="DeleteStatus"
+                                    asp-items="@Html.GetEnumSelectList<DeleteStatus>()"></select>
+                            <span class="bar"></span>
+                            <label asp-for="DeleteStatus"></label>
+                        </div>
+
+                        <div class="col-12 mt-3 d-md-flex">
+                            <div class="col-12 col-md-2 p-0 me-1">
+                                <button class="btn btn-rounded btn-outline-primary w-100" type="submit">جستجو
+                                </button>
+                            </div>
+                            @if (Model.HasFilters())
+                            {
+                                <div class="col-12 col-md-2 p-0 mt-3 mt-md-0">
+                                    <a class="btn btn-rounded btn-danger w-100 text-nowrap"
+                                       asp-area="Admin"
+                                       asp-controller="Role"
+                                       asp-action="SetRoleToUser"
+                                       asp-ajax="true"
+                                       asp-ajax-method="Get"
+                                       asp-ajax-modal-type="Large"
+                                       asp-ajax-modal-title="RoleList"
+                                       asp-ajax-complete="Role.UpdateTable();">
+                                        حذف فیلتر ها
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex mb-2 align-items-center">
+                    <div>
+                        <h5>لیست نقش ها</h5>
+                    </div>
+                </div>
+                @if (Model is not null && Model.Entities is not null && Model.Entities.Any())
+                {
+                    <div class="table-responsive border rounded-1">
+                        <table class="table text-nowrap customize-table mb-0 align-middle">
+                            <thead class="text-dark fs-4">
+                            <tr>
+                                <th>
+                                    <h6 class="fs-4 fw-semibold mb-0">نام</h6>
+                                </th>
+                                <th>
+                                    <h6 class="fs-4 fw-semibold mb-0">عملیات</h6>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody id="role-body">
+                                @foreach (var item in Model.Entities ?? [])
+                                {
+                                    <tr>
+                                        <td>
+                                            <p class="mb-0 fw-normal fs-4">@item.Name</p>
+                                        </td>
+                                        <td id="role-@item.Id">
+                                            <a class="text-success cursor-pointer add-btn"
+                                               onclick="Role.Add(event , @item.Id)">
+                                                <iconify-icon icon="hugeicons:plus-sign-square" width="22"
+                                                              height="22"></iconify-icon>
+                                            </a>
+                                        </td>
+                                
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-5">
+                        <button class="btn btn-success" type="button"
+                                onclick="Role.SaveChangesAndHideModal();$('#role-form').find('button').click()">ثبت
+                        </button>
+                    </div>
+                    <partial name="~/Areas/Admin/Views/Shared/_PagingPartial.cshtml" model="@Model.GetCurrentPaging()"/>
+                }
+                else
+                {
+                    <partial name="~/Areas/Admin/Views/Shared/_NotFoundPartial.cshtml"/>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<form asp-area="Admin"
+      asp-controller="Role"
+      asp-action="SetRoleToUser"
+      asp-ajax="true"
+      asp-ajax-method="Post"
+      asp-ajax-begin="open_waiting()"
+      asp-ajax-success="onAjaxSuccess(data, status, xhr);"
+      asp-ajax-close-modal-onSuccess="All"
+      id="role-form">
+    <input type="hidden" name="UserId" id="UserId" value="@ViewBag.UserId"/>
+    <input type="hidden" name="RoleIds" id="RoleIds" value="@ViewBag.RoleIds"/>
+    <button type="submit" class="d-none"></button>
+</form>

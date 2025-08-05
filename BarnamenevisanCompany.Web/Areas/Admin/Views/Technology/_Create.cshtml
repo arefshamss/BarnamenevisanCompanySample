@@ -1,0 +1,66 @@
+﻿@using BarnamenevisanCompany.Application.Statics
+@using BarnamenevisanCompany.Web.Helpers.TagHelpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BarnamenevisanCompany.Domain.ViewModels.Admin.Technology.AdminCreateTechnologyViewModel
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <form asp-area="Admin"
+                          asp-controller="Technology"
+                          asp-action="Create"
+                          asp-ajax="true"
+                          asp-ajax-method="Post"
+                          asp-ajax-close-modal-onSuccess="Current"
+                          asp-ajax-upload="true"
+                          asp-ajax-substitution="filter-search"
+                          asp-ajax-success="onAjaxSuccess(data, status, xhr);">
+                        <div class="row">
+                            <div class="row col-12 col-md-8">
+
+                                <div class="floating-labels  col-12 mb-4">
+                                    <div class="form-group">
+                                        <input asp-for="Title" class="form-control">
+                                        <span class="bar"></span>
+                                        <label asp-for="Title"></label>
+                                        <span asp-validation-for="Title"></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row col-12 col-md-4">
+                                <div class="col-12  mt-4 floating-labels">
+                                    <div class="position-relative">
+                                        <label asp-for="Image" class="fs-2 mb-2 label-floating"></label>
+                                        <img ImageFile="1" class="w-100 rounded select-image-preview-box"
+                                             src="@FilePaths.CommonImagesPath@SiteTools.DefaultImageName"/>
+                                        <label asp-for="Image"
+                                               class="hover-icon rounded d-flex align-items-center justify-content-center">
+                                            <iconify-icon icon="solar:gallery-edit-broken"
+                                                          class="select-image-icon"></iconify-icon>
+                                        </label>
+                                        <input type="file" asp-for="Image" class="d-none"
+                                               accept="image/svg+xml" ImageInput="1"/>
+                                        <span asp-validation-for="Image"></span>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="col-12 mt-4">
+                                <button class="btn btn-rounded btn-success" type="submit">افزودن</button>
+                                <button
+                                    class="btn btn-rounded btn-danger" type="button" data-bs-dismiss="modal">انصراف
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

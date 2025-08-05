@@ -1,0 +1,133 @@
+﻿@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Domain.Enums.Order
+@using BarnamenevisanCompany.Infra.Data.Statics
+@using BarnamenevisanCompany.Web.Helpers.TagHelpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BarnamenevisanCompany.Domain.ViewModels.Admin.Order.AdminFilterOrderViewModel
+
+<div invoke-permission="@PermissionsName.OrderList" 
+    class="row mb-3">
+    <div class="col-12">
+        <div class="accordion border-0" id="inProgress-orders-parent">
+            <div class="accordion-item border-0">
+                <h2 class="accordion-header border-0" id="inProgress-orders-header">
+                    <button class="accordion-button fs-5 fw-semibold @(!Model.Entities.Any() ? "collapsed" : "")"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#inProgress-orders"
+                            aria-controls="inProgress-orders"
+                            aria-expanded="true">
+                        لیست سفارش های در حال بررسی
+                    </button>
+                </h2>
+                <div id="inProgress-orders" class="accordion-collapse collapse @(Model.Entities.Any() ? "show" : "")"
+                     data-bs-parent="#inProgress-orders-parent">
+                    <div class="accordion-body">
+                        @if (Model.Entities != null && Model.Entities.Any())
+                        {
+                            <div class="table-responsive border rounded-1">
+                                <table class="table text-nowrap mb-0 align-middle">
+
+                                    <thead>
+                                    <tr>
+                                        <th>
+                                            <h6 class="fs-4 fw-semibold mb-0">عنوان سفارش</h6>
+                                        </th>
+                                        <th>
+                                            <h6 class="fs-4 fw-semibold mb-0">درخواست دهنده</h6>
+                                        </th>
+                                        <th>
+                                            <h6 class="fs-4 fw-semibold mb-0">شماره همراه</h6>
+                                        </th>
+                                        <th>
+                                            <h6 class="fs-4 fw-semibold mb-0">تاریخ ایجاد</h6>
+                                        </th>
+                                        <th>
+                                            <h6 class="fs-4 fw-semibold mb-0">وضعیت</h6>
+                                        </th>
+                                        <th>
+                                            <h6 class="fs-4 fw-semibold mb-0">عملیات</h6>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach (var item in Model.Entities)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <p class="mb-0 fw-normal fs-4">@item.Title</p>
+                                            </td>
+                                            <td>
+                                                <p class="mb-0 fw-normal fs-4">@item.CustomerName</p>
+                                            </td>
+                                            <td>
+                                                <p class="mb-0 fw-normal fs-4">@item.CustomerMobile</p>
+                                            </td>
+                                            <td>
+                                                <p class="mb-0 fw-normal fs-4">@item.OrderDate.ToShamsiDateTime()</p>
+                                            </td>
+                                            <td>
+                                                @switch (item.OrderStatus)
+                                                {
+                                                    case OrderStatus.InProgress:
+                                                        <span
+                                                            class="badge bg-warning-subtle text-warning">در حال بررسی</span>
+                                                        break;
+                                                    case OrderStatus.Done:
+                                                        <span
+                                                            class="badge bg-success-subtle text-success">انجام شده</span>
+                                                        break;
+                                                    case OrderStatus.Rejected:
+                                                        <span class="badge bg-danger-subtle text-danger">رد شده</span>
+                                                        break;
+                                                }
+                                            </td>
+                                            <td>
+                                                <a invoke-permission="@PermissionsName.AnswerToOrder"
+                                                    asp-area="Admin"
+                                                   asp-controller="Order"
+                                                   asp-action="Details"
+                                                   asp-route-id="@item.Id"
+                                                   asp-route-page="@Model.Page"
+                                                   class="text-info removeAfterDelete @(item.IsDeleted ? "d-none" : "")"
+                                                   title="مشاهده و پاسخ ">
+                                                    <iconify-icon icon="fluent:eye-28-regular" width="22"
+                                                                  height="22"></iconify-icon>
+                                                </a>
+                                                @if (item.IsDeleted)
+                                                {
+                                                    <a invoke-permission="@PermissionsName.DeleteOrRecoverOrder"
+                                                        class="text-info"
+                                                       onclick="ConfirmRecover(this, '@Url.Action("DeleteOrRecover", "Order", new { area = "Admin", id = item.Id })')"
+                                                       title="بازگردانی">
+                                                        <iconify-icon icon="solar:undo-left-round-outline" width="22"
+                                                                      height="22"></iconify-icon>
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a invoke-permission="@PermissionsName.DeleteOrRecoverOrder"
+                                                        class="text-danger"
+                                                       onclick="ConfirmDelete(this, '@Url.Action("DeleteOrRecover", "Order", new { area = "Admin", id = item.Id })')"
+                                                       title="حذف">
+                                                        <iconify-icon icon="solar:trash-bin-trash-outline" width="22"
+                                                                      height="22"></iconify-icon>
+                                                    </a>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <partial name="_NotFoundPartial"/>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

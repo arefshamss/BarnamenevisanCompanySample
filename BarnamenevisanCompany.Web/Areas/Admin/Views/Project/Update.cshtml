@@ -1,0 +1,225 @@
+﻿@using BarnamenevisanCompany.Application.Statics
+@using BarnamenevisanCompany.Web.Helpers.TagHelpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Quartz.Util
+@model BarnamenevisanCompany.Domain.ViewModels.Admin.Project.AdminUpdateProjectViewModel
+
+@{
+    ViewData["Title"] = "ویرایش پروژه";
+}
+
+@section Scripts{
+    <script src="/Admin/js/userposition-service.js"></script>
+    <script src="/Admin/js/technology-service.js"></script>
+}
+
+@section Breadcrumb{
+    <admin-breadcrumb page-title="@ViewData["Title"]">
+        <admin-breadcrumb-item asp-area="Admin" asp-controller="Project" asp-action="List">لیست پروژه ها
+        </admin-breadcrumb-item>
+        <admin-breadcrumb-item last-active-item="true">@ViewData["Title"]</admin-breadcrumb-item>
+    </admin-breadcrumb>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <form asp-area="Admin"
+                          asp-controller="Project"
+                          asp-action="Update"
+                          method="post" enctype="multipart/form-data">
+                        <input type="hidden" id="UserPositionIds" asp-for="Programmer"/>
+                        <input type="hidden" id="UserPositionPositions" asp-for="ProgrammerPositions"/>
+                        <input type="hidden" id="TechnologyIds" asp-for="Technology"/>
+                        <input type="hidden" asp-for="Id"/>
+                        <input type="hidden" asp-for="ImageName"/>
+                        <div class="row">
+
+                            <div class="row col-12 col-md-12">
+
+                                <div class="floating-labels col-md-3 mt-5  my-lg-4 mb-5">
+                                    <div class="form-group">
+                                        <input asp-for="Title" id="title" oninput="generateSlug('title', 'slug')"
+                                               class="form-control">
+                                        <span class="bar"></span>
+                                        <label asp-for="Title"></label>
+                                        <span asp-validation-for="Title"></span>
+                                    </div>
+                                </div>
+                                <div class="floating-labels col-md-3 mt-5  my-lg-4 mb-5">
+                                    <div class="form-group">
+                                        <input asp-for="Slug" id="slug" class="form-control">
+                                        <span class="bar"></span>
+                                        <label asp-for="Slug"></label>
+                                        <span asp-validation-for="Slug"></span>
+                                    </div>
+                                </div>
+                                <div class="floating-labels col-md-3 mt-5  my-lg-4 mb-5">
+                                    <div class="form-group">
+                                        <input asp-for="SiteUrl" class="form-control">
+                                        <span class="bar"></span>
+                                        <label asp-for="SiteUrl"></label>
+                                        <span asp-validation-for="SiteUrl"></span>
+                                    </div>
+                                </div>
+                                <div class="floating-labels col-md-3 mt-5  my-lg-4 mb-5">
+                                    <div class="form-group">
+                                        <input type="number" asp-for="ProgressByte" class="form-control"
+                                               inputmode="numeric"
+                                               pattern="[0-9]*"
+                                               oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                        <span class="bar"></span>
+                                        <label asp-for="ProgressByte"></label>
+                                        <span asp-validation-for="ProgressByte"></span>
+                                    </div>
+                                </div>
+                                <div class="floating-labels col-md-3 mt-5  my-lg-4 mb-5">
+                                    <div class="form-group">
+                                        <input type="number" asp-for="Priority" class="form-control"
+                                               inputmode="numeric"
+                                               pattern="[0-9]*"
+                                               oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                        <span class="bar"></span>
+                                        <label asp-for="Priority"></label>
+                                        <span asp-validation-for="Priority"></span>
+                                    </div>
+                                </div>
+                                <div class="floating-labels col-md-3 mt-4  my-lg-4 mb-5">
+                                    <div class="form-group">
+                                        <input class="form-control" id="userPosition-count-input"
+                                               onfocus="$('#userPosition-modal-btn').click()">
+                                        <a class="select-icon"
+                                           id="userPosition-modal-btn"
+                                           asp-area="Admin"
+                                           asp-controller="UserPosition"
+                                           asp-action="ListPartial"
+                                           asp-route-projectId="@Model.Id"
+                                           asp-ajax="true"
+                                           asp-ajax-method="Get"
+                                           asp-ajax-modal-type="Large"
+                                           asp-ajax-modal-title="برنامه نویس"
+                                           asp-ajax-success="UserPosition.FillFromModel(); UserPosition.UpdateTable();">
+
+                                            <iconify-icon icon="mingcute:user-add-line" width="17"
+                                                          height="17"></iconify-icon>
+                                        </a>
+                                        <span class="bar"></span>
+                                        <label asp-for="Programmer"></label>
+                                    </div>
+                                </div>
+                                <div class="floating-labels col-md-3 mt-4  my-lg-4 mb-5">
+                                    <div class="form-group">
+                                        <input class="form-control" id="technology-count-input"
+                                               onfocus="$('#technology-modal-btn').click()">
+                                        <a class="select-icon"
+                                           id="technology-modal-btn"
+                                           asp-area="Admin"
+                                           asp-controller="Technology"
+                                           asp-action="ListPartial"
+                                           asp-ajax="true"
+                                           asp-ajax-method="Get"
+                                           asp-ajax-modal-type="Large"
+                                           asp-ajax-modal-title="تکنولوژی"
+                                           asp-ajax-success="Technology.FillFromModel();Technology.UpdateTable();">
+                                            <iconify-icon icon="devicon-plain:dot-net-wordmark" width="17"
+                                                          height="17"></iconify-icon>
+                                        </a>
+                                        <span class="bar"></span>
+                                        <label asp-for="Technology"></label>
+                                    </div>
+                                </div>
+                                @if (Model.TeaserName is null)
+                                {
+                                    <div class="floating-labels col-md-3 mt-4  my-lg-4 mb-5">
+                                        <div class="form-group">
+                                            <input asp-for="TeaserName" class="form-control">
+                                            <a class="select-icon"
+                                               chunk-upload="true"
+                                               allowed-type="Video"
+                                               location="@FilePaths.ProjectTeaserChunk"
+                                               bind="TeaserName">
+                                                <iconify-icon icon="tabler:camera-plus" width="18"
+                                                              height="18"></iconify-icon>
+                                            </a>
+                                            <span class="bar"></span>
+                                            <label asp-for="TeaserName"></label>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="floating-labels col-md-4 mt-4  my-lg-4 mb-5">
+                                        <div class="form-group">
+                                            <input asp-for="TeaserName" class="form-control"
+                                                   id="teaser">
+                                            <a class="select-icon text-danger"
+                                               asp-action="DeleteTeaser"
+                                               asp-area="Admin"
+                                               asp-controller="Project"
+                                               asp-route-projectId="@Model.Id">
+                                                <iconify-icon icon="raphael:trash" width="18"
+                                                              height="18"></iconify-icon>
+                                            </a>
+                                            <span class="bar"></span>
+                                            <label asp-for="TeaserName"></label>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="row align-items-center col-12 col-md-12">
+
+                                <div class="floating-labels col-md-6 my-lg-4 mb-5 mt-4">
+                                    <div class="form-group">
+                                        <textarea asp-for="Description" ckeditor class="form-control"></textarea>
+                                        <span class="bar"></span>
+                                        <label class="label-floating" asp-for="Description"></label>
+                                        <span asp-validation-for="Description"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-3 my-lg-4 mb-5 mt-4 floating-labels">
+                                    <div class="position-relative">
+                                        <label asp-for="Image" class="fs-2 mb-2 label-floating"></label>
+                                        <img ImageFile="1" class="w-100 rounded select-image-preview-box"
+                                             src="@(FilePaths.ProjectImage + Model.ImageName)"/>
+                                        <label asp-for="Image"
+                                               class="hover-icon rounded d-flex align-items-center justify-content-center">
+                                            <iconify-icon icon="solar:gallery-edit-broken"
+                                                          class="select-image-icon"></iconify-icon>
+                                        </label>
+                                        <input type="file" asp-for="Image" class="d-none"
+                                               accept="image/png, image/jpeg, image/webp" ImageInput="1"/>
+                                        <span asp-validation-for="Image"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-3 my-lg-4 mb-5 mt-4 floating-labels">
+                                    <div class="position-relative">
+                                        <label asp-for="TeaserPoster" class="fs-2 mb-2 label-floating"></label>
+                                        <img ImageFile="2" class="w-100 rounded select-image-preview-box"
+                                             src="@(!Model.TeaserPosterName.IsNullOrWhiteSpace() ? FilePaths.ProjectTeaserPoster + Model.TeaserPosterName : FilePaths.CommonImagesPath + SiteTools.DefaultImageName)"/>
+                                        <label asp-for="TeaserPoster"
+                                               class="hover-icon rounded d-flex align-items-center justify-content-center">
+                                            <iconify-icon icon="solar:gallery-edit-broken"
+                                                          class="select-image-icon"></iconify-icon>
+                                        </label>
+                                        <input type="file" asp-for="TeaserPoster" class="d-none"
+                                               accept="image/png, image/jpeg, image/webp" ImageInput="2"/>
+                                        <span asp-validation-for="TeaserPoster"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mt-5">
+                                <button class="btn btn-rounded btn-success" type="submit">ویرایش</button>
+                                <a asp-area="Admin" asp-controller="Project" asp-action="List"
+                                   class="btn btn-rounded btn-danger">انصراف</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+      

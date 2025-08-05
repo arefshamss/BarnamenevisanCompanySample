@@ -1,0 +1,43 @@
+﻿
+@using BarnamenevisanCompany.Application.Statics
+@model BarnamenevisanCompany.Domain.ViewModels.Client.PartnerCompany.ClientFilterPartnerCompanyViewModel
+
+@if (Model is not null && Model.Entities.Any())
+{
+    <section class="client mb-20 lg:mb-42 mt-16">
+        <div class="container overflow-hidden max-lg:!px-0">
+            <div class="text-center max-w-[650px] px-[10px] mx-auto max-lg:px-2.5">
+                <h2 class="mb-10">همکاران ما</h2>
+            </div>
+            <div class="relative after:absolute before:absolute after:w-[120px] after:h-[100px] after:bg-gradient-to-r after:from-white after:top-1/2 after:-translate-y-1/2 after:-left-0.5 after:z-10 
+        before:w-[120px] before:h-[100px] before:bg-gradient-to-l before:from-white before:-right-0.5 before:top-1/2 before:-translate-y-1/2 before:z-10 dark:after:from-dark-gradient dark:before:from-dark-gradient">
+                <div class="absolute left-0 top-0  max-lg:hidden">
+                    <img src="/Site/assets/images/clients/client-border.svg" alt="border"
+                         class="inline-block dark:hidden">
+                    <img src="/Site/assets/images/clients/client-border-dark.svg" alt="border"
+                         class="hidden dark:inline-block">
+                </div>
+                <div class="marquee marquee-items py-2">
+                    <div class="marquee-content flex items-center justify-content-center" id="clients">
+                        @foreach (var item in Model.Entities)
+                        {
+                            <div class="marquee-content-list">
+                                <a href="@item.SiteUrl" target="_blank">
+                                    <img src="@(FilePaths.PartnerCompanyOriginalImage + item.ImageUrl)"
+                                         alt="@item.Title" class="inline-block h-20">
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            @if (ViewBag.ShowButton)
+            {
+                <div class="mt-16 flex items-center justify-center">
+                    <a asp-area="" asp-controller="ContactUs" asp-action="ContactUs" class="btn-outline">با ما در تماس
+                        باشید</a>
+                </div>
+            }
+        </div>
+    </section>
+}

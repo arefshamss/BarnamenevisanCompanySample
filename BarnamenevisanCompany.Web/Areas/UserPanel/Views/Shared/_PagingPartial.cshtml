@@ -1,0 +1,89 @@
+﻿@model BarnamenevisanCompany.Domain.ViewModels.Common.PagingViewModel
+
+@if (Model.EndPage > 1)
+{
+    <ul class="flex items-center justify-center gap-1 mt-7">
+        @if (Model.StartPage < Model.Page)
+        {
+            if (!string.IsNullOrWhiteSpace(Model.FormId))
+            {
+                <li class="group">
+                    <a href="javascript:void(0)"
+                       onclick="FillPageIdByFromId(@(Model.Page - 1), '@Model.FormId')"
+                       class="flex size-10 items-center justify-center border border-borderColour dark:border-borderColour-dark rounded-full hover:bg-primary hover:text-paragraph duration-300 text-sm font-medium group">
+                        <iconify-icon icon="fa6-solid:angle-right" width="14" height="14"
+                                      class="text-inherit"></iconify-icon>
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li class="group">
+                    <a href="javascript:void(0)" onclick="FillPageId(@(Model.Page - 1))"
+                       class="flex size-10 items-center justify-center border border-borderColour dark:border-borderColour-dark rounded-full hover:bg-primary hover:text-paragraph duration-300 text-sm font-medium group">
+                        <iconify-icon icon="fa6-solid:angle-right" width="15" height="15"
+                                      class="text-inherit"></iconify-icon>
+                    </a>
+                </li>
+            }
+        }
+        @for (int i = Model.StartPage; i <= Model.EndPage; i++)
+        {
+            if (Model.Page == i)
+            {
+                <li class="group page-active">
+                    <a href="javascript:void(0)"
+                       class="flex size-10 items-center text-sm font-medium justify-center rounded-full hover:bg-primary duration-300  hover:text-paragraph group-[.page-active]:bg-primary dark:group-[.page-active]:text-paragraph">
+                        @i
+                    </a>
+                </li>
+            }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(Model.FormId))
+                {
+                    <li class="group">
+                        <a href="javascript:void(0)" onclick="FillPageIdByFromId(@i, '@Model.FormId')"
+                           class="flex size-10 items-center text-sm font-medium justify-center rounded-full hover:bg-primary duration-300  hover:text-paragraph group-[.page-active]::bg-primary">
+                            @i
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li class="group">
+                        <a href="javascript:void(0)" onclick="FillPageId(@i)"
+                           class="flex size-10 items-center text-sm font-medium justify-center rounded-full hover:bg-primary duration-300  hover:text-paragraph group-[.page-active]::bg-primary">
+                            @i
+                        </a>
+                    </li>
+                }
+            }
+        }
+        @if (Model.EndPage > Model.Page)
+        {
+            if (!string.IsNullOrWhiteSpace(Model.FormId))
+            {
+                <li class="group">
+                    <a href="javascript:void(0)"
+                       onclick="FillPageIdByFromId(@(Model.Page + 1), '@Model.FormId')"
+                       class="flex size-10 items-center justify-center border border-borderColour dark:border-borderColour-dark rounded-full hover:bg-primary hover:text-paragraph duration-300 text-sm font-medium group">
+                        <iconify-icon icon="fa6-solid:angle-left" width="14" height="14"
+                                      class="text-inherit"></iconify-icon>
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li class="group">
+                    <a href="javascript:void(0)"
+                       onclick="FillPageId(@(Model.Page + 1))"
+                       class="flex size-10 items-center justify-center border border-borderColour dark:border-borderColour-dark rounded-full hover:bg-primary hover:text-paragraph duration-300 text-sm font-medium group">
+                        <iconify-icon icon="fa6-solid:angle-left" width="14" height="14"
+                                      class="text-inherit"></iconify-icon>
+                    </a>
+                </li>
+            }
+        }
+    </ul>
+}

@@ -1,0 +1,87 @@
+@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Web.Extensions
+@model BarnamenevisanCompany.Domain.ViewModels.Admin.ContactUs.AdminAnswerContactUsMessageViewModel
+@{
+    ViewData["Title"] = "مشاهده و پاسخ";
+}
+
+@section Breadcrumb{
+    <admin-breadcrumb page-title="@ViewData["Title"]">
+        <admin-breadcrumb-item asp-area="Admin" asp-controller="ContactUs" asp-action="List">لیست پیام های تماس با ما
+        </admin-breadcrumb-item>
+        <admin-breadcrumb-item last-active-item="true">@ViewData["Title"]</admin-breadcrumb-item>
+    </admin-breadcrumb>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <form asp-area="Admin"
+                          asp-controller="ContactUs"
+                          asp-action="Answer"
+                          method="post">
+                        <input type="hidden" asp-for="Id"/>
+
+
+                        <div class="row">
+
+                            <div class="row">
+                                <div class="floating-labels mb-4 col-12 col-md-4">
+                                    <div class="form-group">
+                                        <input asp-for="Title" readonly class="form-control">
+                                        <span asp-validation-for="Title" class="bar"></span>
+                                        <label asp-for="Title"> </label>
+                                    </div>
+                                </div>
+                                <div class="floating-labels mb-4 col-12 col-md-4">
+                                    <div class="form-group ">
+                                        <input asp-for="Email" readonly type="text" class="form-control">
+                                        <span class="bar"></span>
+                                        <label asp-for="Email"></label>
+                                    </div>
+                                </div>
+                                <div class="floating-labels mb-4 col-12 col-md-4">
+                                    <div class="form-group ">
+                                        <input asp-for="Createdate" readonly type="text" class="form-control">
+                                        <span class="bar"></span>
+                                        <label asp-for="Createdate"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row col-12 col-md-12">
+                                <div class="floating-labels col-12  mt-5">
+                                    <div class="form-group">
+                                        <textarea asp-for="UserMessage" readonly ckeditor
+                                                  class="form-control h-100"></textarea>
+                                        <span class="bar"></span>
+                                        <label class="label-floating" asp-for="UserMessage"></label>
+                                        <span asp-validation-for="UserMessage"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row col-12 col-md-12">
+                                <div class="floating-labels col-12  mt-5">
+                                    <div class="form-group">
+                                        <textarea asp-for="AdminMessage" ckeditor class="form-control h-100"></textarea>
+                                        <span class="bar"></span>
+                                        <label class="label-floating" asp-for="AdminMessage"></label>
+                                        <span asp-validation-for="AdminMessage"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mt-5">
+                                <button class="btn btn-rounded btn-success" type="submit">پاسخ</button>
+                                <a href="@Url.Action("List", "ContactUs", new { area = "Admin", page = ViewBag.Page })"
+                                   class="btn btn-rounded btn-danger">انصراف</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

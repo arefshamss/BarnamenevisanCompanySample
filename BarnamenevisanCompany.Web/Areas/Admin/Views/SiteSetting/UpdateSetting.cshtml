@@ -1,0 +1,214 @@
+﻿@using BarnamenevisanCompany.Application.Statics
+@using BarnamenevisanCompany.Web.Helpers.TagHelpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BarnamenevisanCompany.Domain.ViewModels.Admin.SiteSetting.AdminSiteSettingUpdateViewModel
+
+@{
+    ViewData["Title"] = "ویرایش تنظیمات سایت";
+}
+
+@section Breadcrumb{
+    <admin-breadcrumb page-title="@ViewData["Title"]">
+        <admin-breadcrumb-item last-active-item="true">@ViewData["Title"]</admin-breadcrumb-item>
+    </admin-breadcrumb>
+
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <form asp-area="Admin" asp-controller="SiteSetting" asp-action="UpdateSetting" method="post"
+                          class="mt-4 pt-2" enctype="multipart/form-data">
+                        <input asp-for="SiteLogoImageName" type="hidden"/>
+                        <input asp-for="SiteFavIconImageName" type="hidden"/>
+                        <input asp-for="JobListImageName" type="hidden"/>
+
+                        <div class="row">
+                            
+                            <div class="floating-labels col-12 mb-4">
+                                <div class="form-group ">
+                                    <input asp-for="NotificationPhoneNumber" type="text" class="form-control"/>
+                                    <span class="bar"></span>
+                                    <span asp-validation-for="NotificationPhoneNumber"></span>
+                                    <label asp-for="NotificationPhoneNumber"></label>
+                                </div>
+                            </div>
+                            
+                            <div class="floating-labels my-lg-4 mb-5 mt-4 col-12 ">
+                                <div class="form-group ">
+                                    <textarea asp-for="ConsultInformation" type="text" class="form-control"
+                                              Ckeditor></textarea>
+                                    <span asp-validation-for="ConsultInformation" class="bar"></span>
+                                    <label asp-for="ConsultInformation"></label>
+                                </div>
+                            </div>
+                            <div class="floating-labels my-lg-4 mb-5 mt-4 col-12">
+                                <div class="form-group ">
+                                    <textarea asp-for="ContactUsHeaderText" type="text" class="form-control"
+                                              Ckeditor></textarea>
+                                    <span asp-validation-for="ContactUsHeaderText" class="bar"></span>
+                                    <label asp-for="ContactUsHeaderText"></label>
+                                </div>
+                            </div>
+                            <div class="floating-labels my-lg-4 mb-5 mt-4 col-12 col-md-6">
+                                <div class="form-group ">
+                                    <textarea asp-for="JobListDescription" type="text" class="form-control"
+                                              Ckeditor></textarea>
+                                    <span asp-validation-for="JobListDescription" class="bar"></span>
+                                    <label asp-for="JobListDescription"></label>
+                                </div>
+                            </div>
+                            <div class="floating-labels my-lg-4 mb-5 mt-4 col-12 col-md-6">
+                                <div class="form-group ">
+                                    <textarea asp-for="OurServiceDescription" type="text" class="form-control"
+                                              Ckeditor></textarea>
+                                    <span asp-validation-for="OurServiceDescription" class="bar"></span>
+                                    <label asp-for="OurServiceDescription"></label>
+                                </div>
+                            </div>
+                            <div class="floating-labels my-lg-4 mb-5 mt-4 col-12 col-md-6">
+                                <div class="form-group ">
+                                    <textarea asp-for="ContactUs" type="text" class="form-control" Ckeditor></textarea>
+                                    <span asp-validation-for="ContactUs" class="bar"></span>
+                                    <label asp-for="ContactUs"></label>
+                                </div>
+                            </div>
+                            <div class="floating-labels my-lg-4 mb-5 mt-4 col-12 col-md-6">
+                                <div class="form-group ">
+                                    <textarea asp-for="AboutUs" type="text" class="form-control" Ckeditor></textarea>
+                                    <span asp-validation-for="AboutUs" class="bar"></span>
+                                    <label asp-for="AboutUs"></label>
+                                </div>
+                            </div>
+                            <div class="floating-labels my-lg-4 mb-5 mt-4 col-12 col-md-6">
+                                <div class="form-group ">
+                                    <textarea asp-for="IndexParagraph" type="text" class="form-control"
+                                              Ckeditor></textarea>
+                                    <span asp-validation-for="IndexParagraph" class="bar"></span>
+                                    <label asp-for="IndexParagraph"></label>
+                                </div>
+                            </div>
+                            <div class="floating-labels my-lg-4 mb-5 mt-4 col-12 col-md-6">
+                                <div class="form-group ">
+                                    <textarea asp-for="IndexOrderParagraph" type="text" class="form-control"
+                                              Ckeditor></textarea>
+                                    <span asp-validation-for="IndexOrderParagraph" class="bar"></span>
+                                    <label asp-for="IndexOrderParagraph"></label>
+                                </div>
+                            </div>
+                            <div class="floating-labels my-lg-4 mb-5  mt-4 col-12 col-md-4 col-lg-4">
+                                <div class="form-group ">
+                                    <input asp-for="IndexTitle" type="text" class="form-control"/>
+                                    <span class="bar"></span>
+                                    <span asp-validation-for="IndexTitle"></span>
+                                    <label asp-for="IndexTitle"></label>
+                                </div>
+                            </div>
+                            <div class="floating-labels my-lg-4 mb-5  col-12 col-md-4 col-lg-4">
+                                <div class="form-group ">
+                                    <input asp-for="IndexOrderTitle" type="text" class="form-control"/>
+                                    <span class="bar"></span>
+                                    <span asp-validation-for="IndexOrderTitle"></span>
+                                    <label asp-for="IndexOrderTitle"></label>
+                                </div>
+                            </div>
+                            <div class="floating-labels my-lg-4 mb-5  col-12 col-md-4 col-lg-4">
+                                <div class="form-group ">
+                                    <input asp-for="CompletedProject" type="number" inputmode="numeric"
+                                           pattern="[0-9]*"
+                                           oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                           class="form-control"/>
+                                    <span class="bar"></span>
+                                    <span asp-validation-for="CompletedProject"></span>
+                                    <label asp-for="CompletedProject"></label>
+                                </div>
+                            </div>
+                            <div class="floating-labels my-lg-4 mb-5  col-12 col-md-6 col-lg-6">
+                                <div class="form-group ">
+                                    <input asp-for="JobListTitle" type="text" class="form-control"/>
+                                    <span class="bar"></span>
+                                    <span asp-validation-for="JobListTitle"></span>
+                                    <label asp-for="JobListTitle"></label>
+                                </div>
+                            </div>
+                            <div class="floating-labels my-lg-4 mb-5  col-12 col-md-6 col-lg-6">
+                                <div class="form-group ">
+                                    <input asp-for="OurServicePageTitle" type="text" class="form-control"/>
+                                    <span class="bar"></span>
+                                    <span asp-validation-for="OurServicePageTitle"></span>
+                                    <label asp-for="OurServicePageTitle"></label>
+                                </div>
+                            </div>
+                       
+                            <div class="floating-labels my-lg-4 mb-5 col-12">
+                                <div class="form-group">
+                                    <textarea asp-for="ConsultSmsMessage" rows="5" class="form-control"></textarea>
+                                    <span class="bar"></span>
+                                    <span asp-validation-for="ConsultSmsMessage"></span>
+                                    <label asp-for="ConsultSmsMessage"></label>
+                                </div>
+                            </div>
+                            <div class="row col-12 mt-4">
+                                <div class="col-12 col-md-4 mt-5 floating-labels mt-md-0">
+                                    <div class="position-relative">
+                                        <label asp-for="SiteLogo" class="fs-2 mb-2 label-floating"></label>
+                                        <img ImageFile="1" class="w-100 rounded select-image-preview-box"
+                                             src="@FilePaths.SiteSettings@Model.SiteLogoImageName"/>
+                                        <label asp-for="SiteLogo"
+                                               class="hover-icon rounded d-flex align-items-center justify-content-center">
+                                            <iconify-icon icon="solar:gallery-edit-broken"
+                                                          class="select-image-icon"></iconify-icon>
+                                        </label>
+                                        <input type="file" asp-for="SiteLogo" class="d-none"
+                                               accept="image/png, image/jpeg, image/webp" ImageInput="1"/>
+                                        <span asp-validation-for="SiteLogo"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4 mt-5 floating-labels mt-md-0">
+                                    <div class="position-relative">
+                                        <label asp-for="SiteFavIcon" class="fs-2 mb-2 label-floating"></label>
+                                        <img ImageFile="2" class="w-100 rounded select-image-preview-box"
+                                             src="@FilePaths.SiteSettings@Model.SiteFavIconImageName"/>
+                                        <label asp-for="SiteFavIcon"
+                                               class="hover-icon rounded d-flex align-items-center justify-content-center">
+                                            <iconify-icon icon="solar:gallery-edit-broken"
+                                                          class="select-image-icon"></iconify-icon>
+                                        </label>
+                                        <input type="file" asp-for="SiteFavIcon" class="d-none"
+                                               accept=".ico" ImageInput="2"/>
+                                        <span asp-validation-for="SiteFavIcon"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4 mt-5 floating-labels mt-md-0">
+                                    <div class="position-relative">
+                                        <label asp-for="JobListImage" class="fs-2 mb-2 label-floating"></label>
+                                        <img ImageFile="3" class="w-100 rounded select-image-preview-box"
+                                             src="@FilePaths.SiteSettings@Model.JobListImageName"/>
+                                        <label asp-for="JobListImage"
+                                               class="hover-icon rounded d-flex align-items-center justify-content-center">
+                                            <iconify-icon icon="solar:gallery-edit-broken"
+                                                          class="select-image-icon"></iconify-icon>
+                                        </label>
+                                        <input type="file" asp-for="JobListImage" class="d-none"
+                                               accept=".jpg, .png, .jpeg, .webp" ImageInput="3"/>
+                                        <span asp-validation-for="JobListImage"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-12 mt-4">
+                            <button class="btn btn-rounded btn-success" type="submit">ویرایش</button>
+                            <a asp-area="Admin" asp-controller="Home" asp-action="Index"
+                               class="btn btn-rounded btn-danger">انصراف</a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "پنل مدیریت";
+}
+
+@section Breadcrumb{
+    <admin-breadcrumb page-title="@ViewData["Title"]"></admin-breadcrumb>
+}
+
+@await Component.InvokeAsync("InProgressOrder")
+
+@await Component.InvokeAsync("InProgressConsult")
+
+@await Component.InvokeAsync("InProgressTicket")
+
+@await Component.InvokeAsync("InProgressContactUs")
+
+
+
+
+
+
+
+
+

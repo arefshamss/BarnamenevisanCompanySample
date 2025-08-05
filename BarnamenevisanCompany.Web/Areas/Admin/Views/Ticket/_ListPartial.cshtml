@@ -1,0 +1,135 @@
+﻿@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Domain.Enums.Ticket
+@using BarnamenevisanCompany.Infra.Data.Statics
+@using BarnamenevisanCompany.Web.Helpers.TagHelpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BarnamenevisanCompany.Domain.ViewModels.Admin.Ticket.AdminFilterTicketsViewModel
+
+<form asp-area="Admin"
+      asp-controller="Ticket"
+      asp-action="ListPartial"
+      asp-ajax="true"
+      asp-ajax-update="#tickets"
+      id="@Model.FormId">
+    <input asp-for="Page" type="hidden"/>
+    <input asp-for="UserId" type="hidden"/>
+    <input asp-for="FormId" type="hidden"/>
+</form>
+
+    <div class="card" id="tickets">
+        <div class="card-body">
+            @if (Model.Entities is not null && Model.Entities.Any())
+            {
+                <div class="table-responsive mb-4 border rounded-1">
+
+                    <table class="table text-nowrap mb-0 align-middle">
+                        <thead class="text-dark fs-4">
+                        <tr>
+                            <th>
+                                <h6 class="fs-4 fw-semibold mb-0">موضوع</h6>
+                            </th>
+                            <th>
+                                <h6 class="fs-4 fw-semibold mb-0">اولویت</h6>
+                            </th>
+                            <th>
+                                <h6 class="fs-4 fw-semibold mb-0">تاریخ ایجاد</h6>
+                            </th>
+                            <th>
+                                <h6 class="fs-4 fw-semibold mb-0">وضعیت</h6>
+                            </th>
+                            <th>
+                                <h6 class="fs-4 fw-semibold mb-0">عملیات</h6>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var ticket in Model.Entities)
+                        {
+                            <tr>
+                                <td>
+                                    <p class="mb-0 fw-normal fs-4">@ticket.Title</p>
+                                </td>
+                                <td>
+                                    <p class="mb-0 fw-normal fs-4">@ticket.Priority.Title</p>
+                                </td>
+                                <td>
+                                    <p class="mb-0 fw-normal fs-4">@ticket.CreatedDate.ToShamsiDateTime()</p>
+                                </td>
+                                <td>
+                                    @switch (ticket.TicketStatus)
+                                    {
+                                        case TicketStatus.InProgress:
+                                            <span class="badge bg-warning-subtle text-warning">در حال بررسی</span>
+                                            break;
+
+                                        case TicketStatus.SupporterAnswered:
+                                            <span class="badge bg-success-subtle text-success">پاسخ داده شده</span>
+                                            break;
+
+                                        case TicketStatus.PendingForUserAnswer:
+                                            <span class="badge bg-info-subtle text-info">در انتظار پاسخ کاربر</span>
+                                            break;
+
+                                        case TicketStatus.Closed:
+                                            <span class="badge bg-danger-subtle text-danger">بسته شده</span>
+                                            break;
+                                    }
+                                </td>
+                                <td>
+                                    <a invoke-permission="@PermissionsName.TicketDetails"
+                                       asp-area="Admin"
+                                       asp-controller="Ticket"
+                                       asp-action="Detail"
+                                       asp-route-id="@ticket.Id"
+                                       class="text-info removeAfterDelete @(ticket.IsDeleted ? "d-none" : "")"
+                                       title="جزئیات">
+                                        <iconify-icon icon="fluent:eye-28-regular" width="22"
+                                                      height="22"></iconify-icon>
+                                    </a>
+                                    <a invoke-permission="@PermissionsName.UpdateTicket"
+                                       asp-area="Admin"
+                                       asp-controller="Ticket"
+                                       asp-action="Update"
+                                       asp-route-id="@ticket.Id"
+                                       asp-ajax="true"
+                                       asp-ajax-modal-type="Medium"
+                                       asp-ajax-modal-title="ویرایش تیکت"
+                                       asp-ajax-validation="true"
+                                       class="text-warning removeAfterDelete @(ticket.IsDeleted ? "d-none" : "")"
+                                       title="ویرایش">
+                                        <iconify-icon icon="uil:edit" width="22" height="22"></iconify-icon>
+                                    </a>
+                                    @if (ticket.IsDeleted)
+                                    {
+                                        <a invoke-permission="@PermissionsName.DeleteOrRecoverTicket"
+                                           class="text-info"
+                                           onclick="ConfirmRecover(this, '@Url.Action("DeleteOrRecover", "Ticket", new { area = "Admin", id = ticket.Id })')"
+                                           title="بازگردانی">
+                                            <iconify-icon icon="solar:undo-left-round-outline" width="22"
+                                                          height="22"></iconify-icon>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a invoke-permission="@PermissionsName.DeleteOrRecoverTicket"
+                                           class="text-danger"
+                                           onclick="ConfirmDelete(this, '@Url.Action("DeleteOrRecover", "Ticket", new { area = "Admin", id = ticket.Id })')"
+                                           title="حذف">
+                                            <iconify-icon icon="solar:trash-bin-trash-outline" width="22"
+                                                          height="22"></iconify-icon>
+                                        </a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+                <partial name="_PagingPartial" model="@Model.GetCurrentPaging()"/>
+            }
+            else
+            {
+                <partial name="_NotFoundPartial"/>
+            }
+        </div>
+    </div>

@@ -1,0 +1,73 @@
+﻿@using BarnamenevisanCompany.Domain.Enums.Ticket
+@model BarnamenevisanCompany.Domain.ViewModels.Admin.TicketMessage.AdminCreateTicketMessageViewModel
+
+<div class="col-12">
+    <form asp-area="Admin"
+          asp-controller="Ticket"
+          asp-action="CreateTicketMessage"
+          enctype="multipart/form-data">
+        <input asp-for="SenderId" type="hidden"/>
+        <input asp-for="TicketId" type="hidden"/>
+        <div class="p-3">
+            @if (Model.TicketStatus is not TicketStatus.Closed)
+            {
+                <div class="mb-5">
+                    <textarea asp-for="Message" class="rounded-2" ckeditor placeholder="پیام خود را وارد کنید ..."></textarea>
+                    <span asp-validation-for="Message"></span>
+                </div>
+                <div class="mb-0 d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center justify-content-start">
+                        <div class="me-1">
+                            <button class="btn btn-success d-flex align-items-center justify-content-center" type="submit">
+                                <iconify-icon class="me-1" icon="tabler:send" width="20" height="20"></iconify-icon>
+                                <span>ارسال</span>
+                            </button>
+                        </div>
+                        <div>
+                            <input asp-for="Attachment" type="file" class="d-none" ImageInput="1"/>
+                            <span asp-validation-for="Attachment"></span> 
+                            <a href="javascript:void(0)" ImageButton="1"
+                               type="button"
+                               class="btn btn-info d-flex"
+                               title="ضمیمه">
+                                <iconify-icon icon="tdesign:attach" width="20" height="20"></iconify-icon>
+                            </a>
+                        </div>
+                        <div class="ms-2">
+                            <span class="text-dark" ImageName="1"></span>
+                        </div>
+                    </div>
+                    <div>
+                        @if (Model.TicketStatus is not TicketStatus.Closed)
+                        {
+                            <a class="btn btn-danger"
+                               asp-area="Admin"
+                               asp-controller="Ticket"
+                               asp-action="ToggleClose"
+                               asp-route-id="@Model.TicketId">
+                                بستن تیکت
+                            </a>
+                        }
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="mb-3">
+                    <div class="alert alert-danger text-danger" role="alert">
+                        این تیکت توسط ادمین بسته شده است و امکان ارسال پیام نمی باشد.
+                    </div>
+                </div>
+                <div>
+                    <a class="btn btn-success"
+                       asp-area="Admin"
+                       asp-controller="Ticket"
+                       asp-action="ToggleClose"
+                       asp-route-id="@Model.TicketId">
+                        بازکردن تیکت
+                    </a>
+                </div>
+            }
+        </div>
+    </form>
+</div>

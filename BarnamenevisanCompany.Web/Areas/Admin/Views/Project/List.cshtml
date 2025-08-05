@@ -1,0 +1,200 @@
+﻿@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Application.Statics
+@using BarnamenevisanCompany.Domain.Enums.Common
+@using BarnamenevisanCompany.Domain.Enums.Project
+@using BarnamenevisanCompany.Domain.Shared
+@using BarnamenevisanCompany.Infra.Data.Statics
+@using BarnamenevisanCompany.Web.Helpers.TagHelpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BarnamenevisanCompany.Domain.ViewModels.Admin.Project.AdminFilterProjectViewModel
+
+
+@{
+  ViewData["Title"] = "لیست پروژه ها";
+}
+
+@section Breadcrumb{
+  <admin-breadcrumb page-title="@ViewData["Title"]">
+    <admin-breadcrumb-item last-active-item="true">@ViewData["Title"]</admin-breadcrumb-item>
+  </admin-breadcrumb>
+}
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="mb-4">
+          <h2 class="card-title">فیلتــر</h2>
+        </div>
+        <div>
+          <form asp-area="Admin"
+                asp-controller="Project"
+                asp-action="List"
+                id="filter-search"
+                method="get"
+                class="floating-labels"
+                no-validation>
+            <input asp-for="Page" type="hidden"/>
+            <div class="row filter-form justify-content-center">
+              <div class="form-group col-12 col-md-3 mb-4">
+                <input asp-for="Title" class="form-control">
+                <span class="bar"></span>
+                <label asp-for="Title"></label>
+              </div>
+              <div class="form-group col-12 col-md-3 mb-4">
+                <select class="form-control form-select" asp-for="FilterOrderBy"
+                        asp-items="@Html.GetEnumSelectList<FilterOrderBy>()"></select>
+                <span class="bar"></span>
+                <label asp-for="FilterOrderBy"></label>
+              </div>
+              <div class="form-group col-12 col-md-3 mb-4">
+                <select class="form-control form-select" asp-for="DeleteStatus"
+                        asp-items="@Html.GetEnumSelectList<DeleteStatus>()"></select>
+                <span class="bar"></span>
+                <label asp-for="DeleteStatus"></label>
+              </div>
+              <div class="form-group col-12 col-md-3 mb-4">
+                <select class="form-control form-select" asp-for="ProjectStatus"
+                        asp-items="@Html.GetEnumSelectList<ProjectStatus>()"></select>
+                <span class="bar"></span>
+                <label asp-for="ProjectStatus"></label>
+              </div>
+
+              <div class=" col-12 mt-3 d-md-flex">
+                <div class="col-12 col-md-2 p-0 me-1">
+                  <button class="btn btn-rounded btn-outline-primary w-100" type="submit">جستجو
+                  </button>
+                </div>
+                @if (Model.HasFilters())
+                {
+                  <div class="col-12 col-md-2 p-0 mt-3 mt-md-0">
+                    <a class="btn btn-rounded btn-danger w-100 text-nowrap"
+                       asp-area="Admin"
+                       asp-controller="Project"
+                       asp-action="List">حذف فیلتر ها
+                    </a>
+                  </div>
+                }
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="mb-3 d-flex justify-content-between align-items-center">
+          <div>
+            <h2 class="card-title">@ViewData["Title"]</h2>
+          </div>
+          <div invoke-permission="@PermissionsName.CreateProject">
+            <a class="btn btn-rounded btn-success"
+               asp-area="Admin"
+               asp-controller="Project"
+               asp-action="Create">افزودن</a>
+          </div>
+        </div>
+        @if (Model.Entities is not null && Model.Entities.Any())
+        {
+          <div class="table-responsive mb-4 border rounded-1">
+
+            <table class="table text-nowrap mb-0 align-middle">
+              <thead class="text-dark fs-4">
+              <tr>
+                <th>
+                  <h6 class="fs-4 fw-semibold mb-0">عنوان</h6>
+                </th>
+                <th>
+                  <h6 class="fs-4 fw-semibold mb-0">اولویت نمایش</h6>
+                </th>
+                <th>
+                  <h6 class="fs-4 fw-semibold mb-0">تاریخ ایجاد</h6>
+                </th>
+                <th>
+                  <h6 class="fs-4 fw-semibold mb-0">عملیات</h6>
+                </th>
+
+              </tr>
+              </thead>
+              <tbody>
+              @foreach (var project in Model.Entities)
+              {
+                <tr>
+                  
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <img
+                        src="@FilePaths.ProjectImage@(!project.ImageName.IsNullOrEmptyOrWhiteSpace() ? project.ImageName : SiteTools.DefaultImageName)"
+                        class="rounded-circle"
+                        width="40"
+                        height="40">
+                      <div class="ms-3">
+                        <h6 class="fs-4 fw-semibold mb-0">@project.Title</h6>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <p class="mb-0 fw-normal fs-4">@project.Priority</p>
+                  </td>
+                  <td>
+                    <p class="mb-0 fw-normal fs-4">@project.CreateDate.ToShamsiDateTime()</p>
+                  </td>
+                  <td>
+                    <a invoke-permission="@PermissionsName.UpdateProject"
+                       asp-area="Admin"
+                       asp-controller="Project"
+                       asp-action="Update"
+                       asp-route-id="@project.Id"
+                       class="text-warning removeAfterDelete @(project.IsDeleted ? "d-none" : "")"
+                       title="ویرایش">
+                      <iconify-icon icon="uil:edit" width="22" height="22"></iconify-icon>
+                    </a>
+                    <a invoke-permission="@PermissionsName.ProjectGallery"
+                       asp-area="Admin"
+                       asp-controller="Project"
+                       asp-action="ProjectGallery"
+                       asp-route-id="@project.Id"
+                       class="text-success removeAfterDelete @(project.IsDeleted ? "d-none" : "")"
+                       title=" مدیریت گالری">
+                      <iconify-icon icon="solar:gallery-edit-linear" width="22" height="22"></iconify-icon>
+                    </a>
+                    @if (project.IsDeleted)
+                    {
+                      <a invoke-permission="@PermissionsName.DeleteOrRecoverProject"
+                         class="text-info"
+                         onclick="ConfirmRecover(this, '@Url.Action("DeleteOrRecover", "Project", new { area = "Admin", id = project.Id })')"
+                         title="بازگردانی">
+                        <iconify-icon icon="solar:undo-left-round-outline" width="22"
+                                      height="22"></iconify-icon>
+                      </a>
+                    }
+                    else
+                    {
+                      <a invoke-permission="@PermissionsName.DeleteOrRecoverProject"
+                         class="text-danger"
+                         onclick="ConfirmDelete(this, '@Url.Action("DeleteOrRecover", "Project", new { area = "Admin", id = project.Id })')"
+                         title="حذف">
+                        <iconify-icon icon="solar:trash-bin-trash-outline" width="22"
+                                      height="22"></iconify-icon>
+                      </a>
+                    }
+                  </td>
+                </tr>
+              }
+              </tbody>
+
+
+            </table>
+          </div>
+          <partial name="_PagingPartial" model="@Model.GetCurrentPaging()"/>
+        }
+        else
+        {
+          <partial name="_NotFoundPartial"/>
+        }
+      </div>
+    </div>
+  </div>
+</div>

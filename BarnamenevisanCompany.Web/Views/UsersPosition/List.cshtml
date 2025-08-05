@@ -1,0 +1,97 @@
+﻿@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Application.Statics
+@using Microsoft.IdentityModel.Tokens
+@model BarnamenevisanCompany.Domain.ViewModels.Client.UserPosition.ClientFilterUserPositionViewModel
+
+@{
+  ViewData["Title"] = "تیم برنامه نویسان";
+  short smallPriority;
+  if (Model.Entities != null && Model.Entities.Any())
+  {
+    smallPriority = Model.Entities.Min(s => s.Priority);
+  }
+  else
+  {
+    smallPriority = 1;
+  }
+}
+
+@section Breadcrumb{
+  <breadcrumb page-title="@ViewData["Title"]">
+  </breadcrumb>
+}
+
+@if (Model.Entities != null && Model.Entities.Any())
+{
+  <section dir="rtl" class="mb-24 lg:mb-40 relative max-md:overflow-hidden">
+    <div class="container">
+      <div class="relative z-10">
+        <div
+          class="absolute left-1/2 top-20 -translate-x-1/2 -translate-y-1/2 flex max-md:flex-col -z-10 max-md:hidden">
+          <div
+            class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/20 -ml-[170px] blur-[145px]"></div>
+          <div
+            class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/20 -ml-[170px] max-md:ml-0 blur-[145px]"></div>
+          <div
+            class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/20 max-md:ml-0 blur-[145px]"></div>
+        </div>
+        <form asp-area="" asp-controller="UsersPosition" asp-action="List" method="get" id="filter-search">
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-md:gap-y-15 ">
+
+            <input type="hidden" asp-for="@Model.Page"/>
+            @foreach (var item in Model.Entities)
+            {
+              <div class="@(item.Priority == smallPriority ? "grid col-span-full " : " justify-center flex") ">
+                <div data-aos="fade-up" data-aos-offset="200" data-aos-duration="1000" data-aos-delay="300"
+                     data-aos-once="true"
+                     class="group/image aos-init aos-animate @(item.Priority == smallPriority ? "mx-auto" : "")">
+                  <div class="bg-white dark:bg-dark-200 rounded-medium p-2.5 mb-6 flex">
+                    <a class="@(item.WebsiteAddress.IsNullOrEmpty() ? "pointer-events-none" : "") "
+                       href="@(item.WebsiteAddress.IsNullOrEmptyOrWhiteSpace() ? "javascript:void(0)" : item.WebsiteAddress)"
+                       target="_blank">
+                      <div class=" rounded bg-gray-100 dark:bg-[#30302F] overflow-hidden ">
+                        <img
+                          src="@(!item.ImageName.IsNullOrEmptyOrWhiteSpace() ? FilePaths.UserThumbAvatar + item.ImageName : FilePaths.UserOriginalAvatar + SiteTools.DefaultUserImageName)"
+                          alt="team member image"
+                          class="duration-300 transition-all w-full">
+                      </div>
+                    </a>
+                  </div>
+                  <div class="text-center">
+                    <a class="@(item.WebsiteAddress.IsNullOrEmpty() ? "pointer-events-none" : "") "
+                       href="@(item.WebsiteAddress.IsNullOrEmptyOrWhiteSpace() ? "javascript:void(0)" : item.WebsiteAddress)"
+                       target="_blank">
+                      <h3 class="mb-2"> @item.UserName </h3></a>
+                    <p class="text-sm font-medium leading-[1.5] mb-6">@item.Position</p>
+                    <ul class="flex  justify-center social-link gap-4">
+                      @if (item.UserSocialNetworkViewModels != null)
+                      {
+                        foreach (var social in item.UserSocialNetworkViewModels)
+                        {
+                          <li>
+                            <a href="@social.SocialLink" class="transiton-all"> 
+                              @Html.Raw(social.ImageName.ConvertSvgFileToCode(FilePaths.UserSocialNetwork))
+                            </a>
+                          </li>
+                        }
+                      }
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            }
+
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="flex justify-center">
+      <partial name="_PagingPartial" model="Model.GetCurrentPaging()"/>
+    </div>
+  </section>
+  <partial name="_BacklightPartial"/>
+}
+else
+{
+  <partial name="_EmptyContentPartial"/>
+}

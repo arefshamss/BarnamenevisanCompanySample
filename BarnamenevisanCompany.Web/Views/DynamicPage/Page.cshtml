@@ -1,0 +1,62 @@
+﻿@model BarnamenevisanCompany.Domain.ViewModels.Client.DynamicPage.ClientDynamicPageViewModel
+
+@{
+    ViewData["Title"] = $"{Model.Title}";
+}
+
+@section Breadcrumb
+{
+    <breadcrumb page-title="@ViewData["Title"]">
+        <breadcrumb-item last-active-item="true">@Model.Title</breadcrumb-item>
+    </breadcrumb>
+}
+
+
+<section class="mb-24 lg:mb-40 relative">
+    <div class="container relative aos-init aos-animate" data-aos="fade-up" data-aos-offset="200" data-aos-duration="1000" data-aos-once="true">
+
+        <div class="relative z-10 max-w-[850px] mx-auto">
+            <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex -z-10 max-lg:max-w-full max-md:hidden">
+                <div class="w-[442px] h-[442px] rounded-full bg-primary-200/20 blur-[145px]"></div>
+                <div class="w-[442px] h-[442px] rounded-full bg-primary-200/25 -ml-[170px] blur-[145px]"></div>
+                <div class="w-[442px] h-[442px] rounded-full bg-primary-200/20 -ml-[170px] blur-[145px]"></div>
+            </div>
+
+
+            @if (Model.ShortDescription is not null)
+            {
+                <div dir="rtl" class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav mb-10">
+                    <div class="bg-white dark:bg-dark-200 border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-12 max-md:p-5">
+                        <div>
+                            @Html.Raw(Model.ShortDescription)
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (Model.Description is not null)
+            {
+                <div dir="rtl" class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav">
+                    <div class="bg-white dark:bg-dark-200 border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-12 max-md:p-5">
+                        <div>
+                            @Html.Raw(Model.Description)
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (Model.ShortDescription is null && Model.Description is null)
+            {
+                <div dir="rtl" class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav">
+                    <div class="bg-white dark:bg-dark-200 border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-12 max-md:p-5">
+                        <p class="text-center">
+                            محتوایی جهت نمایش وجود ندارد
+                        </p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<partial name="_BacklightPartial"/>

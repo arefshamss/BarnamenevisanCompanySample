@@ -1,0 +1,58 @@
+﻿@model BarnamenevisanCompany.Domain.ViewModels.Client.OurService.ClientDetailServiceViewModel
+@{
+    ViewData["Title"] = $"{Model.Title}";
+}
+
+@section Breadcrumb{
+    <breadcrumb page-title="@ViewData["Title"]">
+        <breadcrumb-item asp-area=""
+                         asp-controller="OurService"
+                         asp-action="List">خدمات ما</breadcrumb-item>
+        <breadcrumb-item last-active-item="true">@Model.Title</breadcrumb-item>
+    </breadcrumb>
+}
+
+<section dir="rtl" class="mb-24 lg:mb-40 relative max-md:overflow-hidden">
+    <div class="container relative z-10">
+        <div class="absolute left-1/2 top-52 -translate-x-1/2 flex max-md:flex-col -z-10 max-md:hidden">
+            <div
+                class="lg:w-[330px] lg:h-[330px] xl:w-[442px] blur-[145px] bg-primary-200/20 lg:-ml-[170px]"></div>
+            <div
+                class="lg:w-[330px] lg:h-[330px] xl:w-[442px] blur-[145px] bg-primary-200/20 lg:-ml-[170px]"></div>
+            <div
+                class="lg:w-[330px] lg:h-[330px] xl:w-[442px] blur-[145px] bg-primary-200/20"></div>
+        </div>
+        <div class="grid grid-cols-12 gap-y-15 md:gap-8 lg:gap-16 auto-rows-max">
+            <div
+                class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav max-md:hidden md:col-span-6 lg:col-span-4 self-start md:sticky md:top-20 max-md:static">
+                @await Component.InvokeAsync("Service")
+            </div>
+            <div class="relative max-md:col-span-full md:col-span-6 lg:col-span-8">
+                <div class="relative max-md:mt-20 max-md:col-span-full md:col-span-6 lg:col-span-8">
+
+                    <div
+                        class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav relative max-md:col-span-full md:col-span-6 lg:col-span-8">
+                        <div class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark pt-7 px-6 pb-7 prose max-w-full overflow-hidden break-words">
+                            @Html.Raw(Model.LongDescription)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+@* <div class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav prose max-w-full overflow-hidden break-words"> *@
+@* *@
+@* </div> *@
+@* <div *@
+@*     class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav  md:col-span-6 lg:col-span-4 self-start md:sticky md:top-20 max-md:static prose max-w-full overflow-hidden break-words "> *@
+@*     <div *@
+@*         class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark pt-9 px-10 pb-7 mb-0"> *@
+@*       
+@*     </div> *@
+@* </div> *@

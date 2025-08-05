@@ -1,0 +1,130 @@
+﻿@model BarnamenevisanCompany.Domain.ViewModels.Admin.Role.AdminSetPermissionToRoleViewModel
+@{
+    ViewData["Title"] = "افزودن دسترسی به نقش";
+}
+
+@section Breadcrumb
+{
+    <admin-breadcrumb page-title="@ViewData["Title"]">
+        <admin-breadcrumb-item asp-area="Admin" asp-controller="Role" asp-action="List">لیست نقش ها
+        </admin-breadcrumb-item>
+        <admin-breadcrumb-item last-active-item="true">افزودن دسترسی به نقش</admin-breadcrumb-item>
+    </admin-breadcrumb>
+}
+
+@section Scripts
+{
+    <script src="/Admin/js/permission.js"></script>
+}
+
+<form asp-area="Admin"
+      asp-controller="Role"
+      asp-action="SetPermissionToRole"
+      method="post"
+      enctype="multipart/form-data"
+      no-validation>
+    <input type="hidden" asp-for="RoleId"/>
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+
+            <div class="accordion" id="permissionsAccordion">
+                @if (Model.Permissions is not null && Model.Permissions.Any())
+                {
+                    @foreach (var item in Model.Permissions.Where(c => c.ParentId == null))
+                    {
+                        <div class="accordion-item">
+                            <p class="accordion-header" id="heading-@item.Id">
+                                @{
+                                    bool isSelected = Model.SelectedPermissionIds.Any(s => s == item.Id);
+                                }
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse-@item.Id" aria-expanded="false"
+                                        aria-controls="collapse-@item.Id">
+                                    <div class="form-check">
+                                        <input class="form-check-input parent-checkbox" type="checkbox" value="@item.Id"
+                                               id="@item.Id" name="PermissionIds" data-id="@item.Id"
+                                               @(isSelected ? "checked='checked'" : string.Empty)>
+                                        <label class="form-check-label" for="@item.Id">@item.DisplayName</label>
+                                    </div>
+                                </button>
+                            </p>
+                            <div id="collapse-@item.Id" class="accordion-collapse collapse"
+                                 aria-labelledby="heading-@item.Id" data-bs-parent="#permissionsAccordion">
+                                <div class="accordion-body">
+                                    @if (Model.Permissions.Any(s => s.ParentId == item.Id))
+                                    {
+                                        <div class="row g-3">
+                                            @foreach (var child in Model.Permissions.Where(s => s.ParentId == item.Id).ToList())
+                                            {
+                                                bool isChildSelected = Model.SelectedPermissionIds.Any(s => s == child.Id);
+
+                                                <div class="col-md-4">
+                                                    <div class="accordion-item">
+                                                        <p class="accordion-header" id="heading-child-@child.Id">
+                                                            <button class="accordion-button collapsed" type="button"
+                                                                    data-bs-toggle="collapse"
+                                                                    data-bs-target="#collapse-child-@child.Id"
+                                                                    aria-expanded="false"
+                                                                    aria-controls="collapse-child-@child.Id">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input child-checkbox"
+                                                                           type="checkbox" value="@child.Id"
+                                                                           id="@child.Id" name="PermissionIds"
+                                                                           data-id="@child.Id" data-parent-Id="@item.Id"
+                                                                           @(isChildSelected ? "checked='checked'" : string.Empty)>
+                                                                    <label class="form-check-label"
+                                                                           for="@child.Id">@child.DisplayName</label>
+                                                                </div>
+                                                            </button>
+
+                                                        </p>
+                                                        <div id="collapse-child-@child.Id"
+                                                             class="accordion-collapse collapse"
+                                                             aria-labelledby="heading-child-@child.Id">
+                                                            <div class="accordion-body">
+                                                                <ul class="list-group">
+                                                                    @foreach (var subChild in Model.Permissions.Where(s => s.ParentId == child.Id).ToList())
+                                                                    {
+                                                                        bool isSubChildSelected = Model.SelectedPermissionIds.Any(s => s == subChild.Id);
+                                                                        <li class="list-group-item">
+                                                                            <div class="form-check">
+                                                                                <input
+                                                                                    class="form-check-input sub-child-checkbox"
+                                                                                    type="checkbox" value="@subChild.Id"
+                                                                                    id="@subChild.Id"
+                                                                                    name="PermissionIds"
+                                                                                    data-id="@subChild.Id"
+                                                                                    data-parent-Id="@child.Id"
+                                                                                    @(isSubChildSelected ? "checked='checked'" : string.Empty)>
+                                                                                <label class="form-check-label"
+                                                                                       for="@subChild.Id">@subChild.DisplayName</label>
+                                                                            </div>
+                                                                        </li>
+                                                                    }
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+
+
+            <div class="mb-3 col-12 d-flex my-3">
+                <button type="submit" class="btn btn-outline-success">ثبت</button>
+                <a asp-area="Admin" asp-controller="Role" asp-action="List"
+                   class="btn btn-outline-primary ms-auto">بازگشت</a>
+            </div>
+
+        </div>
+
+
+    </div>
+</form>

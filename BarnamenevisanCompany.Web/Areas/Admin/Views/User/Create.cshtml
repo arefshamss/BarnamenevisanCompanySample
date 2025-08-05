@@ -1,0 +1,87 @@
+﻿@model BarnamenevisanCompany.Domain.ViewModels.Admin.User.AdminCreateUserViewModel
+@{
+    ViewData["Title"] = "افزودن کاربر";
+}
+
+@section Breadcrumb
+{
+    <admin-breadcrumb page-title="@ViewData["Title"]">
+        <admin-breadcrumb-item asp-area="Admin" asp-controller="User" asp-action="List">لیست کاربران</admin-breadcrumb-item>
+        <admin-breadcrumb-item last-active-item="true">افزودن کاربر</admin-breadcrumb-item>
+    </admin-breadcrumb>   
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <form asp-area="Admin"
+                          asp-controller="User"
+                          asp-action="Create"
+                          enctype="multipart/form-data">
+                        <div class="row">
+                            
+                            <div class="row col-12 col-md-9 align-items-center">
+                                <div class="floating-labels col-12 col-md-6 mb-4">
+                                    <div class="form-group">
+                                        <input asp-for="FirstName" class="form-control">
+                                        <span class="bar"></span>
+                                        <label asp-for="FirstName"></label>
+                                        <span asp-validation-for="FirstName"></span>
+                                    </div>
+                                </div>
+
+                                <div class="floating-labels col-12 col-md-6 mb-4">
+                                    <div class="form-group">
+                                        <input asp-for="LastName" class="form-control">
+                                        <span class="bar"></span>
+                                        <label asp-for="LastName"></label>
+                                        <span asp-validation-for="LastName"></span>
+                                    </div>
+                                </div>
+                                
+
+                                <div class="floating-labels col-12 col-md-6 mb-4">
+                                    <div class="form-group">
+                                        <input asp-for="Mobile" class="form-control" autocomplete="new-phone">
+                                        <span class="bar"></span>
+                                        <label asp-for="Mobile"></label>
+                                        <span asp-validation-for="Mobile"></span>
+                                    </div>
+                                </div>
+
+                                <div class="floating-labels col-12 col-md-6 mb-4">
+                                    <div class="form-group">
+                                        <input asp-for="Password" type="password" class="form-control" autocomplete="new-password">
+                                        <span class="bar"></span>
+                                        <label asp-for="Password"></label>
+                                        <span asp-validation-for="Password"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-3 mt-4 mb-4 floating-labels">
+                                <div class="position-relative">
+                                    <label asp-for="AvatarImageFile" class="fs-2 mb-2 label-floating"></label>
+                                    <img ImageFile="1" class="w-100 rounded select-image-preview-box" src="/Common/images/default.jpg" />
+                                    <label asp-for="AvatarImageFile" class="hover-icon rounded d-flex align-items-center justify-content-center">
+                                        <iconify-icon icon="solar:gallery-edit-broken" class="select-image-icon"></iconify-icon>
+                                    </label>
+                                    <input type="file" asp-for="AvatarImageFile" class="d-none" accept="image/png, image/jpeg, image/webp" ImageInput="1" />
+                                    <span asp-validation-for="AvatarImageFile"></span>
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="col-12 mt-4">
+                                <button class="btn btn-rounded btn-success" type="submit">افزودن</button>
+                                <a asp-area="Admin" asp-controller="User" asp-action="List" class="btn btn-rounded btn-danger">انصراف</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

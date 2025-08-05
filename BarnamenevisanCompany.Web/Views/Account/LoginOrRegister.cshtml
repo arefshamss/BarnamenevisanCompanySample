@@ -1,0 +1,77 @@
+﻿@model BarnamenevisanCompany.Domain.ViewModels.Client.User.LoginOrRegisterViewModel
+@{
+    ViewData["Title"] = "ورود به حساب کاربری";
+}
+
+@section Script
+{
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    <script src="/Site/js/authentication-service.js"></script>
+    <partial name="_CaptchaScript"/>
+}
+
+<section class="pt-[200px] mb-72 max-md:mb-25 relative ">
+    <div class="container relative aos-init aos-animate" data-aos="fade-up" data-aos-offset="200"
+         data-aos-duration="1000" data-aos-once="true">
+        <div class="mb-12 text-center max-w-[475px] mx-auto">
+            <h2>وارد شوید یا ثبت نام کنید</h2>
+            @if (TempData["AuthMessage"] != null)
+            {
+                <div class="mb-4 mt-4 rounded text-center">
+                    @TempData["AuthMessage"]
+                </div>
+            }
+        </div>
+        <div class="relative z-10 max-w-[510px] mx-auto">
+            <div
+                class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex max-md:flex-col -z-10 max-md:hidden">
+                <div
+                    class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/30 blur-[145px]"></div>
+                <div
+                    class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/50 -ml-[170px] max-md:ml-0 blur-[145px]"></div>
+                <div
+                    class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/30 -ml-[170px] max-md:ml-0 blur-[145px]"></div>
+            </div>
+            <div class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav">
+                <div
+                    class="bg-white dark:bg-dark-200 border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-12 max-md:px-5 max-md:py-7">
+                    <form asp-area=""
+                          asp-controller="Account"
+                          asp-action="LoginOrRegister"
+                          method="post"
+                          id="captcha-id">
+                        <partial name="_CaptchaInput"/>
+                        <input asp-for="IsLoginByPassword" type="hidden"/>
+                        <input asp-for="ReturnUrl" type="hidden"/>
+                        <div dir="rtl" class="grid grid-cols-12 gap-y-6" id="authentication-container">
+                            <div class="col-span-12">
+                                <label asp-for="Mobile" class="block text-sm font-medium text-paragraph dark:text-white mb-2"></label>
+                                <input asp-for="Mobile" placeholder="شماره همراه خود را وارد کنید"
+                                       class="block w-full text-sm rounded-[48px] border border-borderColour dark:border-borderColour-dark py-3.5 px-5 text-paragraph-light placeholder:text-paragraph-light dark:placeholder:text-paragraph-light outline-none bg-white dark:bg-dark-200 focus:border-primary dark:focus:border-primary duration-300 transition-all">
+                                <span asp-validation-for="Mobile" class="[&>*]:text-red-600 mt-2 text-base"></span>
+                            </div>
+                            <div class="col-span-full @(!Model.IsLoginByPassword ? "hidden" : "")" id="Password-input-group">
+                                <label asp-for="Password" class="block text-sm font-medium text-paragraph dark:text-white mb-2"></label>
+                                <input asp-for="Password" placeholder="رمز عبور خود را وارد کنید"
+                                       class="block w-full text-sm rounded-[48px] border border-borderColour dark:border-borderColour-dark py-3.5 px-5 text-paragraph-light   placeholder:text-paragraph-light outline-none bg-white dark:bg-dark-200 focus:border-primary dark:focus:border-primary duration-300 transition-all">
+                                <span asp-validation-for="Password" class="[&>*]:text-red-600 mt-2 text-base"></span>
+                            </div>
+                            <div class="col-span-full">
+                                <button class="btn w-full block font-medium" type="submit" id="submit-btn">@(Model.IsLoginByPassword ? "ورود" : "ورود / ثبت نام")</button>
+                            </div>
+                            <div class="col-span-full space-y-1">
+                                <p class="text-sm font-medium text-center leading-[24px]">
+                                    <a href="javascript:void(0)"
+                                       onclick="toggleChangeAuthenticationContainer()"
+                                       class="relative  inline-block overflow-hidden text-sm  font-medium text-paragraph dark:text-white before:absolute before:bottom-0 before:left-0 before:h-[1px] before:w-full before:origin-right before:scale-x-0 before:bg-paragraph dark:before:bg-white  before:transition-transform before:duration-500 before:content-[''] before:hover:origin-left before:hover:scale-x-100 leading-[24px] align-bottom">
+                                        @(!Model.IsLoginByPassword ? "ورود با رمز عبور" : "ورود با کد یکبار مصرف")
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

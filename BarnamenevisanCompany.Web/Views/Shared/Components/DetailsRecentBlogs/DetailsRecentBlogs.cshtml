@@ -1,0 +1,81 @@
+﻿@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Application.Statics
+@model BarnamenevisanCompany.Domain.ViewModels.Client.Blog.ClientFilterBlogViewModel
+
+@if (Model is not null && Model.Entities.Any())
+{
+  <article dir="rtl" class="relative mb-24">
+    <div class="relative z-10 max-w-[850px] mx-auto">
+
+      <div class="container relative ">
+
+        <div dir="rtl" class="relative max-w-[850px]">
+          <div
+            class="container max-md:pb-10 relative after:absolute  after:w-full after:h-1 after:bottom-0 after:left-1/2  after:-translate-x-1/2 after:bg-no-repeat after:bg-center after:bg-full max-md:after:hidden">
+            <div class="relative z-10">
+
+              <div class="!pb-20 swiper swiper-initialized swiper-horizontal swiper-rtl swiper-backface-hidden"
+                   id="blog-feature">
+
+                <swiper-container space-between="30"
+                                  speed="1000"
+                                  loop="true"
+                                  autoplay-disable-on-interaction="false"
+                                  id="blogsSwiper-swiper"
+                                  pagination='{"el": "#custom-pagination","clickable": true}'>
+                  @foreach (var item in Model.Entities)
+                  {
+                    <swiper-slide class="w-28 cursor-pointer" data-swiper-autoplay="1500">
+                      <div
+                        class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav">
+                        <div
+                          class="bg-white dark:bg-dark-200 border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-12 md:p-5">
+                          <div class="grid grid-cols-2 max-md:grid-cols-1 max-md:gap-y-5 gap-8 items-center">
+                            <a asp-area="" asp-controller="Blog" asp-action="ShortLink" asp-route-id="@item.Id"
+                               target="_blank">
+                              <img src="@(FilePaths.BlogThumbImage + item.ImageUrl)" alt="@item.Title"
+                                   class=" rounded-lg  max-md:object-cover max-md:object-center max-md:h-[350px]">
+                            </a>
+                            <div class="">
+                              <a asp-area="" asp-controller="Blog" asp-action="ShortLink" asp-route-id="@item.Id"
+                                 target="_blank">
+                                <h3 class="mb-3 font-semibold leading-[1.33]">
+                                  @item.Title
+                                </h3>
+                              </a>
+                              <div class="flex gap-x-2 items-center mb-4 ">
+                                <p>@item.Author </p>
+                                <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="5" height="6" viewBox="0 0 5 6"
+                                     fill="none">
+                                  <circle cx="2.5" cy="3" r="2.5" fill=""
+                                          class="fill-[#D8DBD0] dark:fill-[#3B3C39]"></circle>
+                                </svg>
+                              </span>
+                                <p>@item.CreatedDate.ToShamsi()</p>
+                              </div>
+                              <div class="line-clamp-3 mb-6">
+                                @Html.Raw(item.ShortDescription)
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </swiper-slide>
+                  }
+                </swiper-container>
+                <div id="custom-pagination"
+                     class="swiper-pagination swiper-pagination-bullets swiper-pagination-horizontal"><span
+                    part="bullet" class="swiper-pagination-bullet"></span><span part="bullet"
+                                                                                class="swiper-pagination-bullet"></span><span
+                    part="bullet" class="swiper-pagination-bullet"></span><span part="bullet-active"
+                                                                                class="swiper-pagination-bullet swiper-pagination-bullet-active"
+                                                                                aria-current="true"></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+}

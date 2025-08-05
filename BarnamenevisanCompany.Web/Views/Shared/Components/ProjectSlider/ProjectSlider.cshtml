@@ -1,0 +1,60 @@
+﻿@using BarnamenevisanCompany.Application.Statics
+@model BarnamenevisanCompany.Domain.ViewModels.Client.Project.ClientFilterProjectViewModel
+@if (Model.Entities != null && Model.Entities.Any())
+{
+    <section dir="rtl" class="mb-24 lg:mb-40 relative max-md:overflow-hidden">
+        <div class="container">
+            <div class="relative z-10">
+                <div
+                    class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex max-md:flex-col -z-10 max-md:hidden">
+                    <div
+                        class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] h-64 bg-primary-200/20 -ml-[170px] blur-[145px] rounded-full"></div>
+                    <div
+                        class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] h-64 bg-primary-200/20 -ml-[170px] max-md:ml-0 blur-[145px]"></div>
+                    <div
+                        class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] h-64 bg-primary-200/20 max-md:ml-0 blur-[145px] rounded-full"></div>
+                </div>
+                <div class="text-center mb-14">
+                    <h2>پروژه های اخیر</h2>
+                </div>
+                @* data-lightbox="project-gallery" *@
+                @* data-title="گالری @item.Title" *@
+                @* data-alt="تصویر گالری پروژه ی @item.Title" *@
+                @* class="w-full h-full"> *@
+                <div class="!pb-20 swiper swiper-initialized swiper-horizontal swiper-rtl swiper-backface-hidden">
+                    <div
+                        class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav relative max-md:col-span-full md:col-span-6 lg:col-span-8">
+                        <div class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-2">
+                            <div class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav">
+                                <swiper-container space-between="30"
+                                                  speed="3000"
+                                                  loop="true"
+                                                  autoplay-disable-on-interaction="false"
+                                                  id="projects-swiper"
+                                                  pagination='{"el": "#projects-pagination","clickable": true}'>
+                                    @foreach (var item in Model.Entities)
+                                    {
+                                        <swiper-slide class="w-28 h-44" data-swiper-autoplay="1500">
+                                            <a asp-area="" asp-controller="Project" asp-action="Detail"
+                                               asp-route-id="@item.Id" asp-route-slug="@item.Slug"
+                                               class="w-full h-full">
+
+                                                <img src="@FilePaths.ProjectImage@item.ImageName"
+                                                     alt="تضاویر پروژه"
+                                                     class="rounded w-full h-full object-fill">
+                                            </a>
+                                        </swiper-slide>
+                                    }
+                                </swiper-container>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="projects-pagination" class="swiper-pagination swiper-pagination-bullets swiper-pagination-horizontal"><span part="bullet" class="swiper-pagination-bullet"></span><span
+                            part="bullet" class="swiper-pagination-bullet"></span><span part="bullet" class="swiper-pagination-bullet"></span><span part="bullet-active"
+                                                                                                                                                    class="swiper-pagination-bullet swiper-pagination-bullet-active"
+                                                                                                                                                    aria-current="true"></span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+}

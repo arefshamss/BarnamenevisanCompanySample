@@ -1,0 +1,123 @@
+﻿@model BarnamenevisanCompany.Domain.ViewModels.Client.Consult.ClientCreateConsultViewModel
+@{
+    ViewData["Title"] = "درخواست مشاوره";
+    var pageInformation = ViewData["PageInformation"] as string;
+}
+
+@section Script
+{
+    <partial name="_CaptchaScript"/>
+}
+
+@section Breadcrumb{
+    <breadcrumb page-title="@ViewData["Title"]">
+        <breadcrumb-item last-active-item="true">درخواست مشاوره</breadcrumb-item>
+    </breadcrumb>
+}
+
+<section class="mb-24 lg:mb-40 relative">
+    <div class="container aos-init aos-animate mb-150"
+         data-aos="fade-up"
+         data-aos-offset="200"
+         data-aos-duration="1000"
+         data-aos-once="true">
+        <div class="relative max-w-[850px] mx-auto">
+            <div
+                class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex -z-10 max-lg:max-w-full max-md:hidden">
+                <div class="w-[450px] h-[442px] rounded-full bg-primary-200/20 blur-[145px]"></div>
+                <div class="w-[430px] h-[442px] rounded-full bg-primary-200/20 -ml-[170px] blur-[145px]"></div>
+                <div class="w-[450px] h-[442px] rounded-full bg-primary-200/20 -ml-[170px] blur-[145px]"></div>
+            </div>
+
+            <div class="relative z-10 mb-3">
+                <div class="bg-white dark:bg-dark-200 shadow-box rounded-medium p-2.5 aos-init aos-animate"
+                     data-aos="fade-up" data-aos-offset="200" data-aos-duration="1000" data-aos-once="true">
+                    <div
+                        class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-10 h-full max-lg:p-5 text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none"
+                             class="inline-block mb-6">
+                            <path
+                                d="M24.1641 30.002H15.8359C14.4609 30.002 13.3359 28.8772 13.3359 27.5024V19.1681C13.3359 17.7934 14.4609 16.6686 15.8359 16.6686H24.1719C25.5469 16.6686 26.6719 17.7934 26.6719 19.1681V27.5024C26.6641 28.8772 25.5469 30.002 24.1641 30.002ZM15.8359 18.3324C15.375 18.3324 15 18.7073 15 19.1681V27.5024C15 27.9633 15.375 28.3382 15.8359 28.3382H24.1719C24.6328 28.3382 25.0078 27.9633 25.0078 27.5024V19.1681C25.0078 18.7073 24.6328 18.3324 24.1719 18.3324H15.8359ZM32.5 40H7.5C3.36719 40 0 36.6335 0 32.5015V15.9344C0 13.4427 1.23438 11.115 3.30469 9.71685L15.8047 1.281C18.3516 -0.437416 21.6484 -0.437416 24.1953 1.281L36.6953 9.71685C38.7656 11.115 40 13.4349 40 15.9344V32.4937C40 36.6335 36.6328 40 32.5 40ZM20 1.66374C18.8672 1.66374 17.7266 1.99961 16.7422 2.67135L4.24219 11.0994C2.63281 12.1851 1.67188 13.9895 1.67188 15.9344V32.4937C1.67188 35.7118 4.28906 38.3285 7.50781 38.3285H32.5078C35.7266 38.3285 38.3438 35.7118 38.3438 32.4937V15.9344C38.3438 13.9895 37.3828 12.1851 35.7734 11.0994L23.2734 2.66354C22.2734 1.99961 21.1328 1.66374 20 1.66374Z"
+                                fill="" class="fill-paragraph dark:fill-white"></path>
+                        </svg>
+                        <h3 class="mb-2.5">مشاوره</h3>
+                        <p>@Html.Raw(pageInformation)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative z-10">
+                <div class="bg-white dark:bg-dark-200 shadow-box rounded-medium p-2.5 aos-init aos-animate"
+                     data-aos="fade-up" data-aos-offset="200" data-aos-duration="1000" data-aos-once="true">
+                    <div dir="rtl"
+                         class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-10 h-full">
+                        <form asp-area="" 
+                              asp-controller="Consult" 
+                              asp-action="Create" 
+                              method="post">
+                            <partial name="_CaptchaInput"/>
+                            <input asp-for="UserId" type="hidden"/>
+                            <div class="grid grid-cols-12 gap-x-6">
+
+                                <div class="col-span-full md:col-span-4">
+                                    <label asp-for="FirstName"
+                                           class="block text-sm font-medium text-paragraph dark:text-white mb-2">
+                                    </label>
+                                    <input asp-for="FirstName"
+                                           class="block w-full text-sm rounded-[48px] border border-borderColour dark:border-borderColour-dark py-2.5 px-5 text-paragraph-light placeholder:text-paragraph-light dark:placeholder:text-paragraph-light outline-none bg-white dark:bg-dark-200 focus:border-primary dark:focus:border-primary duration-300 transition-all"
+                                           placeholder="نام خود را وارد کنید ...">
+                                    <validation-span asp-validation-for="FirstName"/>
+                                </div>
+                                
+                                <div class="col-span-full md:col-span-4">
+                                    <label asp-for="LastName"
+                                           class="block text-sm font-medium text-paragraph dark:text-white mb-2">
+                                    </label>
+                                    <input asp-for="LastName"
+                                           class="block w-full text-sm rounded-[48px] border border-borderColour dark:border-borderColour-dark py-2.5 px-5 text-paragraph-light placeholder:text-paragraph-light dark:placeholder:text-paragraph-light outline-none bg-white dark:bg-dark-200 focus:border-primary dark:focus:border-primary duration-300 transition-all"
+                                           placeholder="نام خانوادگی خود را وارد کنید ...">
+                                    <validation-span asp-validation-for="LastName"/>
+                                </div>
+                                
+                                <div class="col-span-full md:col-span-4">
+                                    <label asp-for="Mobile"
+                                           class="block text-sm font-medium text-paragraph dark:text-white mb-2">
+                                    </label>
+                                    <input asp-for="Mobile"
+                                           class="block w-full text-sm rounded-[48px] border border-borderColour dark:border-borderColour-dark py-2.5 px-5 text-paragraph-light placeholder:text-paragraph-light dark:placeholder:text-paragraph-light outline-none bg-white dark:bg-dark-200 focus:border-primary dark:focus:border-primary duration-300 transition-all"
+                                           placeholder="شماره همراه خود را وارد کنید ...">
+                                    <validation-span asp-validation-for="Mobile"/>
+                                </div>
+                                
+                                <div class="col-span-full">
+                                    <label asp-for="Title"
+                                           class="block text-sm font-medium text-paragraph dark:text-white mb-2">
+                                    </label>
+                                    <input asp-for="Title"
+                                           class="block w-full text-sm rounded-[48px] border border-borderColour dark:border-borderColour-dark py-2.5 px-5 text-paragraph-light placeholder:text-paragraph-light dark:placeholder:text-paragraph-light outline-none bg-white dark:bg-dark-200 focus:border-primary dark:focus:border-primary duration-300 transition-all"
+                                           placeholder="عنوان را وارد کنید ...">
+                                    <validation-span asp-validation-for="Title"/>
+                                </div>
+                                <div class="col-span-full">
+                                    <label asp-for="Description"
+                                           class="block text-sm font-medium text-paragraph dark:text-white mb-2">
+                                    </label>
+                                    <textarea asp-for="Description" ckeditor placeholder="توضیحات درخواست را وارد کنید ..."></textarea>
+                                    <validation-span asp-validation-for="Description"/>
+                                </div>
+                                <div class="mx-auto col-span-full text-center">
+                                    <button class="btn">
+                                        ثبت درخواست
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<partial name="_BacklightPartial"/>

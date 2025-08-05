@@ -1,0 +1,83 @@
+﻿@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Application.Statics
+@using BarnamenevisanCompany.Web.Helpers.TagHelpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using SixLabors.ImageSharp
+@model List<BarnamenevisanCompany.Domain.ViewModels.Client.Honors.ClientHonorCategoryViewModel>
+
+@{
+  ViewData["Title"] = "افتخارات ما";
+}
+
+@section Breadcrumb{
+  <breadcrumb page-title="@ViewData["Title"]">
+  </breadcrumb>
+}
+
+@if (Model != null && Model.Any())
+{
+  <section dir="rtl" class="mb-24 lg:mb-40 relative max-md:overflow-hidden">
+    <div class="container">
+      <div class="relative z-10">
+        <div
+          class="absolute left-1/2 top-20 -translate-x-1/2 -translate-y-1/2 flex max-md:flex-col -z-10 max-md:hidden">
+          <div
+            class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/20 -ml-[170px] blur-[145px]"></div>
+          <div
+            class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/20 -ml-[170px] max-md:ml-0 blur-[145px]"></div>
+          <div
+            class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/20 max-md:ml-0 blur-[145px]"></div>
+        </div>
+
+        <div>
+          <div>
+            @foreach (var item in Model)
+            {
+              <div class="mb-7">
+                <h2>@item.CompanyName</h2>
+                <hr class="border-1 border-borderColour dark:border-white mt-4 rounded-full w-full">
+              </div>
+              <div class="mb-20 grid grid-cols-12 gap-3">
+                @foreach (var honor in item.Honors.OrderByDescending(x =>
+                            {
+                              var image = Image.Identify($"wwwroot{FilePaths.HonorsImage + x.ImageName}");
+                              return image.Height > image.Width;
+                            }))
+                {
+                  var image = await Image.IdentifyAsync($"wwwroot{FilePaths.HonorsImage + honor.ImageName}");
+                  <div
+                    class="col-span-full md:col-span-6 lg:col-span-@(image.Height >= image.Width ? "2" : "4") bg-white dark:bg-dark-200 rounded-2xl p-3 h-full lg:h-64 xl:h-72">
+                    <div class="h-full w-full">
+                      <a class="relative h-full w-full"
+                         asp-area=""
+                         asp-controller="Honor"
+                         asp-action="Detail"
+                         asp-route-slug="@honor.slug">
+                        <img
+                          src="@(FilePaths.HonorsImage + honor.ImageName)"
+                          alt="@honor.Title"
+                          class="w-full h-full rounded-xl"/>
+                        <div
+                          class="rounded-xl absolute text-center w-full h-full top-[0] bottom-[0] right-[0] left-[0] bg-[rgba(0,0,0,0.6)] flex justify-center items-center transition-all duration-200 opacity-0 hover:opacity-100 cursor-pointer">
+                          <h6 class="font-semibold p-1.5 text-lime-400 text-xl">@honor.Title</h6>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+}
+else
+{
+  <partial name="_EmptyContentPartial"/>
+}
+
+<partial name="_BacklightPartial"/>

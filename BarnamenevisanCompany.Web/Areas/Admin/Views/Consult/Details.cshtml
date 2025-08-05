@@ -1,0 +1,88 @@
+﻿@using BarnamenevisanCompany.Domain.ViewModels.Admin.Consult
+@model BarnamenevisanCompany.Domain.ViewModels.Admin.Consult.AdminConsultDetailViewModel
+
+
+@{
+  ViewData["Title"] = "جزئیات مشاوره";
+}
+
+@section Breadcrumb
+
+
+
+{
+  <admin-breadcrumb page-title="@ViewData["Title"]">
+    <admin-breadcrumb-item asp-area="Admin" asp-controller="Consult" asp-action="List"> لیست مشاوره ها
+    </admin-breadcrumb-item>
+    <admin-breadcrumb-item last-active-item="true">@ViewData["Title"]</admin-breadcrumb-item>
+  </admin-breadcrumb>
+}
+
+<input asp-for="Id" type="hidden"/>
+<div class="card">
+  <div class="form-body">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="form-label col-md-3" asp-for="Title"></label>
+            <div class="col-md-9">
+              <p class="form-control-static">@Model.Title</p>
+            </div>
+          </div>
+        </div>
+        <!--/span-->
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="form-label col-md-3" asp-for="CreateDate"></label>
+            <div class="col-md-9">
+              <p class="form-control-static">@Model.CreateDate</p>
+            </div>
+          </div>
+        </div>
+        <!--/span-->
+      </div>
+      <!--/row-->
+      <div class="row">
+        <!--/span-->
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="form-label col-md-3" asp-for="UserFullName"></label>
+            <div class="col-md-9">
+              <p class="form-control-static">@Model.UserFullName</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="form-label col-md-3" asp-for="Mobile"></label>
+            <div class="col-md-9">
+              <p class="form-control-static">@Model.Mobile</p>
+            </div>
+          </div>
+        </div>
+        <!--/span-->
+      </div>
+      <!--/row-->
+    </div>
+    <hr class="m-0"/>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group row">
+            <label class="form-label col-md-1 text-nowrap" asp-for="Description"></label>
+            <div class="col-md-11">
+              <div class="form-control-static">
+                @Html.Raw(Model.Description)
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr class="m-0"/>
+      <partial name="_AnswerConsultPartial.cshtml"
+               model="new AdminAnswerConsultViewModel() { AdminMessage = Model.AdminAnswer,UserMobile=Model.Mobile, ConsultId = Model.Id }"/>
+
+    </div>
+  </div>
+</div>

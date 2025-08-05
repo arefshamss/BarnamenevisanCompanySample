@@ -1,0 +1,107 @@
+﻿@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Application.Statics
+@using BarnamenevisanCompany.Domain.ViewModels.Client.User
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BarnamenevisanCompany.Domain.ViewModels.Client.User.ClientUserViewModel
+
+<!--START Sidebar-->
+<section class="col-span-12 lg:col-span-3">
+    <div class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav">
+        <div class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark px-8 py-10 h-full">
+            <div class="flex flex-col justify-center items-center space-y-8">
+                <div>
+                    <div class="flex flex-col justify-center items-center relative">
+                        <partial name="_UpdateUserAvatarPartial"
+                                 model="new ClientUpdateUserAvatarViewModel{ AvatarImageName = Model.AvatarImageName }"/>
+                        <div class="mt-5 text-center">
+                            @{ var fullNameIsNull = Model.FirstName.IsNullOrEmptyOrWhiteSpace() && Model.LastName.IsNullOrEmptyOrWhiteSpace(); }
+                            <h3 class="leading-[30px]">@(fullNameIsNull ? Model.Mobile : $"{Model.FirstName} {Model.LastName}")</h3>
+                            @if (!fullNameIsNull)
+                            {
+                                <span class="mt-2 text-light dark:text-[#A1A49D]">@Model.Mobile</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full">
+                    <ul class="w-full *:cursor-pointer text-right space-y-1 *:py-2 *:px-3 *:rounded-md"
+                        id="userpanel-sidebar">
+                        <li class="btn-primary-outline">
+                            <a class="flex items-center space-x-1 space-x-reverse"
+                               asp-area="UserPanel"
+                               asp-controller="Home"
+                               asp-action="Index">
+                                <iconify-icon icon="material-symbols:dashboard-outline-rounded"
+                                              width="23" height="23"></iconify-icon>
+                                <span>داشبورد</span>
+                            </a>
+                        </li>
+                        <li class="btn-primary-outline">
+                            <a class="flex items-center"
+                               asp-area="UserPanel"
+                               asp-controller="User"
+                               asp-action="Update">
+                                <iconify-icon icon="bx:user" width="23" height="23"></iconify-icon>
+                                <span>ویرایش حساب کاربری</span>
+                            </a>
+                        </li>
+                        <li class="btn-primary-outline">
+                            <a class="flex items-center space-x-1 space-x-reverse"
+                               asp-area="UserPanel"
+                               asp-controller="Ticket"
+                               asp-action="List">
+                                <iconify-icon icon="ix:support" width="23" height="23"></iconify-icon>
+                                <span>تیکت های من</span>
+                            </a>
+                        </li>
+                        <team-member>
+                            <li class="btn-primary-outline">
+                                <a asp-area="UserPanel" asp-controller="UserSocialNetwork" asp-action="List"
+                                   class="flex items-center space-x-1 space-x-reverse">
+                                    <iconify-icon icon="material-symbols:social-distance-rounded" width="23"
+                                                  height="23"></iconify-icon>
+                                    <span>شبکه های اجتماعی من</span>
+                                </a>
+                            </li>
+                        </team-member>
+                        <li class="btn-primary-outline">
+                            <a asp-area="UserPanel" asp-controller="Order" asp-action="List"
+                               class="flex items-center space-x-1 space-x-reverse">
+                                <iconify-icon icon="lets-icons:order-fill" width="23"
+                                              height="23"></iconify-icon>
+                                <span>سفارشات من</span>
+                            </a>
+                        </li>
+                        <li class="btn-primary-outline">
+                            <a asp-area="UserPanel" asp-controller="Consult" asp-action="List"
+                               class="flex items-center space-x-1 space-x-reverse">
+                                <iconify-icon icon="hugeicons:conversation" width="23"
+                                              height="23"></iconify-icon>
+                                <span>درخواست های مشاوره من</span>
+                            </a>
+                        </li>
+                        <li class="btn-primary-outline">
+                            <a asp-area="UserPanel" asp-controller="JobUserMapping" asp-action="List"
+                               class="flex items-center space-x-1 space-x-reverse">
+                                <iconify-icon icon="ix:work-case" width="23"
+                                              height="23"></iconify-icon>
+                                <span>درخواست های شغلی من</span>
+                            </a>
+                        </li>
+                        <li class="btn-danger-outline !mt-5">
+                            <a class="flex items-center space-x-1 space-x-reverse"
+                               asp-area=""
+                               asp-controller="Account"
+                               asp-action="Logout">
+                                <iconify-icon icon="material-symbols:logout-rounded" width="23"
+                                              height="23"></iconify-icon>
+                                <span>خروج از حساب کاربری</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--END Sidebar-->

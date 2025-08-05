@@ -1,0 +1,199 @@
+﻿@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Domain.Enums.Common
+@using BarnamenevisanCompany.Domain.Enums.Consult
+@using BarnamenevisanCompany.Domain.Shared
+@using BarnamenevisanCompany.Infra.Data.Statics
+@using BarnamenevisanCompany.Web.Helpers.TagHelpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BarnamenevisanCompany.Domain.ViewModels.Admin.Consult.AdminFilterConsultViewModel
+
+@{
+   ViewData["Title"] = "لیست مشاوره ها";
+}
+
+@section Breadcrumb
+{
+   <admin-breadcrumb page-title="@ViewData["Title"]">
+      <admin-breadcrumb-item last-active-item="true">@ViewData["Title"]</admin-breadcrumb-item>
+   </admin-breadcrumb>
+}
+
+<div class="row">
+   <div class="col-12">
+      <div class="card">
+         <div class="card-body">
+            <div class="mb-4">
+               <h2 class="card-title">فیلتــر</h2>
+            </div>
+            <div>
+               <form asp-area="Admin"
+                     asp-controller="Consult"
+                     asp-action="List"
+                     id="filter-search"
+                     method="get"
+                     class="floating-labels"
+                     no-validation>
+                  <input asp-for="Page" type="hidden"/>
+                  <div class="row filter-form justify-content-center">
+                     <div class="form-group col-12 col-md-3 mb-4">
+                        <input asp-for="Title" class="form-control">
+                        <span class="bar"></span>
+                        <label asp-for="Title"></label>
+                     </div>
+                     <div class="form-group col-12 col-md-3 mb-4">
+                        <select class="form-control form-select" asp-for="FilterOrderBy"
+                                asp-items="@Html.GetEnumSelectList<FilterOrderBy>()"></select>
+                        <span class="bar"></span>
+                        <label asp-for="FilterOrderBy"></label>
+                     </div>
+                     <div class="form-group col-12 col-md-3 mt-3 mb-4">
+                        <select class="form-control form-select" asp-for="DeleteStatus"
+                                asp-items="@Html.GetEnumSelectList<DeleteStatus>()"></select>
+                        <span class="bar"></span>
+                        <label asp-for="DeleteStatus"></label>
+                     </div>
+                     <div class="form-group col-12 col-md-3 mt-3 mb-4">
+                        <select class="form-control form-select" asp-for="ConsultStatus"
+                                asp-items="@Html.GetEnumSelectList<ConsultStatus>()"></select>
+                        <span class="bar"></span>
+                        <label asp-for="ConsultStatus"></label>
+                     </div>
+
+                     <div class="col-12 mt-3 d-md-flex">
+                       
+                           <div class="col-12 col-md-2 p-0 me-1">
+                              <button class="btn btn-rounded btn-outline-primary w-100" type="submit">جستجو
+                              </button>
+                           </div>
+                           @if (Model.HasFilters())
+                           {
+                              <div class="col-12 col-md-2 p-0 mt-3 mt-md-0">
+                                 <a class="btn btn-rounded btn-danger w-100 text-nowrap"
+                                    asp-area="Admin"
+                                    asp-controller="Consult"
+                                    asp-action="List">حذف فیلتر ها
+                                 </a>
+                              </div>
+                           }
+                      
+                     </div>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="col-12">
+      <div class="card">
+         <div class="card-body">
+            <div class="mb-3 d-flex justify-content-between align-items-center">
+               <div>
+                  <h2 class="card-title">@ViewData["Title"]</h2>
+               </div>
+            </div>
+            @if (Model.Entities is not null && Model.Entities.Any())
+            {
+               <div class="table-responsive mb-4 border rounded-1">
+
+                  <table class="table text-nowrap mb-0 align-middle">
+                     <thead class="text-dark fs-4">
+                     <tr>
+                        <th>
+                           <h6 class="fs-4 fw-semibold mb-0">عنوان</h6>
+                        </th>
+                        <th>
+                           <h6 class="fs-4 fw-semibold mb-0">نام و نام خانوادگی</h6>
+                        </th>
+                        <th>
+                           <h6 class="fs-4 fw-semibold mb-0">شماره همراه</h6>
+                        </th>
+                        <th>
+                           <h6 class="fs-4 fw-semibold mb-0">تاریخ ایجاد</h6>
+                        </th>
+                        <th>
+                           <h6 class="fs-4 fw-semibold mb-0">وضعیت</h6>
+                        </th>
+                        <th>
+                           <h6 class="fs-4 fw-semibold mb-0">عملیات</h6>
+                        </th>
+
+                     </tr>
+                     </thead>
+                     <tbody>
+                     @foreach (var consult in Model.Entities)
+                     {
+                        <tr>
+                           <td>
+                              <p class="mb-0 fw-normal fs-4">@consult.Title</p>
+                           </td>
+                           <td>
+                              <p class="mb-0 fw-normal fs-4">@consult.UserFullName</p>
+                           </td>
+                           <td>
+                              <p class="mb-0 fw-normal fs-4">@consult.PhoneNumber</p>
+                           </td>
+                           <td>
+                              <span class="mb-0 fw-normal fs-4">@consult.CreateDate.ToShamsiDateTime()</span>
+                           </td>
+                           @if (consult.AdminMessage == null)
+                           {
+                              <td>
+                                 <span class="badge bg-danger-subtle text-danger">بدون پاسخ</span>
+                              </td>
+                           }
+                           else
+                           {
+                              <td>
+                                 <span class="badge bg-success-subtle text-success">پاسخ داده شده</span>
+                              </td>
+                           }
+                           <td>
+                              <a invoke-permission="@PermissionsName.AnswerConsult"
+                                 asp-area="Admin"
+                                 asp-controller="Consult"
+                                 asp-action="Details"
+                                 asp-route-id="@consult.Id"
+                                 asp-route-page="@Model.Page"
+                                 class="text-info removeAfterDelete @(consult.IsDeleted ? "d-none" : "")"
+                                 title="مشاهده و پاسخ">
+                                 <iconify-icon icon="fluent:eye-28-regular" width="22" height="22"></iconify-icon>
+                              </a>
+                             
+                              @if (consult.IsDeleted)
+                              {
+                                 <a invoke-permission="@PermissionsName.DeleteOrRecoverConsult"
+                                    class="text-info"
+                                    onclick="ConfirmRecover(this, '@Url.Action("DeleteOrRecover", "Consult", new { area = "Admin", id = consult.Id })')"
+                                    title="بازگردانی">
+                                    <iconify-icon icon="solar:undo-left-round-outline" width="22"
+                                                  height="22"></iconify-icon>
+                                 </a>
+                              }
+                              else
+                              {
+                                 <a invoke-permission="@PermissionsName.DeleteOrRecoverConsult"
+                                    class="text-danger"
+                                    onclick="ConfirmDelete(this, '@Url.Action("DeleteOrRecover", "Consult", new { area = "Admin", id = consult.Id })')"
+                                    title="حذف">
+                                    <iconify-icon icon="solar:trash-bin-trash-outline" width="22"
+                                                  height="22"></iconify-icon>
+                                 </a>
+                              }
+                           </td>
+                        </tr>
+                     }
+                     </tbody>
+
+
+                  </table>
+               </div>
+               <partial name="_PagingPartial" model="@Model.GetCurrentPaging()"/>
+            }
+            else
+            {
+               <partial name="_NotFoundPartial"/>
+            }
+         </div>
+      </div>
+   </div>
+</div>

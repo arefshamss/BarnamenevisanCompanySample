@@ -1,0 +1,41 @@
+﻿@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Web.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BarnamenevisanCompany.Domain.ViewModels.Admin.Consult.AdminAnswerConsultViewModel
+@{
+    var referer = Context.Request.GetUrlReferer();
+}
+
+
+<form asp-area="Admin"
+      asp-controller="Consult"
+      asp-action="Answer"
+      method="post"
+      class="form-horizontal">
+    <input type="hidden" asp-for="ConsultId"/>
+    <input type="hidden" asp-for="UserMobile"/>
+    <div class="row">
+        <div class="col-md-1">
+            <label class="label-floating mt-5 " asp-for="AdminMessage"></label>
+        </div>
+        <div class=" col-12 col-md-11">
+            <div class="floating-labels col-12  mt-5">
+                <div class="form-group">
+                    <textarea asp-for="AdminMessage" ckeditor class="form-control h-100"></textarea>
+                    <span class="bar"></span>
+
+                    <span asp-validation-for="AdminMessage"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-12 mt-5">
+        <button class="btn btn-rounded btn-success"
+                type="submit">@(Model.AdminMessage.IsNullOrEmptyOrWhiteSpace() ? "ثبت" : "ویرایش")</button>
+        <a asp-area="Admin" asp-action="List" asp-controller="Consult"
+           class="btn btn-rounded btn-danger">انصراف</a>
+    </div>
+
+</form>

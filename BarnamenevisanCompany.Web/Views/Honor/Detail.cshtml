@@ -1,0 +1,145 @@
+﻿@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Application.Statics
+@using BarnamenevisanCompany.Web.Helpers.TagHelpers
+@model BarnamenevisanCompany.Domain.ViewModels.Client.Honors.ClientHonorDetailViewModel
+@{
+    ViewData["Title"] = $"{Model.Title}";
+}
+
+@section Breadcrumb{
+    <breadcrumb page-title="@ViewData["Title"]">
+        <breadcrumb-item asp-area="" asp-controller="Honor" asp-action="List">افتخارات ما</breadcrumb-item>
+        <breadcrumb-item last-active-item="true">@Model.Title</breadcrumb-item>
+    </breadcrumb>
+}
+
+@section Script{
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+}
+
+<section dir="rtl" class="mb-24 relative max-md:overflow-hidden lg:mb-40">
+    <div class="container relative z-10 aos-init aos-animate" data-aos="fade-up" data-aos-offset="200"
+         data-aos-duration="1000" data-aos-once="true">
+        <div class="absolute left-1/2 top-52 -translate-x-1/2 flex max-md:flex-col -z-10 max-md:hidden">
+            <div
+                class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] h-64 bg-primary-200/20 -ml-[170px] blur-[145px]"></div>
+            <div
+                class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] h-64 bg-primary-200/20 -ml-[170px] max-md:ml-0 blur-[145px]"></div>
+            <div
+                class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] h-64 bg-primary-200/20 max-md:ml-0 blur-[145px]"></div>
+        </div>
+    <div class="grid grid-cols-12 gap-y-15 md:gap-8 lg:gap-12 auto-rows-max">
+
+        <div
+            class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav col-span-12 md:col-span-6 lg:col-span-5 self-start md:sticky md:top-20 max-md:static">
+            <div class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-4 md:p-7">
+                <a href="@FilePaths.HonorsImage@Model.ImageName"
+                   data-lightbox="project-gallery"
+                   data-title="@Model.Title"
+                   data-alt="@Model.Title"
+                   class="w-full h-full">
+                    <img src="@(FilePaths.HonorsImage + Model.ImageName)" alt="تصاویر خدمات"
+                         class="rounded w-full">
+                </a>
+            </div>
+        </div>
+
+        <div class="col-span-12 md:col-span-6 lg:col-span-7">
+            <div
+                class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav">
+                <div
+                    class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark pt-9 px-10 pb-7 h-full">
+                    <h4 class="mb-3">شرکت : @Model.CompanyName</h4>
+                    <div class="mb-3">
+                        @Html.Raw(Model.Description)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+</section>
+
+@if (Model.TeaserName != null || Model.HonorGallery.Any())
+{
+    <section dir="rtl" class="mb-24 relative max-md:overflow-hidden lg:mb-40">
+        <div class="container">
+            <div class="relative z-10">
+                <div
+                    class="absolute left-1/2 top-20 -translate-x-1/2 -translate-y-1/2 flex max-md:flex-col -z-10 max-md:hidden">
+                    <div
+                        class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/20 blur-[145px]"></div>
+                    <div
+                        class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/25 -ml-[170px] max-md:ml-0 blur-[145px]"></div>
+                </div>
+                <div class="text-center mb-14">
+                    <h2>تصاویر و تیزر افتخار</h2>
+                </div>
+
+                @if (Model.TeaserName != null)
+                {
+                    <div
+                        class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav relative max-md:col-span-full md:col-span-6 lg:col-span-8 mb-6">
+                        <div class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-2">
+                            <div class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav">
+                                <video class="w-full plyr-init rounded-medium"
+                                       poster="@(!Model.TeaserPoster.IsNullOrEmptyOrWhiteSpace() ? FilePaths.HonorTeaserPosterImage + Model.TeaserPoster : "")">
+                                    <source src="@(FilePaths.HonorsTeaser + Model.TeaserName)">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                @if (Model.HonorGallery is not null && Model.HonorGallery.Any())
+                {
+                    <div class="!pb-20 swiper swiper-initialized swiper-horizontal swiper-rtl swiper-backface-hidden">
+                        <div
+                            class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav relative max-md:col-span-full md:col-span-6 lg:col-span-8">
+                            <div class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-2">
+                                <div class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav">
+                                    <swiper-container space-between="30"
+                                                      speed="3000"
+                                                      loop="true"
+                                                      autoplay-disable-on-interaction="true"
+                                                      id="gallery-swiper"
+                                                      pagination='{"el": "#gallery-pagination", "clickable": true}'>
+                                        @foreach (var item in Model.HonorGallery)
+                                        {
+                                            <swiper-slide class="w-28 h-44" data-swiper-autoplay="1500">
+                                                <a href="@FilePaths.HonorsGalleryImage@item.ImageName"
+                                                   data-lightbox="project-gallery"
+                                                   data-title="گالری @Model.Title"
+                                                   data-alt="تصویر گالری @Model.Title"
+                                                   class="w-full h-full">
+                                                    <img src="@FilePaths.HonorsGalleryImage@item.ImageName"
+                                                         alt="تصاویر گالری افتخار"
+                                                         class="rounded w-full h-full object-fill">
+                                                </a>
+                                            </swiper-slide>
+                                        }
+                                    </swiper-container>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div id="gallery-pagination"
+                             class="swiper-pagination swiper-pagination-bullets swiper-pagination-horizontal">
+                            <span
+                                part="bullet" class="swiper-pagination-bullet"></span>
+                            <span part="bullet"
+                                  class="swiper-pagination-bullet"></span>
+                            <span
+                                part="bullet" class="swiper-pagination-bullet"></span>
+                            <span part="bullet"
+                                  class="swiper-pagination-bullet"></span>
+                            <span
+                                part="bullet" class="swiper-pagination-bullet swiper-pagination-bullet"></span></div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+}
+<partial name="_BacklightPartial"/>

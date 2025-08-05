@@ -1,0 +1,19 @@
+﻿@model BarnamenevisanCompany.Domain.ViewModels.Client.OurService.ClientFilterServiceViewModel
+
+
+<div class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark pt-9 px-10 pb-7 ">
+    <h3 class="mb-3">خدمات ما</h3>
+    <ul class="[&amp;>*:not(:last-child)]:border-dashed [&amp;>*:not(:last-child)]:border-gray-100  dark:[&amp;>*:not(:last-child)]:border-borderColour-dark  [&amp;>*:not(:last-child)]:border-b">
+        @foreach (var item in Model.Entities)
+        {
+            <li class="group tabActive">
+                <a class="  flex items-center justify-between py-5 font-medium relative before:absolute before:bottom-0 before:left-0 before:h-[1px] before:w-full before:origin-right before:scale-x-0 before:bg-paragraph dark:before:bg-white  before:transition-transform before:duration-500 before:content-[''] before:hover:origin-left before:hover:scale-x-100"
+                   asp-area="" asp-controller="OurService" asp-action="Detail" asp-route-Slug="@item.Slug">
+                    @item.Title
+                    <i class="fa-solid fa-angle-left hidden group-[.tabActive]:block"></i>
+                </a>
+            </li>
+        }
+
+    </ul>
+</div>

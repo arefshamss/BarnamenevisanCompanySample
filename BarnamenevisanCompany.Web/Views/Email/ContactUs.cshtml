@@ -1,0 +1,127 @@
+@model BarnamenevisanCompany.Domain.ViewModels.Admin.ContactUs.AdminEmailTemplateContactUsVIewModel
+
+@* <!DOCTYPE html> *@
+@* <html lang="ar" dir="rtl"> *@
+@* <head> *@
+@*     <meta charset="UTF-8"> *@
+@*     <meta name="viewport" content="width=device-width, initial-scale=1.0"> *@
+@*     <title>تماس با ما</title> *@
+@*     <style> *@
+@*         body { *@
+@*             font-family: Arial, sans-serif; *@
+@*             line-height: 1.6; *@
+@*             margin: 0; *@
+@*             padding: 0; *@
+@*             background-color: #f4f4f4; *@
+@*             text-align: right; *@
+@*             direction: rtl; *@
+@*         } *@
+@*         .email-container { *@
+@*             max-width: 600px; *@
+@*             margin: 20px auto; *@
+@*             padding: 20px; *@
+@*             background-color: #ffffff; *@
+@*             border: 1px solid #dddddd; *@
+@*             border-radius: 8px; *@
+@*         } *@
+@*         .header { *@
+@*             text-align: center; *@
+@*             padding-bottom: 20px; *@
+@*             border-bottom: 1px solid #eeeeee; *@
+@*         } *@
+@*         .header h1 { *@
+@*             margin: 0; *@
+@*             font-size: 24px; *@
+@*             color: #333333; *@
+@*         } *@
+@*         .content { *@
+@*             padding: 20px 0; *@
+@*         } *@
+@*         .content p { *@
+@*             margin: 0 0 15px; *@
+@*             color: #555555; *@
+@*         } *@
+@*         .footer { *@
+@*             text-align: center; *@
+@*             padding-top: 20px; *@
+@*             border-top: 1px solid #eeeeee; *@
+@*             font-size: 12px; *@
+@*             color: #777777; *@
+@*         } *@
+@*         .footer a { *@
+@*             color: #777777; *@
+@*             text-decoration: none; *@
+@*         } *@
+@*         .footer a:hover { *@
+@*             text-decoration: underline; *@
+@*         } *@
+@*     </style> *@
+@* </head> *@
+@* <body> *@
+@*     <div class="email-container"> *@
+@*         <div class="header"> *@
+@*             <h1>Barnamenevisan</h1> *@
+@*         </div> *@
+@*         <div class="content"> *@
+@*             <h3>@Model.Title عنوان:</h3> *@
+@*             <p>جناب خانم/اقا:@Model.FullName</p> *@
+@*             <p>این پیام به عنوان پاسخ به پیام شما برای شما راسال شد</p> *@
+@*             <p>@Html.Raw(Model.AdminMessage)</p> *@
+@* *@
+@* *@
+@*         </div> *@
+@*         <div class="footer"> *@
+@*             <p>شما این ایمیل را دریافت کرده‌اید زیرا جزو مخاطبین ارزشمند برنامه نویسان هستید. اگر تمایل ندارید ایمیل‌های ما را دریافت کنید، می‌توانید از <a href="https://barnamenevisan.co/">این لینک</a> انصراف دهید.</p> *@
+@*         </div> *@
+@*     </div> *@
+@* </body> *@
+@* </html> *@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>تماس با ما</title>
+</head>
+<body style="margin:0; padding:0; background-color:#f0fdf4; font-family:Tahoma, Arial, sans-serif; direction:rtl; text-align:right;">
+
+    <table align="center" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px; margin:auto; background-color:#ffffff; border-radius:10px; overflow:hidden; box-shadow:0 0 10px rgba(0,0,0,0.05);">
+        
+        <!-- Logo -->
+        @* <tr> *@
+        @*     <td align="center" style="padding:25px 20px 10px;"> *@
+        @*         <img src="https://yourdomain.com/logo.png" alt="لوگوی شما" style="max-width:120px; height:auto;"> *@
+        @*     </td> *@
+        @* </tr> *@
+
+        <!-- Header Title -->
+        <tr>
+            <td align="center" bgcolor="#16a34a" style="padding:15px;">
+                <h1 style="margin:0; color:#ffffff; font-size:24px;">برنامه نویسان</h1>
+            </td>
+        </tr>
+
+        <!-- Body -->
+        <tr>
+            <td style="padding:30px 20px;">
+                <h3 style="margin-top:0; margin-bottom:15px; color:#065f46; font-size:18px;">عنوان: @Model.Title</h3>
+                <p style="margin:0 0 15px; color:#333333; font-size:16px;">جناب اقا/خانم: @Model.FullName</p>
+                <p style="margin:0 0 15px; color:#333333; font-size:16px;">این پیام به عنوان پاسخ به پیام شما برایتان ارسال شده است.</p>
+                <div style="margin:0 0 15px; color:#333333; font-size:16px;">
+                    @Html.Raw(Model.AdminMessage)
+                </div>
+            </td>
+        </tr>
+
+        <!-- Footer -->
+        <tr>
+            <td bgcolor="#e6f4ea" style="padding:20px; font-size:13px; color:#555555; text-align:center; border-top:1px solid #d4d4d4;">
+                شما این ایمیل را دریافت کرده‌اید زیرا جزو مخاطبین ارزشمند برنامه نویسان هستید. اگر تمایلی به دریافت ایمیل‌های ما ندارید،
+                می‌توانید از 
+                <a href="https://barnamenevisan.co/" style="color:#16a34a; text-decoration:none;">اینجا</a> انصراف دهید.
+            </td>
+        </tr>
+
+    </table>
+
+</body>
+</html>

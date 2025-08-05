@@ -1,0 +1,184 @@
+﻿@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Domain.Enums.Common
+@using BarnamenevisanCompany.Domain.Shared
+@using BarnamenevisanCompany.Infra.Data.Statics
+@using BarnamenevisanCompany.Web.Helpers.TagHelpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BarnamenevisanCompany.Domain.ViewModels.Admin.TicketPriority.AdminFilterTicketPrioritiesViewModel
+@{
+    ViewData["Title"] = "لیست اولویت تیکت ها";
+}
+
+@section Breadcrumb
+
+{
+    <admin-breadcrumb page-title="@ViewData["Title"]">
+        <admin-breadcrumb-item last-active-item="true">@ViewData["Title"]</admin-breadcrumb-item>
+    </admin-breadcrumb>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="mb-4">
+                    <h2 class="card-title">فیلتــر</h2>
+                </div>
+                <div>
+                    <form asp-area="Admin"
+                          asp-controller="TicketPriority"
+                          asp-action="List"
+                          method="get"
+                          id="filter-search"
+                          no-validation>
+                        <input asp-for="Page" type="hidden"/>
+                        <input asp-for="IsAjax" value="@Model.IsAjax" type="hidden"/>
+                        <div class="row filter-form justify-content-center">
+
+                            <div class="floating-labels col-12 col-md-4 mb-4">
+                                <div class="form-group">
+                                    <input asp-for="Title" class="form-control">
+                                    <span class="bar"></span>
+                                    <label asp-for="Title"></label>
+                                </div>
+                            </div>
+
+                            <div class="floating-labels col-12 col-md-4 mb-4">
+                                <div class="form-group">
+                                    <select class="form-control form-select" asp-for="FilterOrderBy"
+                                            asp-items="@Html.GetEnumSelectList<FilterOrderBy>()"></select>
+                                    <span class="bar"></span>
+                                    <label asp-for="FilterOrderBy"></label>
+                                </div>
+                            </div>
+
+                            <div class="floating-labels col-12 col-md-4 mb-4">
+                                <div class="form-group">
+                                    <select class="form-control form-select" asp-for="DeleteStatus"
+                                            asp-items="@Html.GetEnumSelectList<DeleteStatus>()"></select>
+                                    <span class="bar"></span>
+                                    <label asp-for="DeleteStatus"></label>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mt-3 d-md-flex">
+                                <div class="col-12 col-md-2 me-1">
+                                    <button class="btn btn-rounded btn-outline-primary w-100" type="submit">جستجو
+                                    </button>
+                                </div>
+                                @if (Model.HasFilters())
+                                {
+                                    <div class="col-12 col-md-2 p-0 mt-3 mt-md-0">
+                                        <a class="btn btn-rounded btn-danger w-100 text-nowrap"
+                                           asp-area="Admin"
+                                           asp-controller="TicketPriority"
+                                           asp-action="List">حذف فیلتر ها
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="mb-3 d-flex justify-content-between align-items-center">
+                    <div>
+                        <h2 class="card-title">@ViewData["Title"]</h2>
+                    </div>
+                    <div>
+                        <a invoke-permission="@PermissionsName.CreateTicketPriority"
+                           class="btn btn-rounded btn-success"
+                           asp-area="Admin"
+                           asp-controller="TicketPriority"
+                           asp-action="Create"
+                           asp-ajax="true"
+                           asp-ajax-modal-type="Small"
+                           asp-ajax-validation="true"
+                           asp-ajax-modal-title="افزودن اولویت تیکت">افزودن</a>
+                    </div>
+                </div>
+                @if (Model.Entities is not null && Model.Entities.Any())
+                {
+                    <div class="table-responsive mb-4 border rounded-1">
+
+                        <table class="table text-nowrap mb-0 align-middle">
+                            <thead class="text-dark fs-4">
+                            <tr>
+                                <th>
+                                    <h6 class="fs-4 fw-semibold mb-0">عنوان</h6>
+                                </th>
+                                <th>
+                                    <h6 class="fs-4 fw-semibold mb-0">عملیات</h6>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var ticketPriority in Model.Entities)
+                            {
+                                <tr>
+                                    <td>
+                                        <p class="mb-0 fw-normal fs-4">@ticketPriority.Title</p>
+                                    </td>
+                                    <td>
+                                        @if (ticketPriority.Id > 3)
+                                        {
+                                            <a invoke-permission="@PermissionsName.UpdateTicketPriority"
+                                               asp-area="Admin"
+                                               asp-controller="TicketPriority"
+                                               asp-action="Update"
+                                               asp-route-id="@ticketPriority.Id"
+                                               asp-ajax="true"
+                                               asp-ajax-modal-type="Small"
+                                               asp-ajax-modal-title="ویرایش اولویت تیکت"
+                                               asp-ajax-validation="true"
+                                               class="text-warning removeAfterDelete @(ticketPriority.IsDeleted ? "d-none" : "")"
+                                               title="ویرایش">
+                                                <iconify-icon icon="uil:edit" width="22" height="22"></iconify-icon>
+                                            </a>
+                                            @if (ticketPriority.IsDeleted)
+                                            {
+                                                <a invoke-permission="@PermissionsName.DeleteOrRecoverTicketPriority"
+                                                   class="text-info"
+                                                   onclick="ConfirmRecover(this, '@Url.Action("DeleteOrRecover", "TicketPriority", new { area = "Admin", id = ticketPriority.Id })')"
+                                                   title="بازگردانی">
+                                                    <iconify-icon icon="solar:undo-left-round-outline" width="22"
+                                                                  height="22"></iconify-icon>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a invoke-permission="@PermissionsName.DeleteOrRecoverTicketPriority"
+                                                   class="text-danger"
+                                                   onclick="ConfirmDelete(this, '@Url.Action("DeleteOrRecover", "TicketPriority", new { area = "Admin", id = ticketPriority.Id })')"
+                                                   title="حذف">
+                                                    <iconify-icon icon="solar:trash-bin-trash-outline" width="22"
+                                                                  height="22"></iconify-icon>
+                                                </a>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <p class="mb-0 fw-normal fs-4 text-danger">امکان ویرایش وجود ندارد</p>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                    <partial name="_PagingPartial" model="@Model.GetCurrentPaging()"/>
+                }
+                else
+                {
+                    <partial name="_NotFoundPartial"/>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

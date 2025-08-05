@@ -1,0 +1,74 @@
+﻿@using BarnamenevisanCompany.Domain.ViewModels.Client.User
+@model BarnamenevisanCompany.Domain.ViewModels.Client.User.ClientUpdateUserViewModel
+@{
+    ViewData["Title"] = "ویرایش پروفایل";
+}
+
+@section Script
+{
+    <script src="/Site/js/changepassword-service.js"></script>
+}
+
+@section Breadcrumb
+{
+    <user-panel-breadcrumb>
+        <user-panel-breadcrumb-item last-active-item="true">ویرایش حساب کاربری</user-panel-breadcrumb-item>
+    </user-panel-breadcrumb>
+}
+
+<div class="col-span-full grid gap-3">
+    <div class="col-span-full">
+        <div class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav">
+            <div class="border border-dashed rounded-medium border-gray-100 dark:border-borderColour-dark p-6 h-full">
+                <form asp-area="UserPanel"
+                      asp-controller="User"
+                      asp-action="Update">
+                    <input asp-for="Id" type="hidden"/>
+                    <div class="grid grid-cols-12">
+                        <div class="col-span-full mb-10">
+                            <h3>ویرایش حساب کاربری</h3>
+                        </div>
+                        <div class="col-span-full grid grid-cols-12 gap-5">
+                            <div class="col-span-full md:col-span-6">
+                                <label asp-for="FirstName"
+                                       class="block text-sm font-medium text-paragraph dark:text-white mb-2"></label>
+                                <input asp-for="FirstName"
+                                       placeholder="نام خود را وارد کنید ..."
+                                       class="block w-full text-sm rounded-lg border border-borderColour dark:border-borderColour-dark py-2.5 px-5 placeholder:text-paragraph-light dark:placeholder:text-paragraph-light outline-none bg-white dark:bg-dark-200 focus:border-primary dark:focus:border-primary duration-300 transition-all">
+                                <validation-span asp-validation-for="FirstName"/>
+                            </div>
+
+                            <div class="col-span-full md:col-span-6">
+                                <label asp-for="LastName"
+                                       class="block text-sm font-medium text-paragraph dark:text-white mb-2"></label>
+                                <input asp-for="LastName"
+                                       placeholder="نام خانوادگی خود را وارد کنید ..."
+                                       class="block w-full text-sm rounded-lg border border-borderColour dark:border-borderColour-dark py-2.5 px-5 placeholder:text-paragraph-light dark:placeholder:text-paragraph-light outline-none bg-white dark:bg-dark-200 focus:border-primary dark:focus:border-primary duration-300 transition-all">
+                                <validation-span asp-validation-for="LastName"/>
+                            </div>
+
+
+                            @* <div class="col-span-full"> *@
+                            @*     <label class="block text-sm font-medium text-paragraph dark:text-white mb-2" for="Message">متن *@
+                            @*         پیام</label> *@
+                            @*     <textarea rows="10" *@
+                            @*               class="block w-full text-sm rounded border border-borderColour dark:border-borderColour-dark py-2.5 px-5 text-paragraph-light placeholder:text-paragraph-light outline-none resize-none bg-white dark:bg-dark-200 focus:border-primary dark:focus:border-primary duration-300 transition-all" *@
+                            @*               data-val="true" data-val-maxlength="تعداد کاراکتر مجاز 2000 عدد می باشد" *@
+                            @*               data-val-maxlength-max="2000" data-val-required="وارد کردن متن پیام الزامی می باشد" *@
+                            @*               id="Message" maxlength="2000" name="Message"></textarea> *@
+                            @* </div> *@
+
+                            <div class="col-span-full">
+                                <button class="btn-success px-5 py-2 tracking-tight">
+                                    ویرایش حساب کاربری
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <partial name="_ChangePasswordPartial" model='new ClientChangePasswordViewModel { Mobile = Model.Mobile }'/>
+</div>

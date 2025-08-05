@@ -1,0 +1,75 @@
+@model BarnamenevisanCompany.Domain.ViewModels.Admin.ContactUsInformation.AdminUpdateContactUsInformationViewModel
+
+@{
+    ViewData["Title"] = "ویرایش تماس با ما";
+}
+
+@section Breadcrumb
+{
+    <admin-breadcrumb page-title="@ViewData["Title"]">
+        <admin-breadcrumb-item last-active-item="true">@ViewData["Title"]</admin-breadcrumb-item>
+    </admin-breadcrumb>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <form asp-area="Admin" asp-controller="ContactUsInformation" asp-action="Update" method="post"
+                          class="mt-4 pt-2">
+                        <input type="hidden" asp-for="Id"/>
+                        <input type="hidden" asp-for="Latitude" id="latitude"/>
+                        <input type="hidden" asp-for="Longitude" id="longitude"/>
+                        <div class="row">
+                            <div class="floating-labels my-lg-4 mb-5 col-12 col-md-6 mt-4 ">
+                                <div class="form-group">
+                                    <input asp-for="Email" type="email" class="form-control">
+                                    <span asp-validation-for="Email"></span>
+                                    <span class="bar"></span>
+                                    <label asp-for="Email"> </label>
+                                </div>
+                            </div>
+                            <div class="floating-labels my-lg-4 mb-5 col-12 col-md-6 mt-4">
+                                <div class="form-group ">
+                                    <input asp-for="PhoneNumber" type="text" class="form-control">
+                                    <span class="bar"></span>
+                                    <span asp-validation-for="PhoneNumber"></span>
+                                    <label asp-for="PhoneNumber"></label>
+                                </div>
+                            </div>
+                            <div class="floating-labels my-lg-4 mb-5  col-12 col-md-12 mt-4 ">
+                                <div class="form-group ">
+                                    <textarea asp-for="Managment" type="text" class="form-control" Ckeditor></textarea>
+                                    <span asp-validation-for="Managment"></span>
+                                    <span class="bar"></span>
+                                    <label asp-for="Managment"></label>
+                                </div>
+                            </div>
+                            <div class="floating-labels my-lg-4 mb-5  col-12 col-md-12 mt-4 ">
+                                <div class="form-group ">
+                                    <textarea asp-for="Address" type="text" class="form-control" Ckeditor></textarea>
+                                    <span asp-validation-for="Address"></span>
+                                    <span class="bar"></span>
+                                    <label asp-for="Address"></label>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-12 my-lg-4 mb-5 mt-4 ">
+                                <div class="rounded" map lat="@Model.Latitude" lng="@Model.Longitude"
+                                     style="height: 400px;"></div>
+                            </div>
+
+                            <div class="col-12 mt-5 ">
+                                <button class="btn btn-rounded btn-success" type="submit">ویرایش</button>
+                                <a asp-area="Admin" asp-controller="Home" asp-action="Index"
+                                   class="btn btn-rounded btn-danger">انصراف</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

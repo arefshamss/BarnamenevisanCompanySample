@@ -1,0 +1,119 @@
+﻿@using BarnamenevisanCompany.Application.Statics
+@model BarnamenevisanCompany.Domain.ViewModels.Client.UserSocialNetwork.ClientFilterUserSocialNetworkListViewModel
+@{
+   ViewData["Title"] = "شبکه‌های اجتماعی من";
+}
+
+@section Breadcrumb{
+   <user-panel-breadcrumb>
+      <user-panel-breadcrumb-item last-active-item="true">لیست شبکه های اجتماعی من</user-panel-breadcrumb-item>
+   </user-panel-breadcrumb>
+}
+
+<form asp-area="UserPanel"
+      asp-controller="UserSocialNetwork"
+      asp-action="List"
+      asp-ajax="true"
+      id="filter-search">
+   <input asp-for="IsAjax" value="@Model.IsAjax" type="hidden"/>
+   <input asp-for="Page" type="hidden">
+</form>
+
+<div class="col-span-full">
+   <div class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav">
+      <div class="border border-dashed rounded-medium border-gray-100 dark:border-borderColour-dark p-6 h-full">
+         <!--START Content-->
+         <div class="grid-cols-12">
+            <div class="col-span-full flex flex-col md:flex-row justify-between items-center mb-7">
+               <h3>لیست شبکه های اجتماعی من</h3>
+               <a asp-area="UserPanel"
+                  asp-controller="UserSocialNetwork"
+                  asp-action="Create"
+                  asp-ajax="true"
+                  asp-ajax-validation="true"
+                  asp-ajax-modal-type="Medium"
+                  asp-ajax-modal-title="افزودن شبکه اجتماعی"
+                  class="btn-success px-5 py-2 tracking-tight mt-5 md:mt-0">
+                  افزودن شبکه اجتماعی جدید
+               </a>
+            </div>
+            @if (Model.Entities is not null && Model.Entities.Any())
+            {
+               <div class="col-span-full">
+
+                  <div class="relative overflow-x-auto shadow-md dark:shadow-none rounded-md">
+                     <table class="w-full text-right text-gray-500 dark:text-gray-400">
+                        <thead class="bg-zinc-500/70 dark:bg-zinc-700/70">
+                        <tr>
+                           <th scope="col" class="px-6 py-3 text-base font-medium dark:text-white">
+                              تصویر
+                           </th>
+                           <th scope="col" class="px-6 py-3 text-base font-medium dark:text-white">
+
+                              عنوان
+                           </th>
+                           <th scope="col" class="px-6 py-3 text-base font-medium dark:text-white">
+                              آدرس
+                           </th>
+                           <th scope="col" class="px-6 py-3 text-base font-medium text-center dark:text-white">
+                              عملیات
+                           </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        @foreach (var item in Model.Entities)
+                        {
+                           <tr
+                              class="odd:bg-transparent even:bg-zinc-500/10 even:dark:bg-zinc-700/20 border-b dark:border-zinc-600 border-zinc-500/10">
+                              <th scope="row"
+                                  class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                 <img alt="@item.Title" src="@(FilePaths.UserSocialNetwork + item.ImageName)"/>
+                              </th>
+                              <td class="px-6 py-4">
+                                 @item.Title
+                              </td>
+                           <td class="px-6 py-4">
+                              <a target="_blank" href="@item.SocialUrl">
+                                 <userpanel-bage type="Info">
+                                    @item.SocialUrl</userpanel-bage></a>
+                              </td>
+                              <td class="px-6 py-4">
+                                 <div class="flex justify-center items-center">
+                                    <a asp-area="UserPanel" asp-controller="UserSocialNetwork"
+                                       asp-action="Update"
+                                       asp-route-id="@item.Id"
+                                       asp-ajax="true"
+                                       asp-ajax-validation="true"
+                                       asp-ajax-modal-type="Medium"
+                                       asp-ajax-modal-title="ویرایش شبکه اجتماعی"
+                                       class="*:text-yellow-400" title="ویرایش">
+                                       <iconify-icon icon="lucide:edit" width="23" height="23"></iconify-icon>
+                                    </a>
+                                    <a href="javascript:void(0)" onclick="ConfirmHardDelete(this,'@Url.Action("Delete", "UserSocialNetwork", new { area = "UserPanel", id = item.Id })','filter-search')"
+                                       class="*:text-red-400" title="حذف">
+                                       <iconify-icon icon="mi:delete" width="23" height="23"></iconify-icon>
+                                    </a>
+                                 </div>
+                              </td>
+                           </tr>
+                        }
+
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+               <div class="col-span-full">
+                  <partial name="_PagingPartial" model="@Model.GetCurrentPaging()"/>
+               </div>
+            }
+
+            else
+            {
+               <user-panel-alert mode="Info">شبکه اجتماعی برای نمایش یافت نشد ...</user-panel-alert>
+            }
+         </div>
+         <!--END Content-->
+      </div>
+   </div>
+</div>

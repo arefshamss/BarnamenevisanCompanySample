@@ -1,0 +1,95 @@
+﻿@using BarnamenevisanCompany.Application.Extensions
+@using BarnamenevisanCompany.Application.Statics
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BarnamenevisanCompany.Domain.ViewModels.Admin.OurService.AdminUpdateOurServiceViewModel
+
+@{
+    ViewData["Title"] = "ویرایش";
+}
+
+@section Breadcrumb{
+    <admin-breadcrumb page-title="@ViewData["Title"]">
+        <admin-breadcrumb-item asp-area="Admin" asp-controller="OurService" asp-action="List">لیست خدمات
+        </admin-breadcrumb-item>
+        <admin-breadcrumb-item last-active-item="true">ویرایش خدمات</admin-breadcrumb-item>
+    </admin-breadcrumb>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <form asp-area="Admin"
+                          asp-controller="OurService"
+                          asp-action="Update"
+                          method="post" enctype="multipart/form-data">
+                        <input type="hidden" asp-for="ImageName"/>
+                        <div class="row">
+                            <div class="row col-12 mb-4">
+                                <div class="floating-labels col-12 col-md-6 mt-5 mt-md-0">
+                                    <div class="form-group">
+                                        <input asp-for="Title" id="title" class="form-control"
+                                               oninput="generateSlug('title', 'slug')">
+                                        <span class="bar"></span>
+                                        <label asp-for="Title"></label>
+                                        <span asp-validation-for="Title"></span>
+                                    </div>
+                                </div>
+                                <div class="floating-labels col-12 col-md-6 mt-5 mt-md-0">
+                                    <div class="form-group">
+                                        <input asp-for="Slug" id="slug" class="form-control">
+                                        <span class="bar"></span>
+                                        <label asp-for="Slug"></label>
+                                        <span asp-validation-for="Slug"></span>
+                                    </div>
+                                </div>
+                                <div class="floating-labels col-12 mt-5  ">
+                                    <div class="form-group">
+                                        <textarea asp-for="ShortDescription" rows="3" class="form-control"></textarea>
+                                        <span class="bar"></span>
+                                        <label asp-for="ShortDescription"></label>
+                                        <span asp-validation-for="ShortDescription"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row col-12 mt-4">
+                                <div class="floating-labels col-12 col-md-9 mt-4 mb-4">
+                                    <div class="form-group">
+                                        <textarea asp-for="LongDescription" ckeditor
+                                                  class="form-control h-100"></textarea>
+                                        <span class="bar"></span>
+                                        <label class="label-floating" asp-for="LongDescription"></label>
+                                        <span asp-validation-for="LongDescription"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-3 floating-labels mt-4 mb-4">
+                                    <div class="position-relative">
+                                        <label asp-for="Image" class="mb-2 label-floating"></label>
+                                        <img ImageFile="1" class="w-100 rounded select-image-preview-box"
+                                             src="@FilePaths.OurServiceOriginalImage@(Model.ImageName.IsNullOrEmptyOrWhiteSpace() ? SiteTools.DefaultImageName : Model.ImageName)"/>
+                                        <label asp-for="Image"
+                                               class="hover-icon rounded d-flex align-items-center justify-content-center">
+                                            <iconify-icon icon="solar:gallery-edit-broken"
+                                                          class="select-image-icon"></iconify-icon>
+                                        </label>
+                                        <input type="file" asp-for="Image" class="d-none" accept="image/svg+xml"
+                                               ImageInput="1"/>
+                                        <span asp-validation-for="Image"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mt-4">
+                                <button class="btn btn-rounded btn-success" type="submit">ویرایش</button>
+                                <a asp-area="Admin" asp-controller="OurService" asp-action="List"
+                                   class="btn btn-rounded btn-danger">انصراف</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
